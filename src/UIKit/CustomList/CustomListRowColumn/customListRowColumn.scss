@@ -1,0 +1,43 @@
+#modal-incoming-call .custom-list-row-column {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  height: 100%;
+  overflow: hidden;
+  padding: 16px;
+
+  & > span {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+  }
+
+  &__link {
+    & > span {
+      cursor: pointer;
+      font-family: "Inter";
+      font-style: normal;
+      font-weight: 600;
+      font-size: 13px;
+      line-height: 20px;
+      color: #4588e5;
+      margin-top: 2px;
+      margin-bottom: 2px;
+    }
+
+    & > span:hover {
+      border-bottom: 2px solid #4588e5;
+      margin-bottom: 0;
+    }
+
+    & > span:active {
+      opacity: 0.6;
+    }
+  }
+}

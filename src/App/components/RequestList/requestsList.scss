@@ -1,0 +1,34 @@
+.request-list {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 300px;
+  &__search {
+    display: flex;
+    flex-direction: row;
+    padding: 16px 0;
+    align-items: center;
+    justify-content: space-between;
+
+    &__button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 40px;
+    }
+  }
+  &__button {
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+  }
+  &__list {
+    width: 100%;
+    // min-height: 600px;
+    margin-bottom: 15px;
+    height: 10px;
+    overflow: hidden;
+    flex: 1;
+  }
+}

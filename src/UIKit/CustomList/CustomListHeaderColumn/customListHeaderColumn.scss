@@ -1,0 +1,41 @@
+#modal-incoming-call .custom-list-header-column {
+  user-select: none;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+  padding: 16px;
+
+  &__name {
+    width: 10px;
+    max-width: fit-content;
+    flex: 1;
+    white-space: wrap;
+
+    font-family: "Inter";
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 14px;
+    color: #565a62;
+  }
+
+  &__button {
+    width: 16px;
+    height: 16px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    &_up {
+      display: flex;
+      width: 16px;
+      height: 8px;
+    }
+    &_down {
+      display: flex;
+      transform: rotate(180deg);
+      width: 16px;
+      height: 8px;
+    }
+  }
+}

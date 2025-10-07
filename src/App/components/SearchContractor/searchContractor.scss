@@ -1,0 +1,83 @@
+.search-contractor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: space-between;
+
+  &__title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+    color: #222427;
+  }
+  &__content {
+    display: flex;
+    flex-direction: row;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    font-family: Inter;
+    padding: 20px;
+    gap: 40px;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    font-weight: 400;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+    &__label {
+      font-size: 12px;
+      color: #6b6c6f;
+      line-height: 16px;
+      letter-spacing: 0.25px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    &__group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    &__button {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #1570ef;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      cursor: pointer;
+
+      &:active {
+        opacity: 0.6;
+      }
+    }
+    &__value {
+      font-size: 14px;
+      color: #303337;
+      line-height: 20px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      &__link {
+        color: #1570ef;
+        cursor: pointer;
+
+        &:hover {
+          border-bottom: 2px solid #4588e5;
+        }
+
+        &:active {
+          opacity: 0.6;
+        }
+      }
+    }
+  }
+}

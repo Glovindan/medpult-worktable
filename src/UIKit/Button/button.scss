@@ -1,0 +1,37 @@
+.button {
+  --button-color: #1570ef;
+
+  text-align: center;
+  align-items: center;
+  border: 2px solid transparent;
+  height: 35px;
+  padding: 0 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  background: var(--button-color);
+  color: #fff;
+
+  font-family: Inter;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+
+  &_outline {
+    border: 1px solid #1570ef;
+    background: transparent;
+    color: #1570ef;
+  }
+
+  &:active {
+    opacity: 0.6;
+  }
+
+  &:disabled {
+    //border: none;
+    color: white;
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    //background-color: #ebebe4 !important;
+  }
+}
