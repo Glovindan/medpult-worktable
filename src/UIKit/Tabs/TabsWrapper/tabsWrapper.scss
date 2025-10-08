@@ -21,14 +21,18 @@
     flex-direction: row;
     justify-content: space-between;
     border-bottom: 2px solid var(--medpult-bg-color);
-    height: 45px;
-    align-items: center;
+    // height: 45px;
+    // align-items: center;
     //padding: 0 18px;
+
+    min-height: 45px;
+    align-items: end;
   }
 
   &__selector {
     display: flex;
     flex-direction: row;
     gap: 40px;
+    padding-bottom: 7px;
   }
 }

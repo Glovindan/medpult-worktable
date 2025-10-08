@@ -5,20 +5,16 @@ import TabButton from '../TabButton/TabButton'
 
 interface TabsWrapperProps {
 	children: any
-	addHandler?: () => void
-	editHandler?: () => void
-	deleteHandler?: () => void
 	activeTabCodeGlobal?: string
 	setActiveTabCodeGlobal?: any
+	actionsLayout?: JSX.Element
 }
 
 function TabsWrapper({
 	children,
 	activeTabCodeGlobal,
-	addHandler,
-	editHandler,
-	deleteHandler,
 	setActiveTabCodeGlobal,
+	actionsLayout,
 }: TabsWrapperProps) {
 	const childrenFiltered = children.filter((child : any) => Boolean(child));
 
@@ -49,14 +45,14 @@ function TabsWrapper({
 
 	const getSelector = () => {
 		let array = childrenFiltered.length ? childrenFiltered : [childrenFiltered]
-		return array.map((child) => {
+		return array.map((child: any) => {
 			return createSelectorItem(child)
 		})
 	}
 
 	const getActiveTab = () => {
 		let array = childrenFiltered.length ? childrenFiltered : [childrenFiltered]
-		return array.find((child) => child.props.code === activeTabCode)
+		return array.find((child: any) => child.props.code === activeTabCode)
 	}
 
 	useEffect(() => {
@@ -76,13 +72,7 @@ function TabsWrapper({
 			<div className="tabs-wrapper-new__header">
 				<div className="tabs-wrapper-new__selector">{getSelector()}</div>
 				<div className="tabs-wrapper-new__actions">
-					{!!addHandler && <TabButton svg={Icons.Add} clickHandler={addHandler} title="добавить" />}
-					{!!editHandler && (
-						<TabButton svg={Icons.Edit} clickHandler={editHandler} title="редактировать" />
-					)}
-					{!!deleteHandler && (
-						<TabButton svg={Icons.Delete} clickHandler={deleteHandler} title="удалить" />
-					)}
+					{actionsLayout}
 				</div>
 			</div>
 			<div className="tabs-wrapper-new__container">{getActiveTab()}</div>

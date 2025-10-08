@@ -1,0 +1,19 @@
+.tabs-actions {
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+    padding-bottom: 20px;
+    
+    &__call {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        height: 40px;
+
+        &_input {
+            width: 200px;
+            height: 40px;
+            display: flex;
+        }
+    }
+}

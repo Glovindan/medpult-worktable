@@ -1,0 +1,12 @@
+@import url("WorkTableTabsActions/workTableTabsActions.scss");
+
+.worktable {
+    background-color: #E9EAEB;
+    padding: 20px;
+
+    &__tabs {
+        border-radius: 8px;
+        background-color: white;
+        padding: 20px;
+    }
+}

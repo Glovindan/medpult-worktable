@@ -366,6 +366,42 @@ const filterItemArrow = (
   </svg>
 );
 
+const Phone = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M12.875 17.8406C14.5637 18.5669 16.5868 19 19 19V15.5L15.5 14.625L12.875 17.8406ZM12.875 17.8406C9.51412 16.3951 7.471 13.7894 6.3125 11.125M6.3125 11.125C5.35 8.913 5 6.66075 5 5H8.5L9.375 8.5L6.3125 11.125Z"
+      stroke="#1570EF"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+
+const BigAdd = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M10 1V19M19 10H1"
+      stroke="#FDFDFD"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+  </svg>
+)
+
 export default {
   /** Лупа */
   Search,
@@ -403,4 +439,8 @@ export default {
   redCircle,
   /** Кнопка раскрытия фильтра */
   filterItemArrow,
+  /** Иконка трубки */
+  Phone,
+  /** Иконка Большой плюс */
+  BigAdd
 };
