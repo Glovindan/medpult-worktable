@@ -2,6 +2,32 @@ import React, { useEffect, useState } from "react";
 import TabsWrapper from "../../../UIKit/Tabs/TabsWrapper/TabsWrapper.tsx";
 import TabItem from "../../../UIKit/Tabs/TabItem/TabItem.tsx";
 import WorkTableTabsActions from "./WorkTableTabsActions/WorkTableTabsActions.tsx";
+import PageSelector from "./PageSelector/PageSelector.tsx";
+
+function usePagination() {
+  // Текущая страница
+  const [currentPage, setCurrentPage] = useState(0);
+  // Количество страниц
+  const [pagesCount, setPagesCount] = useState(0);
+  // Обработчик нажтия на кнопку Показать больше
+  const [showMoreCallback, setShowMoreCallback] = useState(() => () => {})
+
+  // Нажатие на кнопку Показать больше
+  const handleShowMoreClick = () => {
+    const nextPage = currentPage + 1;
+    if(nextPage >= pagesCount) return;
+
+    setCurrentPage(nextPage);
+    showMoreCallback();
+  }
+
+  // Сброс текущей страницы при изменении обработчика нажатия или количества страниц
+  useEffect(() => {
+    setCurrentPage(0);
+  }, [pagesCount, showMoreCallback])
+
+  return {currentPage, setCurrentPage, setPagesCount, handleShowMoreClick}
+}
 
 /** Рабочий стол */
 export default function WorkTable() {
@@ -20,9 +46,7 @@ export default function WorkTable() {
         </TabsWrapper>
       </div>
       <div className="worktable__page-selector">
-        {/* TODO: custom hook or component
-            must have: set and get current state, set pages count
-        */}
+        <PageSelector />
       </div>
     </div>
   );

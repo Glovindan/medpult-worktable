@@ -1,8 +1,14 @@
 @import url("WorkTableTabsActions/workTableTabsActions.scss");
+@import url("PageSelector/pageSelector.scss");
 
 .worktable {
     background-color: #E9EAEB;
     padding: 20px;
+
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 
     &__tabs {
         border-radius: 8px;
