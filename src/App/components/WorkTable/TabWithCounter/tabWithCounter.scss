@@ -1,0 +1,40 @@
+.tab-counter {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    
+    &__count {
+        height: 20px;
+        background-color: #438CF2;
+        padding: 0 4px;
+        border-radius: 10px;
+        height: fit-content;
+        
+        color: white;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 20px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+
+    &__loader {
+        width: 14px;
+        height: 14px;
+        margin: 3px;
+        border-radius: 50%;
+        border: 2px solid transparent;
+
+        border-top-color: white;
+        border-left-color: white;
+        border-bottom-color: white;
+
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+}
