@@ -43,10 +43,18 @@ export default function WorkTable() {
     <div className="worktable">
       <div className="worktable__tabs">
         <TabsWrapper actionsLayout={<WorkTableTabsActions />}>
-          <TabItem code="groupInteractions" name={<TabWithCounter title="Взаимодействия группы" count={tabsItemsCounts.groupInteractions} isLoading={isTabsItemsCountsLoading}/>}>Взаимодействия группы</TabItem>
-          <TabItem code="myInteractions" name={<TabWithCounter title="Мои взаимодействия" count={tabsItemsCounts.myInteractions} isLoading={isTabsItemsCountsLoading}/>}>Мои взаимодействия</TabItem>
-          <TabItem code="groupTasks" name={<TabWithCounter title="Задачи группы" count={tabsItemsCounts.groupTasks} isLoading={isTabsItemsCountsLoading}/>}>Задачи группы</TabItem>
-          <TabItem code="myTasks" name={<TabWithCounter title="Мои задачи" count={tabsItemsCounts.myTasks} isLoading={isTabsItemsCountsLoading}/>}>Мои задачи</TabItem>
+          <TabItem code="groupInteractions" name={<TabWithCounter title="Взаимодействия группы" count={tabsItemsCounts.groupInteractions} isLoading={isTabsItemsCountsLoading}/>}>
+            Взаимодействия группы
+          </TabItem>
+          <TabItem code="myInteractions" name={<TabWithCounter title="Мои взаимодействия" count={tabsItemsCounts.myInteractions} isLoading={isTabsItemsCountsLoading}/>}>
+            Мои взаимодействия
+          </TabItem>
+          <TabItem code="groupTasks" name={<TabWithCounter title="Задачи группы" count={tabsItemsCounts.groupTasks} isLoading={isTabsItemsCountsLoading}/>}>
+            Задачи группы
+          </TabItem>
+          <TabItem code="myTasks" name={<TabWithCounter title="Мои задачи" count={tabsItemsCounts.myTasks} isLoading={isTabsItemsCountsLoading}/>}>
+            Мои задачи
+          </TabItem>
         </TabsWrapper>
       </div>
       <div className="worktable__page-selector">
