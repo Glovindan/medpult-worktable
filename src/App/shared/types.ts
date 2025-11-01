@@ -16,3 +16,32 @@ export class TabsItemsCounts {
     this.myTasks = 0;
   }
 }
+
+export type FetchData<ItemType = any> = {
+    data: ItemType[],
+    hasMore: boolean,
+}
+
+/** Данные сортировки */
+export class SortData {
+  code: string;
+  isAscending: boolean;
+
+  constructor({ code, isAscending }: { code?: string; isAscending?: boolean }) {
+    this.code = code ?? "";
+    this.isAscending = isAscending ?? true;
+  }
+}
+
+/** Данные поиска */
+export type SearchParams<SearchDataType = any> = {
+    /** Текущая страница */
+    page: number, 
+    /** Количество элементов страницы */
+    size: number,
+    /** Данные сортировки */
+    sortData?: SortData, 
+    /** Данные поиска */
+    searchData?: SearchDataType
+    [property: string]: any;
+}

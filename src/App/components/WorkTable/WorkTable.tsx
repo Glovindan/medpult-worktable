@@ -6,6 +6,7 @@ import PageSelector from "./PageSelector/PageSelector.tsx";
 import { TabsItemsCounts } from "../../shared/types.ts";
 import Scripts from "../../shared/utils/clientScripts.ts";
 import TabWithCounter from "./TabWithCounter/TabWithCounter.tsx";
+import { InteractionStatus } from "./InteractionsList/InteractionsListTypes.ts";
 
 function useTabsItemsCount() {
   // Индикатор загрузки количества элементов на вкладках
