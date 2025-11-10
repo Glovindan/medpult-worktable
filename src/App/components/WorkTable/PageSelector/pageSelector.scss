@@ -11,6 +11,11 @@
         grid-row-gap: 0px;
         align-items: center;
 
+        & .loader__element {
+            border-color: #A4A7AE;    
+            border-bottom-color: transparent;    
+        }
+
         &_button {
             grid-area: 1 / 2 / 2 / 3;
             justify-self: center;

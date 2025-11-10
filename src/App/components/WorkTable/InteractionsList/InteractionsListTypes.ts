@@ -10,6 +10,8 @@ export enum InteractionStatus {
     atWork,
     /** Обработано */
     processed,
+    /** Пропущено */
+    missed,
 }
 
 /** Тип канала поступления */
@@ -58,6 +60,8 @@ export interface IInteractionItem {
     status: InteractionStatus,
     /** Тип канала поступления */
     channelType: ChannelType
+    /** Является входящим */
+    isIncoming: boolean
     /** Точка входа */
     entryPoint: IEntryPoint
     /** SLA */

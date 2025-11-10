@@ -43,31 +43,23 @@ export function useSort() {
 
 /** Кастмоный хук для обработки загрузки и пагинации списка */
 export function useList<ItemType = any, SearchDataType = any>(sortData: SortData | undefined, searchData: SearchDataType | undefined, getDataHandler: (props: SearchParams) => Promise<ItemType[]>) {
-    const hasMoreRef = useRef<boolean>(true);
-    const itemsRef = useRef<ItemType[]>([]);
-
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [items, setItems] = useState<ItemType[]>([]);
     
     /** Очистить список */
     const clearList = () => {
-        hasMoreRef.current = true;
-        
-        itemsRef.current = [];
         setItems([]);
     }
     
     /** Добавить значения в список */
     const loadData = async (page: number, size: number) => {
         if (isLoading) return;
-        if (!hasMoreRef.current) return;
-
+        
         setIsLoading(true);
         
         const itemsPart = await getDataHandler({page, size, sortData, searchData});
-        
-        itemsRef.current = [...itemsRef.current, ...itemsPart]
-        setItems(itemsRef.current);
+        setItems(itemsBefore => [...itemsBefore, ...itemsPart]);
+        console.log("load")
 
         setIsLoading(false);
     }

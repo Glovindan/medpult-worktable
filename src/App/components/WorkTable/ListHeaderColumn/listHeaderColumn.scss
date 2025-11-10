@@ -1,0 +1,33 @@
+.list-header-column {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+    justify-content: start;
+
+    &__title {
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 11px;
+        color: #565A62;
+        overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+    }
+
+    &__button {
+        outline: none;
+        background: none;
+        width: fit-content;
+        height: fit-content;
+        border: none;
+        cursor: pointer;
+
+        display: flex;
+
+        & > span:first-of-type {
+            transform: rotate(180deg);
+        }
+    }
+}

@@ -1,0 +1,32 @@
+@import url('StatusColumn/statusColumn.scss');
+
+.interactions-list {
+    display: flex;
+    flex-direction: column;
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+
+        &_item {
+            height: 48px;
+            & > * {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+
+    &__header,
+    &__list_item {
+        height: 48px;
+        display: grid;
+        gap: 20px;
+        grid-template-columns: 8px 24px 255fr 61px 160fr 140fr 240fr 48px 255fr 130fr 130fr 240fr 48px;
+
+        & > * {
+            min-height: 0;
+            min-width: 0;   
+        }
+    }
+}
