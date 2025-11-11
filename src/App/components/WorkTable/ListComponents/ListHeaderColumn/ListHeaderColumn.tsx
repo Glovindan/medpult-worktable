@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { SortData } from "../../../shared/types";
-import icons from "../../../shared/icons";
+import { SortData } from "../../../../shared/types";
+import icons from "../../../../shared/icons";
 
 interface IListHeaderColumnProps extends PropsWithChildren {
   /** Обработчик нажатия на сортировку */

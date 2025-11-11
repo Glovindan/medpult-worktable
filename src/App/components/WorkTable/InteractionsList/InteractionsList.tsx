@@ -3,10 +3,16 @@ import { useList, useSort } from "../../../shared/hooks";
 import { SearchParams, SortData } from "../../../shared/types";
 import { IInteractionItem, ISearchInteractionsParams } from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
-import ListHeaderColumn, { SortingState } from "../ListHeaderColumn/ListHeaderColumn";
+import ListHeaderColumn, { SortingState } from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
 import Loader from "../../../../UIKit/Loader/Loader";
 import StatusColumn from "./StatusColumn/StatusColumn";
 import ChannelColumn from "./ChannelColumn/ChannelColumn";
+import DoubleStrokeColumn from "./EntryPointColumn/EntryPointColumn";
+import moment from "moment";
+import ListColumn from "../ListComponents/ListColumn/ListColumn";
+import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
+import LinkColumn from "../ListComponents/LinkColumn/LinkColumn";
+import { MiddleEllipsisString } from "./MiddleElipsisString/MiddleEllipsisString";
 
 type InteractionsListProps = {
   /** Поисковые данные взаимодействий */
@@ -19,10 +25,12 @@ type InteractionsListProps = {
   sortData: SortData | undefined
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void
+  /** Установить количество отображаемых элементов */
+  setDisplayableElementsCount: React.Dispatch<React.SetStateAction<number | undefined>>
 }
 
 /** Список взаимодействий */
-export default function InteractionsList({searchParams, setLoadData, setClearList, sortData, toggleSort}: InteractionsListProps) {
+export default function InteractionsList({searchParams, setLoadData, setClearList, sortData, toggleSort, setDisplayableElementsCount}: InteractionsListProps) {
 
   const getSortingState = (fieldCode: string) => {
     if(sortData?.code != fieldCode) return SortingState.unsorted;
@@ -51,6 +59,37 @@ export default function InteractionsList({searchParams, setLoadData, setClearLis
     setClearList(() => clearList)
   }, [])
 
+  useEffect(() => {
+    setDisplayableElementsCount(items.length)
+  }, [items])
+
+  /** Получить ссылку на страницу конкретного обращения */
+  function getRequestHref(requestId: string) {
+    const requestPageLink = Scripts.getRequestPagePath();
+    const origin = window.location.origin
+    const url = new URL(`${origin}/${requestPageLink}`)
+
+    url.searchParams.set("requestId", requestId);
+
+    const href = url.toString();
+
+    return href;
+  }
+
+  /** Получить ссылку на страницу конкретной задачи */
+  function getTaskHref(requestId: string, taskId: string) {
+    const requestPageLink = Scripts.getRequestPagePath();
+    const origin = window.location.origin
+    const url = new URL(`${origin}/${requestPageLink}`)
+
+    url.searchParams.set("requestId", requestId);
+    url.searchParams.set("taskId", taskId);
+
+    const href = url.toString();
+
+    return href;
+  }
+
   return (
     <div className="interactions-list">
       <div className="interactions-list__header">
@@ -73,17 +112,17 @@ export default function InteractionsList({searchParams, setLoadData, setClearLis
           items.map(item => <div className="interactions-list__list_item">
             <StatusColumn status={item.status} />
             <ChannelColumn channel={item.channelType} isIncoming={item.isIncoming}/>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
+            <DoubleStrokeColumn firstRowValue={item.entryPoint.channelSort} secondRowValue={item.entryPoint.marketingName}/>
+            <ListColumn></ListColumn>
+            <ListColumn>{item.contactData}</ListColumn>
+            <ListColumn>{moment(item.createdAt).format("DD.MM.YYYY HH:mm")}</ListColumn>
+            <ListColumn>{item.contractorName}</ListColumn>
+            <ListColumn><span>attachment</span></ListColumn>
+            <ListColumn>{item.requestTopic}</ListColumn>
+            <LinkColumn href={getRequestHref(item.request.code)} tooltip={item.request.value}><MiddleEllipsisString value={item.request.value}/></LinkColumn>
+            <LinkColumn href={getTaskHref(item.request.code, item.task.code)} tooltip={item.task.value}><MiddleEllipsisString value={item.task.value}/></LinkColumn>
+            <DoubleStrokeColumn firstRowValue={item.executor.fullname} secondRowValue={item.executor.groupName}/>
+            <ListColumn>button</ListColumn>
           </div>)
         }
         {isLoading && <Loader />}

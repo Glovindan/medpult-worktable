@@ -1,4 +1,7 @@
 @import url('StatusColumn/statusColumn.scss');
+@import url('ChannelColumn/channelColumn.scss');
+@import url('EntryPointColumn/entryPointColumn.scss');
+@import url('MiddleElipsisString/middleEllipsisString.scss');
 
 .interactions-list {
     display: flex;
@@ -10,10 +13,6 @@
 
         &_item {
             height: 48px;
-            & > * {
-                display: flex;
-                align-items: center;
-            }
         }
     }
 
@@ -27,6 +26,28 @@
         & > * {
             min-height: 0;
             min-width: 0;   
+        }
+    }
+
+    &__column {
+        display: flex;
+        align-items: center;
+        
+        /* Table/medium */
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 20px;
+        /* identical to box height, or 154% */
+
+        color: #303337;
+        
+        & > * {
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            // white-space: nowrap;
         }
     }
 }

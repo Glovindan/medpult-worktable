@@ -31,7 +31,7 @@ const randomSlaStatus = () => {
 
 // Генерация случайного объекта IEntryPoint
 const generateRandomEntryPoint = () => ({
-    channelSort: `Channel ${Math.ceil(Math.random() * 10)}`,
+    channelSort: `channel${Math.ceil(Math.random() * 10)}@mail.ru`,
     marketingName: `Marketing Name ${Math.ceil(Math.random() * 10)}`
 });
 
@@ -45,6 +45,31 @@ const generateRandomExecutorData = () => ({
 const generateRandomObjectItem = () => {
     return new ObjectItem({
         value: Math.random().toString(),
+        code: `CODE-${Math.ceil(Math.random() * 1000)}`
+    });
+};
+
+// Генерация случайной строки заданной длины с дополнением ведущими нулями
+function generateFixedLengthString(length: number): string {
+    const randomNumber = Math.floor(Math.random() * 10); // Случайное число от 0 до 9
+    const leadingZerosCount = length - 1; // Ведущие нули занимают всю строку кроме последнего символа
+    const result = '0'.repeat(leadingZerosCount) + randomNumber.toString();
+
+    return result;
+}
+
+// Новый метод генерации экземпляра ObjectItem
+const generateRandomRequest = () => {
+    return new ObjectItem({
+        value: `RQ${generateFixedLengthString(8)}/21`,
+        code: `CODE-${Math.ceil(Math.random() * 1000)}`
+    });
+};
+
+// Новый метод генерации экземпляра ObjectItem
+const generateRandomTask = () => {
+    return new ObjectItem({
+        value: `TS${generateFixedLengthString(8)}/21`,
         code: `CODE-${Math.ceil(Math.random() * 1000)}`
     });
 };
@@ -65,8 +90,8 @@ const generateRandomInteractionItem = () => ({
     contractorName: `Контрагент №${Math.ceil(Math.random() * 10)}`,
     hasAttachments: Boolean(Math.round(Math.random())),
     requestTopic: `Тема №${Math.ceil(Math.random() * 10)}`,
-    request: generateRandomObjectItem(),
-    task: generateRandomObjectItem(),
+    request: generateRandomRequest(),
+    task: generateRandomTask(),
     executor: generateRandomExecutorData(),
     isIncoming: Math.random() > 0.5
 });

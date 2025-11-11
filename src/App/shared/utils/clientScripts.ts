@@ -27,7 +27,7 @@ async function getTabItemsCount() {
 async function getInteractions(searchParams: SearchParams<ISearchInteractionsParams>): Promise<IInteractionItem[]> {
   await randomDelay();
 
-  return generateInteractionsArray(5)
+  return generateInteractionsArray(searchParams.size)
 }
 
 /** Получение названия статуса */
@@ -41,8 +41,14 @@ function getInteractionStatusName(status: InteractionStatus) {
   }
 }
 
+/** Получение пути на страницу обращения */
+function getRequestPagePath() {
+  return "request"
+}
+
 export default {
   getTabItemsCount,
   getInteractions,
   getInteractionStatusName,
+  getRequestPagePath,
 };

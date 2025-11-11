@@ -38,9 +38,10 @@ export default function WorkTable() {
     updateTabsItemsCounts()
   }, [])
 
-  const [elementsCount, setElementsCount] = useState<number>(200)
+  const [elementsCount, setElementsCount] = useState<number>(189)
   const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(() => () => {})
   const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {})
+  const [displayableElementsCount, setDisplayableElementsCount] = useState<number>();
   const {sortData, toggleSort} = useSort()
 
   const searchParams: ISearchInteractionsParams = {};
@@ -49,22 +50,71 @@ export default function WorkTable() {
     <div className="worktable">
       <div className="worktable__tabs">
         <TabsWrapper actionsLayout={<WorkTableTabsActions />}>
-          <TabItem code="groupInteractions" name={<TabWithCounter title="Взаимодействия группы" count={tabsItemsCounts.groupInteractions} isLoading={isTabsItemsCountsLoading}/>}>
-            <InteractionsList searchParams={searchParams} setLoadData={setAddItemsHandler} setClearList={setClearItemsHandler} sortData={sortData} toggleSort={toggleSort}/>
+          <TabItem
+            code="groupInteractions"
+            name={
+              <TabWithCounter
+                title="Взаимодействия группы"
+                count={tabsItemsCounts.groupInteractions}
+                isLoading={isTabsItemsCountsLoading}
+              />
+            }
+          >
+            <InteractionsList
+              searchParams={searchParams}
+              setLoadData={setAddItemsHandler}
+              setClearList={setClearItemsHandler}
+              sortData={sortData}
+              toggleSort={toggleSort}
+              setDisplayableElementsCount={setDisplayableElementsCount}
+            />
           </TabItem>
-          <TabItem code="myInteractions" name={<TabWithCounter title="Мои взаимодействия" count={tabsItemsCounts.myInteractions} isLoading={isTabsItemsCountsLoading}/>}>
+          <TabItem
+            code="myInteractions"
+            name={
+              <TabWithCounter
+                title="Мои взаимодействия"
+                count={tabsItemsCounts.myInteractions}
+                isLoading={isTabsItemsCountsLoading}
+              />
+            }
+          >
             Мои взаимодействия
           </TabItem>
-          <TabItem code="groupTasks" name={<TabWithCounter title="Задачи группы" count={tabsItemsCounts.groupTasks} isLoading={isTabsItemsCountsLoading}/>}>
+          <TabItem
+            code="groupTasks"
+            name={
+              <TabWithCounter
+                title="Задачи группы"
+                count={tabsItemsCounts.groupTasks}
+                isLoading={isTabsItemsCountsLoading}
+              />
+            }
+          >
             Задачи группы
           </TabItem>
-          <TabItem code="myTasks" name={<TabWithCounter title="Мои задачи" count={tabsItemsCounts.myTasks} isLoading={isTabsItemsCountsLoading}/>}>
+          <TabItem
+            code="myTasks"
+            name={
+              <TabWithCounter
+                title="Мои задачи"
+                count={tabsItemsCounts.myTasks}
+                isLoading={isTabsItemsCountsLoading}
+              />
+            }
+          >
             Мои задачи
           </TabItem>
         </TabsWrapper>
       </div>
       <div className="worktable__page-selector">
-        <PageSelector elementsCount={elementsCount} clearItemsHandler={clearItemsHandler} addItemsHandler={addItemsHandler} sortData={sortData}/>
+        <PageSelector
+          elementsCount={elementsCount}
+          clearItemsHandler={clearItemsHandler}
+          addItemsHandler={addItemsHandler}
+          sortData={sortData}
+          displayableElementsCount={displayableElementsCount}
+        />
       </div>
     </div>
   );

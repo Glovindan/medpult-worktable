@@ -1,0 +1,21 @@
+.list-column {
+  display: flex;
+  align-items: center;
+  
+  /* Table/medium */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  /* identical to box height, or 154% */
+
+  color: #303337;
+  
+  &__content {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    // white-space: nowrap;
+  }
+}

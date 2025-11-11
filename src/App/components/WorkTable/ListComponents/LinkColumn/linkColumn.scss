@@ -1,0 +1,13 @@
+.link-column {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #1570EF;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
