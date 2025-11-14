@@ -1,0 +1,16 @@
+.middle-ellipsis-string {
+    display: flex;
+    white-space: nowrap;
+
+    &__start,
+    &__end {
+        min-width: fit-content;
+        overflow: hidden;
+    }
+
+    &__middle {
+        min-width: 20px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}

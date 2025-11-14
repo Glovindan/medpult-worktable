@@ -1,5 +1,7 @@
 import { max } from "moment";
 import React, { useEffect, useState } from "react";
+import Loader from "../../../../UIKit/Loader/Loader";
+import { SortData } from "../../../shared/types";
 
 /** Возможное количество отображаемых страниц слева и справа от текущей */
 const PAGES_RANGE = 2;
@@ -80,7 +82,11 @@ type PageSelectorProps = {
   /** Обработчик очистки списка */
   clearItemsHandler: () => void;
   /** Обработчик добавления элементов в список */
-  addItemsHandler: (page: number, size: number) => void;
+  addItemsHandler: (page: number, size: number) => Promise<void>;
+  /** Данные сортировки */
+  sortData: SortData | undefined
+  /** Количество отобаражемых элементов */
+  displayableElementsCount: number | undefined
 };
 
 /** Выбор страницы */
@@ -88,10 +94,12 @@ export default function PageSelector({
   elementsCount,
   clearItemsHandler,
   addItemsHandler,
+  sortData,
+  displayableElementsCount,
 }: PageSelectorProps) {
   // Индекс текущей страницы
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
-
+  
   // Количество страниц
   const pagesCount = Math.ceil(elementsCount / PART_SIZE);
   // Номер текущей страницы
@@ -99,19 +107,34 @@ export default function PageSelector({
 
   const { minPage, maxPage, isShowLeftEllispes, isShowRightEllispes } = getPagesParams(currentPageNumber, pagesCount);
 
+  async function handleAddItems(page: number, size: number) {
+    setIsShowMoreLoading(true)
+    await addItemsHandler(page, PART_SIZE);
+    setIsShowMoreLoading(false)
+  }
+
+  async function handleClearItems() {
+    clearItemsHandler()
+  }
+
   // Сброс текущей страницы при изменении обработчика нажатия или количества страниц
   useEffect(() => {
+    handleClearItems()
+    handleAddItems(0, PART_SIZE)
     setCurrentPageIndex(0);
-  }, [elementsCount, clearItemsHandler, addItemsHandler]);
+  }, [elementsCount, clearItemsHandler, addItemsHandler, sortData?.isAscending]);
+
+  const [isShowMoreLoading, setIsShowMoreLoading] = useState<boolean>(false);
 
   // Нажатие на кнопку Показать больше
-  const handleShowMoreClick = () => {
+  const handleShowMoreClick = async () => {
     const nextPage = currentPageIndex + 1;
     if (nextPage >= pagesCount) return;
 
     setCurrentPageIndex(nextPage);
+
     // Добавить PART_SIZE элементов
-    addItemsHandler(nextPage, PART_SIZE);
+    handleAddItems(nextPage, PART_SIZE);
   };
 
   /** Получить список отображаемых страниц между максимальной и минимальной */
@@ -129,8 +152,8 @@ export default function PageSelector({
     setCurrentPageIndex(pageIndex);
 
     // Показать PART_SIZE элементов
-    clearItemsHandler();
-    addItemsHandler(pageIndex, PART_SIZE);
+    handleClearItems();
+    handleAddItems(pageIndex, PART_SIZE);
   };
 
   /** Обработчик уменьшения страницы */
@@ -138,7 +161,7 @@ export default function PageSelector({
     const nextPageIndex = currentPageIndex - 1;
     if (nextPageIndex < 0) return;
 
-    setCurrentPageIndex(nextPageIndex);
+    handlePageClick(nextPageIndex);
   };
 
   /** Обработчик увеличения страницы */
@@ -146,7 +169,7 @@ export default function PageSelector({
     const nextPageIndex = currentPageIndex + 1;
     if (nextPageIndex > pagesCount - 1) return;
 
-    setCurrentPageIndex(nextPageIndex);
+    handlePageClick(nextPageIndex);
   };
 
   const ellipsesLayout = <div>...</div>;
@@ -157,11 +180,12 @@ export default function PageSelector({
         <button
           className="page-selector__button-wrapper_button"
           onClick={handleShowMoreClick}
+          disabled={isShowMoreLoading}
         >
-          Показать больше
+          {isShowMoreLoading ? <Loader /> : "Показать больше"}
         </button>
         <div className="page-selector__button-wrapper_counter">
-          20 из {elementsCount}
+          {displayableElementsCount} из {elementsCount}
         </div>
       </div>
       <div className="page-selector__selector">

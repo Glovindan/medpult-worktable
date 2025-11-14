@@ -1,4 +1,6 @@
-import { TabsItemsCounts } from "../types";
+import { IInteractionItem, InteractionStatus, ISearchInteractionsParams } from "../../components/WorkTable/InteractionsList/InteractionsListTypes";
+import { SearchParams, TabsItemsCounts } from "../types";
+import { generateInteractionsArray } from "./interactionsGenerator";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -20,6 +22,33 @@ async function getTabItemsCount() {
 
   return tabsItemsCounts;
 }
+
+/** Поиск взаимодействий */
+async function getInteractions(searchParams: SearchParams<ISearchInteractionsParams>): Promise<IInteractionItem[]> {
+  await randomDelay();
+
+  return generateInteractionsArray(searchParams.size)
+}
+
+/** Получение названия статуса */
+function getInteractionStatusName(status: InteractionStatus) {
+  switch(status) {
+    case InteractionStatus.new: return "Новое"
+    case InteractionStatus.queue: return "В очереди"
+    case InteractionStatus.atWork: return "В работе"
+    case InteractionStatus.processed: return "Обработано"
+    default: return "Пропущено"
+  }
+}
+
+/** Получение пути на страницу обращения */
+function getRequestPagePath() {
+  return "request"
+}
+
 export default {
-  getTabItemsCount
+  getTabItemsCount,
+  getInteractions,
+  getInteractionStatusName,
+  getRequestPagePath,
 };
