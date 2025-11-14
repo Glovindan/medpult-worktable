@@ -36,10 +36,14 @@ const generateRandomEntryPoint = () => ({
 });
 
 // Генерация случайного объекта IExecutorData
-const generateRandomExecutorData = () => ({
-    fullname: `Исполнитель ${Math.ceil(Math.random() * 10)}`,
-    groupName: `Группа ${Math.ceil(Math.random() * 10)}`
-});
+const generateRandomExecutorData = () => {
+    if(Math.random() > 0.5) return;
+
+    return {
+        fullname: `Исполнитель ${Math.ceil(Math.random() * 10)}`,
+        groupName: `Группа ${Math.ceil(Math.random() * 10)}`
+    }
+};
 
 // Новый метод генерации экземпляра ObjectItem
 const generateRandomObjectItem = () => {
@@ -60,6 +64,8 @@ function generateFixedLengthString(length: number): string {
 
 // Новый метод генерации экземпляра ObjectItem
 const generateRandomRequest = () => {
+    if(Math.random() > 0.5) return;
+
     return new ObjectItem({
         value: `RQ${generateFixedLengthString(8)}/21`,
         code: `CODE-${Math.ceil(Math.random() * 1000)}`
@@ -67,11 +73,75 @@ const generateRandomRequest = () => {
 };
 
 // Новый метод генерации экземпляра ObjectItem
-const generateRandomTask = () => {
+const generateRandomTask = (hasRequest: boolean) => {
+    if(!hasRequest) return;
+    if(Math.random() > 0.5) return;
+
     return new ObjectItem({
         value: `TS${generateFixedLengthString(8)}/21`,
         code: `CODE-${Math.ceil(Math.random() * 1000)}`
     });
+};
+
+const generateRandomContractorName = () => {
+    if(Math.random() > 0.5) return;
+
+    return `Контрагент №${Math.ceil(Math.random() * 10)}`
+};
+
+/**
+ * Генерирует случайную строку заданной длины.
+ * @param length - Длина генерируемой строки.
+ * @returns Случайная строка.
+ */
+function generateRandomString(length: number): string {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return result;
+}
+
+/**
+ * Генерирует случайный email-адрес.
+ * @param domain - Необязательный домен для email. Если не указан, будет сгенерирован случайный.
+ * @returns Случайный email-адрес.
+ */
+function generateRandomEmail(domain?: string): string {
+    const usernameLength = Math.floor(Math.random() * 10) + 5; // Длина имени пользователя от 5 до 14 символов
+    const username = generateRandomString(usernameLength);
+
+    const emailDomain = domain || `${generateRandomString(Math.floor(Math.random() * 5) + 3)}.com`;
+
+    return `${username}@${emailDomain}`;
+}
+
+/**
+ * Генерирует случайный номер телефона в заданном формате.
+ * @param format - Необязательный формат номера телефона. По умолчанию "+7 (XXX) XXX-XX-XX".
+ *                  Используйте 'X' для обозначения цифры.
+ * @returns Случайный номер телефона.
+ */
+function generateRandomPhoneNumber(format?: string): string {
+    const defaultFormat = "+7 (XXX) XXX-XX-XX";
+    const selectedFormat = format || defaultFormat;
+
+    let phoneNumber = '';
+    for (let i = 0; i < selectedFormat.length; i++) {
+        if (selectedFormat[i] === 'X') {
+            phoneNumber += Math.floor(Math.random() * 10);
+        } else {
+            phoneNumber += selectedFormat[i];
+        }
+    }
+    return phoneNumber;
+}
+
+const generateRandomContactData = () => {
+    if(Math.random() > 0.5) return generateRandomPhoneNumber();
+
+    return generateRandomEmail()
 };
 
 // Создание простого псевдо-уникального ID
@@ -79,22 +149,26 @@ const createUniqueId = () =>
     `${Date.now().toString(36)}${(Math.random() * 100000000).toFixed(0)}`;
 
 // Генерация случайного объекта IInteractionItem
-const generateRandomInteractionItem = () => ({
-    id: createUniqueId(),
-    status: randomInteractionStatus(),
-    channelType: randomChannelType(),
-    entryPoint: generateRandomEntryPoint(),
-    slaStatus: randomSlaStatus(),
-    contactData: `Контакт №${Math.ceil(Math.random() * 10)}`,
-    createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата в пределах последних 30 дней
-    contractorName: `Контрагент №${Math.ceil(Math.random() * 10)}`,
-    hasAttachments: Boolean(Math.round(Math.random())),
-    requestTopic: `Тема №${Math.ceil(Math.random() * 10)}`,
-    request: generateRandomRequest(),
-    task: generateRandomTask(),
-    executor: generateRandomExecutorData(),
-    isIncoming: Math.random() > 0.5
-});
+const generateRandomInteractionItem = (): IInteractionItem => {
+    const request = generateRandomRequest();
+    const task = generateRandomTask(!!request);
+    return {
+        id: createUniqueId(),
+        status: randomInteractionStatus(),
+        channelType: randomChannelType(),
+        entryPoint: generateRandomEntryPoint(),
+        slaStatus: randomSlaStatus(),
+        contactData: generateRandomContactData(),
+        createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата в пределах последних 30 дней
+        contractorName: generateRandomContractorName(),
+        hasAttachments: Boolean(Math.round(Math.random())),
+        requestTopic: `Тема №${Math.ceil(Math.random() * 10)}`,
+        request: request,
+        task: task,
+        executor: generateRandomExecutorData(),
+        isIncoming: Math.random() > 0.5
+    }
+};
 
 // Генератор массива элементов IInteractionItem[]
 export const generateInteractionsArray = (count: number): IInteractionItem[] => {

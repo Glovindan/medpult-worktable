@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { InteractionStatus } from "../InteractionsListTypes";
-import Scripts from "../../../../shared/utils/clientScripts";
+import { InteractionStatus } from "../../InteractionsListTypes";
+import Scripts from "../../../../../shared/utils/clientScripts";
 type StatusColumnProps = {
     /** Статус */
     status: InteractionStatus

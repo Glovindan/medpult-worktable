@@ -71,17 +71,17 @@ export interface IInteractionItem {
     /** Дата и время */
     createdAt: Date
     /** Контрагент */
-    contractorName: string
+    contractorName: string | undefined
     /** Имеются вложения? */
     hasAttachments: boolean
     /** Тема обращения */
     requestTopic: string
     /** Обращение */
-    request: ObjectItem
+    request: ObjectItem | undefined
     /** Задача */
-    task: ObjectItem
+    task: ObjectItem | undefined
     /** Задача */
-    executor: IExecutorData
+    executor: IExecutorData | undefined
 }
 
 /** Параметры поиска Взаимодействий */

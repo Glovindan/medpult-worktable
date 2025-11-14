@@ -1,6 +1,6 @@
 import React from "react";
 import ChannelColumnIcons from "./ChannelColumnIcons";
-import { ChannelType } from "../InteractionsListTypes";
+import { ChannelType } from "../../InteractionsListTypes";
 
 /** Пропсы колонки канала */
 interface ChannelColumnProps {
