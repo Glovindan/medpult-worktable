@@ -1,18 +1,15 @@
-@import url("CustomButton/customButton.scss");
-.button {
-  --button-color: #1570ef;
-
+.button-modal {
   text-align: center;
   align-items: center;
-  border: 2px solid transparent;
+  border: 1px solid transparent;
   height: 40px;
-  padding: 0 20px;
+  padding: 8 20px;
   border-radius: 8px;
   cursor: pointer;
-  background: var(--button-color);
-  color: #fff;
+  background: #1570ef;
+  color: #fdfdfd;
 
-  font-family: Inter;
+  font-family: "Inter";
   text-align: center;
   font-size: 14px;
   font-weight: 400;
@@ -29,10 +26,7 @@
   }
 
   &:disabled {
-    //border: none;
-    color: white;
-    opacity: 0.4 !important;
+    background-color: #9ec4f9;
     cursor: not-allowed !important;
-    //background-color: #ebebe4 !important;
   }
 }

@@ -1,0 +1,44 @@
+@import url("ModalWrapper/modalWrapper.scss");
+.modal-executor {
+  width: 480px;
+  border-radius: 16px;
+  background-color: #ffffff;
+  box-shadow: 0 8px 32px 0 #0a0d121f;
+  padding: 40px;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    &__header {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
+      justify-content: space-between;
+      width: 100%;
+
+      &_title {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 24px;
+        letter-spacing: 0.15px;
+        color: #222427;
+      }
+    }
+
+    &__button {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    &__input {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+}

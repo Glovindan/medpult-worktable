@@ -1,0 +1,38 @@
+@import url("./InteractionsHeader/interactionsHeader.scss");
+@import url("./InteractionsContent/interactionsContent.scss");
+@import url("./InteractionsContent/FilesDropdown/filesDropdown.scss");
+@import url("./InteractionsField/interactionField.scss");
+@import url("./InteractionsExecutor/interactionsExecutor.scss");
+@import url("./InteractionsExecutor/ModalExecutor/modalExecutor.scss");
+@import url("./InteractionsExecutor/ModalExecutor/SearchableSelect/searchableSelect.scss");
+@import url("./InteractionsExecutor/ModalExecutor/ButtonModal/buttonModal.scss");
+
+.interactions-open-panel {
+  font-family: Inter;
+  background-color: #f5f5f5;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__line {
+    border: 1px solid #d5d7da;
+  }
+
+  &__value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+    color: #303337;
+  }
+  &__title {
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #222427;
+  }
+}

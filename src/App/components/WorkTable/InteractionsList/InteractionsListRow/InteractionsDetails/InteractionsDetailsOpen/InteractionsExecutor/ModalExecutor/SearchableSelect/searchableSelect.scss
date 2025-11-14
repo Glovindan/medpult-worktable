@@ -1,0 +1,129 @@
+.searchable-select {
+  position: relative;
+
+  &__label {
+    font-size: 12px;
+    font-weight: 400;
+    color: #565a62;
+    line-height: 16px;
+    letter-spacing: 0.25px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  &__input {
+    border: 1px solid #a4a7ae;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: white;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+
+    &__value {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #303337;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    &__icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &_rotated {
+        transform: rotate(180deg);
+      }
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 6px);
+    width: 100%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 8px;
+    max-height: 260px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px #0a0d121f;
+    z-index: 100;
+
+    &__search-wrapper {
+      position: relative;
+    }
+    &__clear {
+      position: absolute;
+      right: 10px;
+      top: 40%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.7;
+      transition: opacity 0.15s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &__search {
+      width: 100%;
+      height: 40px;
+      padding: 8px 12px;
+      border: 1px solid #a4a7ae;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      &:focus {
+        outline: none;
+        border: 1px solid #1570ef;
+      }
+
+      &__list {
+        max-height: 180px;
+        overflow-y: auto;
+
+        scroll-behavior: smooth;
+
+        &__item {
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 20px;
+          color: #303337;
+          padding: 8px 12px 8px 30px;
+          cursor: pointer;
+          border-radius: 8px;
+
+          &:hover {
+            background: #565a621f;
+          }
+        }
+      }
+    }
+  }
+}
+
+.searchable-select__dropdown__search__list::-webkit-scrollbar {
+  width: 4px; /* ширина полосы прокрутки */
+}
+
+.searchable-select__dropdown__search__list::-webkit-scrollbar-thumb {
+  background-color: #d5d7da; /* цвет ползунка */
+  border-radius: 4px; /* закругление */
+}
+
+.searchable-select__dropdown__search__list::-webkit-scrollbar-track {
+  background: #0a0d120f; /* фон дорожки */
+}

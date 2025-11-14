@@ -193,6 +193,32 @@ export async function openNewRequest(
   redirectSPA(redirectUrl.toString());
 }
 
+/** Скачать файл по URL */
+export async function onClickDownloadFileByUrl(
+  url?: string,
+  fileName?: string
+) {
+  if (!url) return;
+
+  let blob: Blob;
+
+  if (url.startsWith("data:")) {
+    const res = await fetch(url);
+    blob = await res.blob();
+  } else {
+    const response = await Scripts.downloadFileBucket(url, fileName || "file");
+    blob = new Blob([response.arrayBuffer], { type: response.contentType });
+  }
+
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = fileName || "file";
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(link.href);
+}
+
 export default {
   redirectSPA,
   setRequest,
