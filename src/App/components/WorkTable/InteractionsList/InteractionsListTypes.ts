@@ -139,4 +139,7 @@ export interface IInteractionDetailsItem {
 }
 
 /** Параметры поиска Взаимодействий */
-export interface ISearchInteractionsParams {}
+export interface ISearchInteractionsParams {
+  /** Данные поисковой строки */
+  searchQuery?: string;
+}

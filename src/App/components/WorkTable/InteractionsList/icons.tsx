@@ -257,6 +257,38 @@ const closeIcon = (
   </svg>
 );
 
+const notSelectedIcon = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="white" />
+    <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#D5D7DA" />
+  </svg>
+);
+
+const selectedIcon = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 20 20"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" fill="#1570EF" />
+    <rect x="0.5" y="0.5" width="19" height="19" rx="3.5" stroke="#1570EF" />
+    <path
+      d="M15 6.5L8 13.5L5 10.5"
+      stroke="white"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
 const InteracrionNew = (
   <svg
     width="8"
@@ -344,6 +376,10 @@ export default {
   addIcon,
   /** Иконка крестик */
   closeIcon,
+  /** Иконка не выбранный чекбокс */
+  notSelectedIcon,
+  /** Иконка выбранный чекбокс */
+  selectedIcon,
   /**Статусы Взаимодействия*/
   InteracrionNew,
   InteracrionAtWork,

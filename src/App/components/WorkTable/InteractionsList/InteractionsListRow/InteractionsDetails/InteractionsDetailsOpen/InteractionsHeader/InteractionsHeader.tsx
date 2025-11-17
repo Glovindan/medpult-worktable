@@ -11,7 +11,7 @@ import Scripts from "../../../../../../../shared/utils/clientScripts";
 interface InteractionsHeaderProps {
   data: IInteractionDetailsItem;
   onSave?: () => void;
-  reloadData?: () => void;
+  reloadData: (id: string) => void;
   duplicateCount?: number;
 }
 
@@ -35,13 +35,13 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
   /** Обработка нажатия на кнопку В работу */
   const onTakeToWorkClick = async () => {
     await Scripts.setStatusAtWork(data.id);
-    reloadData?.();
+    reloadData?.(data.id);
   };
 
   /** Обработка нажатия на кнопку Закрыть */
   const onTakeCloseClick = async () => {
     await Scripts.setStatusProcessed(data.id);
-    reloadData?.();
+    reloadData?.(data.id);
   };
 
   return (

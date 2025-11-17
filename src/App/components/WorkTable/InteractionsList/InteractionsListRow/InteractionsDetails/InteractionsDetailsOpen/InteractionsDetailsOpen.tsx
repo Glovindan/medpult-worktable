@@ -13,7 +13,7 @@ interface InteractionsDetailsOpenProps {
   /** Идентификатор задачи */
   taskId?: string;
   onSave?: () => void;
-  reloadData?: () => void;
+  reloadData: (id: string) => void;
 }
 
 /** Проект комментария */

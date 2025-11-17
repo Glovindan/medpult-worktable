@@ -17,7 +17,7 @@ type InteractionsListRowProps = {
   item: IInteractionItem;
   openRowIndex: string | undefined;
   setOpenRowIndex: React.Dispatch<React.SetStateAction<string | undefined>>;
-  reloadData: () => void;
+  reloadData: (id: string) => void;
   items: IInteractionItem[];
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
 };
