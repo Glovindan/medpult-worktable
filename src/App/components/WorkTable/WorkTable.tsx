@@ -9,6 +9,7 @@ import TabWithCounter from "./TabWithCounter/TabWithCounter.tsx";
 import { InteractionStatus, ISearchInteractionsParams } from "./InteractionsList/InteractionsListTypes.ts";
 import InteractionsList from "./InteractionsList/InteractionsList.tsx";
 import { useSort } from "../../shared/hooks.ts";
+import TasksTab from "./TasksTab/TasksTab.tsx";
 
 function useTabsItemsCount() {
   // Индикатор загрузки количества элементов на вкладках
@@ -91,7 +92,13 @@ export default function WorkTable() {
               />
             }
           >
-            Задачи группы
+            <TasksTab
+              setLoadData={setAddItemsHandler}
+              setClearList={setClearItemsHandler}
+              sortData={sortData}
+              toggleSort={toggleSort}
+              setDisplayableElementsCount={setDisplayableElementsCount}
+            />
           </TabItem>
           <TabItem
             code="myTasks"

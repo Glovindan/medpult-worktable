@@ -54,18 +54,52 @@ export type InsuredData = {
     policyNumber?: string
 }
 
-/** Элемент списка взаимодействий */
+/** Данные Исполнителя */
+export type ExecutorData = {
+    /** ФИО */
+    fullName: string,
+    /** Группа */
+    groupName: string
+}
+
+/** Данные Задач */
+export type TaskData = {
+    /** Номер задачи */
+    number: string,
+    /** Идентификатор задачи */
+    id: string
+    /** Идентификатор обращений */
+    requestId: string
+}
+
+/** Статус задачи */
+export enum TaskStatus {
+    /** В очереди */
+    queue,
+    /** В работе */
+    atWork,
+    /** Отложена */
+    postpone,
+    /** Выполнена */
+    complete,
+    /** На контроле */
+    control,
+    /** Анулировано */
+    canceled
+}
+
+/** Элемент списка задач */
 export interface ITaskItem {
     /** Идентификатор Задачи */
     id: string;
     /** Номер */
-    taskNumber: string;
+    task: TaskData;
     /** SLA */
     slaStatus?: SlaStatus;
     /** Срочность */
     urgency: string;
     /** Застрахованный */
-    insured: string;
+    insured: InsuredData;
     /** Регион */
     region: string;
     /** Дата создания */
@@ -75,8 +109,8 @@ export interface ITaskItem {
     /** Вид задачи */
     taskTypeData: TaskTypeData;
     /** Статус задачи */
-    taskStatus: Date;
+    taskStatus: TaskStatus;
     /** Исполнитель */
-    executor: string
+    executor: ExecutorData;
 }
 

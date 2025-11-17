@@ -11,6 +11,7 @@ import { IInteractionItem } from "../InteractionsListTypes";
 import Scripts from "../../../../shared/utils/clientScripts";
 import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
+import { getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
 
 type InteractionsListRowProps = {
   /** Данные строки взаимодействия */
@@ -31,30 +32,6 @@ export default function InteractionsListRow({
   items,
   setItems,
 }: InteractionsListRowProps) {
-  /** Получить ссылку на страницу конкретного обращения */
-  function getRequestHref(requestId: string) {
-    const requestPageLink = Scripts.getRequestPagePath();
-    const origin = window.location.origin;
-    const url = new URL(`${origin}/${requestPageLink}`);
-
-    url.searchParams.set("requestId", requestId);
-
-    const href = url.toString();
-
-    return href;
-  }
-
-  /** Получить ссылку на страницу конкретной задачи */
-  function getTaskHref(requestId: string, taskId: string) {
-    const url = new URL(getRequestHref(requestId));
-
-    url.searchParams.set("taskId", taskId);
-
-    const href = url.toString();
-
-    return href;
-  }
-
   const emptyColumn = <ListColumn>–</ListColumn>;
   const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
 

@@ -8,6 +8,7 @@ import {
 import { SearchParams, TabsItemsCounts } from "../types";
 import { generateInteractionsArray } from "./interactionsGenerator";
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
+import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -214,4 +215,6 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
+
+  ...tasksClientScripts
 };

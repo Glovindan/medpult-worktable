@@ -1,5 +1,6 @@
-import { ChannelType, IInteractionItem, InteractionStatus, SlaStatus } from '../../components/WorkTable/InteractionsList/InteractionsListTypes';
+import { ChannelType, IInteractionItem, InteractionStatus } from '../../components/WorkTable/InteractionsList/InteractionsListTypes';
 import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes';
+import { SlaStatus } from '../../components/WorkTable/WorkTableTypes';
 
 // Специальные методы для каждого перечисления
 const randomInteractionStatus = () => {
@@ -21,7 +22,7 @@ const randomChannelType = () => {
     }
 };
 
-const randomSlaStatus = () => {
+export const randomSlaStatus = () => {
     switch (Math.floor(Math.random() * 3)) {
         case 0: return SlaStatus.ok;
         case 1: return SlaStatus.warning;
@@ -54,7 +55,7 @@ const generateRandomObjectItem = () => {
 };
 
 // Генерация случайной строки заданной длины с дополнением ведущими нулями
-function generateFixedLengthString(length: number): string {
+export function generateFixedLengthString(length: number): string {
     const randomNumber = Math.floor(Math.random() * 10); // Случайное число от 0 до 9
     const leadingZerosCount = length - 1; // Ведущие нули занимают всю строку кроме последнего символа
     const result = '0'.repeat(leadingZerosCount) + randomNumber.toString();

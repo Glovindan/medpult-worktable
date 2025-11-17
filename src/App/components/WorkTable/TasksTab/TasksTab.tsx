@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useList, useSort } from "../../../shared/hooks";
-import { SearchParams, SortData } from "../../../shared/types";
-import Scripts from "../../../shared/utils/clientScripts";
-import ListHeaderColumn, {
-  SortingState,
-} from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
+import { SortData } from "../../../shared/types";
 import { ISearchTasksParams } from "./TasksList/TasksListTypes";
+import TasksList from "./TasksList/TasksList";
 
 type TasksTabProps = {
   /** Установить обработчик подгрузки данных */
@@ -25,14 +21,13 @@ type TasksTabProps = {
 };
 
 /** Вкладка задач */
-export default function TasksTab({
-  setLoadData,
-  setClearList,
-  sortData,
-  toggleSort,
-  setDisplayableElementsCount,
-}: TasksTabProps) {
-  const searchParams: ISearchTasksParams = {};
+export default function TasksTab(props: TasksTabProps) {
+  const [searchParams, setSearchParams] = useState<ISearchTasksParams>({});
 
-  return <div className="interactions-list"></div>;
+  return (
+    <>
+      {/* TODO: Компонент фильтров */}
+      <TasksList {...props} searchParams={searchParams} />
+    </>
+  );
 }

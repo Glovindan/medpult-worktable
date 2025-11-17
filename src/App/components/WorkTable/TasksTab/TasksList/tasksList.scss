@@ -1,1 +1,50 @@
 @import url('TasksListRow/tasksListRow.scss');
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    &_item {
+      height: 48px;
+    }
+  }
+
+  &__header,
+  .tasks-list-row {
+    height: 48px;
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 140fr 61px 140fr 299fr 200fr 140fr 140fr 200fr 140px 299fr;
+    border-bottom: 1px #0a0d120f solid;
+
+    &:last-of-type {
+      border-bottom: none;
+    }
+
+    & > * {
+      min-height: 0;
+      min-width: 0;
+    }
+  }
+
+  &__column {
+    display: flex;
+    align-items: center;
+
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 20px;
+    color: #303337;
+
+    & > * {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
