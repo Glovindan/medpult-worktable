@@ -1,0 +1,13 @@
+.interactions-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  &__subtitle {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.25px;
+    color: #565a62;
+  }
+}

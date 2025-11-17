@@ -1,0 +1,38 @@
+.interactions-details {
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.0784313725);
+  &__content {
+    background-color: #f5f5f5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    border-bottom: 1px solid #d2d3d6;
+  }
+
+  &_panel {
+    font-family: Inter;
+    & > .medpult-panel {
+      border-bottom: 1px solid #d2d3d6;
+    }
+
+    &__content {
+      //padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      & > span {
+        color: #2d2e2f;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18.2px;
+        white-space: pre-wrap;
+      }
+    }
+  }
+
+  &_span {
+    padding: 20px;
+    word-break: break-word;
+  }
+}

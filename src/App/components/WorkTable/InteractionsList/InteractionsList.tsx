@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useList, useSort } from "../../../shared/hooks";
 import { SearchParams, SortData } from "../../../shared/types";
-import { IInteractionItem, ISearchInteractionsParams } from "./InteractionsListTypes";
+import {
+  IInteractionItem,
+  ISearchInteractionsParams,
+} from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
-import ListHeaderColumn, { SortingState } from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
+import ListHeaderColumn, {
+  SortingState,
+} from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
 import Loader from "../../../../UIKit/Loader/Loader";
 import StatusColumn from "./InteractionsListRow/StatusColumn/StatusColumn";
 import ChannelColumn from "./InteractionsListRow/ChannelColumn/ChannelColumn";
@@ -18,63 +23,91 @@ import InteractionsListRow from "./InteractionsListRow/InteractionsListRow";
 
 type InteractionsListProps = {
   /** Поисковые данные взаимодействий */
-  searchParams: ISearchInteractionsParams
+  searchParams: ISearchInteractionsParams;
   /** Установить обработчик подгрузки данных */
-  setLoadData: React.Dispatch<React.SetStateAction<(page: number, size: number) => Promise<void>>>
+  setLoadData: React.Dispatch<
+    React.SetStateAction<(page: number, size: number) => Promise<void>>
+  >;
   /** Установить обработчик очистки списка */
-  setClearList: React.Dispatch<React.SetStateAction<() => void>>
+  setClearList: React.Dispatch<React.SetStateAction<() => void>>;
   /** Данные сортировки */
-  sortData: SortData | undefined
+  sortData: SortData | undefined;
   /** Переключить данные сортировки */
-  toggleSort: (fieldCode: string) => void
+  toggleSort: (fieldCode: string) => void;
   /** Установить количество отображаемых элементов */
-  setDisplayableElementsCount: React.Dispatch<React.SetStateAction<number | undefined>>
-}
+  setDisplayableElementsCount: React.Dispatch<
+    React.SetStateAction<number | undefined>
+  >;
+};
 
 /** Список взаимодействий */
-export default function InteractionsList({searchParams, setLoadData, setClearList, sortData, toggleSort, setDisplayableElementsCount}: InteractionsListProps) {
+export default function InteractionsList({
+  searchParams,
+  setLoadData,
+  setClearList,
+  sortData,
+  toggleSort,
+  setDisplayableElementsCount,
+}: InteractionsListProps) {
+  const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
+    undefined
+  );
 
   const getSortingState = (fieldCode: string) => {
-    if(sortData?.code != fieldCode) return SortingState.unsorted;
-    if(sortData.isAscending) return SortingState.ascending;
+    if (sortData?.code != fieldCode) return SortingState.unsorted;
+    if (sortData.isAscending) return SortingState.ascending;
 
-    return SortingState.descending
-  }
+    return SortingState.descending;
+  };
 
   const getListColumnProps = (fieldCode: string) => {
-    const handleSortClick = () => toggleSort(fieldCode)
-    const sortingState = getSortingState(fieldCode) 
+    const handleSortClick = () => toggleSort(fieldCode);
+    const sortingState = getSortingState(fieldCode);
 
-    return {handleSortClick, sortingState}
-  }
+    return { handleSortClick, sortingState };
+  };
 
-  const getInteractionsHandler = async (searchParams: SearchParams<ISearchInteractionsParams>): Promise<IInteractionItem[]> => {
-    const interactions = await Scripts.getInteractions(searchParams)
+  const getInteractionsHandler = async (
+    searchParams: SearchParams<ISearchInteractionsParams>
+  ): Promise<IInteractionItem[]> => {
+    const interactions = await Scripts.getInteractions(searchParams);
     console.log(interactions);
-    return interactions
-  }
+    return interactions;
+  };
 
-  const {items, clearList, loadData, isLoading} = useList(sortData, searchParams, getInteractionsHandler);
+  const { items, clearList, setItems, loadData, isLoading } = useList(
+    sortData,
+    searchParams,
+    getInteractionsHandler
+  );
 
   useEffect(() => {
-    setLoadData(() => loadData)
-    setClearList(() => clearList)
-  }, [])
+    setLoadData(() => loadData);
+    setClearList(() => clearList);
+  }, []);
 
   useEffect(() => {
-    setDisplayableElementsCount(items.length)
-  }, [items])
-
+    setDisplayableElementsCount(items.length);
+  }, [items]);
 
   return (
     <div className="interactions-list">
       <div className="interactions-list__header">
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("entryPoint")}>Точка входа</ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("slaStatus")}>SLA</ListHeaderColumn>
-        <ListHeaderColumn tooltip="Телефон / Email">Телефон /<br/>Email</ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("createdAt")}>Дата и время</ListHeaderColumn>
+        <ListHeaderColumn {...getListColumnProps("entryPoint")}>
+          Точка входа
+        </ListHeaderColumn>
+        <ListHeaderColumn {...getListColumnProps("slaStatus")}>
+          SLA
+        </ListHeaderColumn>
+        <ListHeaderColumn tooltip="Телефон / Email">
+          Телефон /<br />
+          Email
+        </ListHeaderColumn>
+        <ListHeaderColumn {...getListColumnProps("createdAt")}>
+          Дата и время
+        </ListHeaderColumn>
         <ListHeaderColumn>Контрагент</ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn>Тема обращения</ListHeaderColumn>
@@ -84,9 +117,17 @@ export default function InteractionsList({searchParams, setLoadData, setClearLis
         <ListHeaderColumn></ListHeaderColumn>
       </div>
       <div className="interactions-list__list">
-        {
-          items.map(item => <InteractionsListRow key={item.id} item={item} />)
-        }
+        {items.map((item) => (
+          <InteractionsListRow
+            key={item.id}
+            item={item}
+            openRowIndex={openRowIndex}
+            setOpenRowIndex={setOpenRowIndex}
+            items={items}
+            setItems={setItems}
+            reloadData={() => loadData(0, items.length)}
+          />
+        ))}
         {isLoading && <Loader />}
       </div>
     </div>

@@ -1,0 +1,38 @@
+.button-custom {
+  align-items: center;
+  border: 1px solid #1570ef;
+  height: 40px;
+  padding: 8px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #1570ef;
+
+  font-family: Inter;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  letter-spacing: 0;
+  background-color: white;
+
+  &_outline {
+    background: #1570ef;
+    color: #fdfdfd;
+  }
+
+  &.active {
+    // background: #e9e9eb;
+    // color: #424345;
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed !important;
+  }
+
+  &__svg {
+    display: flex;
+    align-items: center;
+    line-height: 0;
+  }
+}
