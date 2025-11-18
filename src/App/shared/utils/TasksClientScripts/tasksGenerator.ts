@@ -1,5 +1,5 @@
-import { ITaskItem, TaskData, TaskTypeData, TaskStatus, ExecutorData, SlaStatus, PolicyCategory } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
-import { generateFixedLengthString, randomSlaStatus } from "../interactionsGenerator";
+import { ITaskItem, TaskStatus, PolicyCategory } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
+import { generateFixedLengthString, randomSlaStatus } from "../InteractionsListScripts/interactionsGenerator";
 
 // Генерация случайного значения для категории полиса
 const randomPolicyCategory = () => {

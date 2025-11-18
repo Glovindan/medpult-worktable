@@ -137,62 +137,6 @@ export function getStatusTaskIcon(status: any) {
   }
 }
 
-/** Открыть контрагента */
-export function openContractor(contractorId?: string) {
-  if (!contractorId) return;
-
-  window.localStorage.setItem(
-    "medpultPathBefore",
-    window.location.pathname + window.location.search
-  );
-  localStorage.setItem("medpultContractorId", contractorId);
-
-  const link = Scripts.getContractorPageCode();
-  const redirectUrl = new URL(window.location.origin + "/" + link);
-
-  //redirectSPAWithURL(redirectUrl);
-  window.open(redirectUrl.toString(), "_blank");
-}
-
-/** Открыть контрагента */
-export function openContractorInEditMode(contractorId?: string) {
-  if (!contractorId) return;
-
-  window.localStorage.setItem(
-    "medpultPathBefore",
-    window.location.pathname + window.location.search
-  );
-  localStorage.setItem("medpultContractorId", contractorId);
-
-  const link = Scripts.getContractorPageCode();
-  const redirectUrl = new URL(window.location.origin + "/" + link);
-  redirectUrl.searchParams.set("is_edit", "true");
-
-  window.open(redirectUrl.toString());
-  //redirectSPAWithURL(redirectUrl);
-}
-
-//Отркыть форму создания обращения
-export async function openNewRequest(
-  phone: string,
-  contractorId?: string,
-  insuredId?: string
-) {
-  if (!contractorId) return;
-
-  window.localStorage.removeItem("medpult-draft");
-  const requestId = await Scripts.createRequestForContractor(
-    phone,
-    contractorId,
-    insuredId
-  );
-
-  const link = Scripts.getRequestPagePath();
-  const redirectUrl = new URL(window.location.origin + "/" + link);
-  if (requestId) redirectUrl.searchParams.set("request_id", requestId);
-  redirectSPA(redirectUrl.toString());
-}
-
 /** Скачать файл по URL */
 export async function onClickDownloadFileByUrl(
   url?: string,

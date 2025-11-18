@@ -1,44 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useList, useSort } from "../../../shared/hooks";
+import { useList } from "../../../shared/hooks";
 import { SearchParams, SortData } from "../../../shared/types";
 import {
   IInteractionItem,
   ISearchInteractionsParams,
 } from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
-import ListHeaderColumn, {
-  SortingState,
-} from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
+import ListHeaderColumn from "../ListComponents/ListHeaderColumn/ListHeaderColumn";
 import Loader from "../../../../UIKit/Loader/Loader";
-import StatusColumn from "./InteractionsListRow/StatusColumn/StatusColumn";
-import ChannelColumn from "./InteractionsListRow/ChannelColumn/ChannelColumn";
-import DoubleStrokeColumn from "./InteractionsListRow/EntryPointColumn/EntryPointColumn";
-import moment from "moment";
-import ListColumn from "../ListComponents/ListColumn/ListColumn";
-import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
-import LinkColumn from "../ListComponents/LinkColumn/LinkColumn";
-import { MiddleEllipsisString } from "./InteractionsListRow/MiddleEllipsisString/MiddleEllipsisString";
-import icons from "./icons";
 import InteractionsListRow from "./InteractionsListRow/InteractionsListRow";
 import { useSortHandlers } from "../ListComponents/ListComponentsHooks";
+import { IInteractionsTabProps } from "../InteractionsTab/InteractionsTab";
 
-type InteractionsListProps = {
+interface IInteractionsListProps extends IInteractionsTabProps {
   /** Поисковые данные взаимодействий */
   searchParams: ISearchInteractionsParams;
-  /** Установить обработчик подгрузки данных */
-  setLoadData: React.Dispatch<
-    React.SetStateAction<(page: number, size: number) => Promise<void>>
-  >;
-  /** Установить обработчик очистки списка */
-  setClearList: React.Dispatch<React.SetStateAction<() => void>>;
-  /** Данные сортировки */
-  sortData: SortData | undefined;
-  /** Переключить данные сортировки */
-  toggleSort: (fieldCode: string) => void;
-  /** Установить количество отображаемых элементов */
-  setDisplayableElementsCount: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
 };
 
 /** Список взаимодействий */
@@ -49,18 +25,17 @@ export default function InteractionsList({
   sortData,
   toggleSort,
   setDisplayableElementsCount,
-}: InteractionsListProps) {
+  getInteractions,
+  getInteractionsCount
+}: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
   );
   
   const {getListColumnProps} = useSortHandlers(sortData, toggleSort)
 
-  const getInteractionsHandler = async (
-    searchParams: SearchParams<ISearchInteractionsParams>
-  ): Promise<IInteractionItem[]> => {
-    const interactions = await Scripts.getInteractions(searchParams);
-    console.log(interactions);
+  const getInteractionsHandler = async (searchParams: SearchParams<ISearchInteractionsParams>): Promise<IInteractionItem[]> => {
+    const interactions = await getInteractions(searchParams);
     return interactions;
   };
 

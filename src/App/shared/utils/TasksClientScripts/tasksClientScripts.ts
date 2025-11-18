@@ -11,8 +11,8 @@ function randomDelay() {
   });
 }
 
-/** Поиск взаимодействий */
-async function getMyTasks(
+/** Поиск задач */
+async function getTasks(
   searchParams: SearchParams<ISearchTasksParams>
 ): Promise<ITaskItem[]> {
   await randomDelay();
@@ -20,6 +20,30 @@ async function getMyTasks(
   return generateTasksArray(searchParams.size);
 }
 
+/** Получение количества взаимодействий */
+async function getTasksCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
+  return Math.floor(Math.random() * 1000);
+}
+
+/** Поиск моих задач */
+async function getTasksMy(searchParams: SearchParams<ISearchTasksParams>): Promise<ITaskItem[]> {
+  return getTasks(searchParams);
+}
+
+/** Получение количества моих задач */
+async function getTasksMyCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
+  return getTasksCount(searchParams);
+}
+
+/** Поиск задач группы */
+async function getTasksGroup(searchParams: SearchParams<ISearchTasksParams>): Promise<ITaskItem[]> {
+  return getTasks(searchParams);
+}
+
+/** Получение количества задач группы */
+async function getTasksGroupCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
+  return getTasksCount(searchParams);
+}
 
 /** Получение названия статуса задачи */
 function getTaskStatusName(status: TaskStatus) {
@@ -34,6 +58,9 @@ function getTaskStatusName(status: TaskStatus) {
 }
 
 export default {
-  getMyTasks,
+  getTasksMy,
+  getTasksGroup,
+  getTasksMyCount,
+  getTasksGroupCount,
   getTaskStatusName,
 };

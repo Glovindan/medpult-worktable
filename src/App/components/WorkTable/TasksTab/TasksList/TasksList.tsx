@@ -9,24 +9,11 @@ import Loader from "../../../../../UIKit/Loader/Loader";
 import Scripts from "../../../../shared/utils/clientScripts";
 import { useList } from "../../../../shared/hooks";
 import TasksListRow from "./TasksListRow/TasksListRow";
+import { ITasksTabProps } from "../TasksTab";
 
-type TasksListProps = {
+export interface ITasksListProps extends ITasksTabProps {
   /** Поисковые данные задач */
   searchParams: ISearchTasksParams;
-  /** Установить обработчик подгрузки данных */
-  setLoadData: React.Dispatch<
-    React.SetStateAction<(page: number, size: number) => Promise<void>>
-  >;
-  /** Установить обработчик очистки списка */
-  setClearList: React.Dispatch<React.SetStateAction<() => void>>;
-  /** Данные сортировки */
-  sortData: SortData | undefined;
-  /** Переключить данные сортировки */
-  toggleSort: (fieldCode: string) => void;
-  /** Установить количество отображаемых элементов */
-  setDisplayableElementsCount: React.Dispatch<
-    React.SetStateAction<number | undefined>
-  >;
 };
 
 /** Список взаимодействий */
@@ -37,13 +24,15 @@ export default function TasksList({
   sortData,
   toggleSort,
   setDisplayableElementsCount,
-}: TasksListProps) {
+  getTasksCount,
+  getTasks,
+}: ITasksListProps) {
   const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
 
   const getTasksHandler = async (
     searchParams: SearchParams<ISearchTasksParams>
   ): Promise<ITaskItem[]> => {
-    const tasks = await Scripts.getMyTasks(searchParams);
+    const tasks = await getTasks(searchParams);
     console.log(tasks);
     return tasks;
   };
@@ -102,8 +91,6 @@ export default function TasksList({
             <TasksListRow
               key={item.id}
               item={item}
-              items={items}
-              setItems={setItems}
             />
         )}
         {isLoading && <Loader />}

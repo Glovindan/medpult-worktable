@@ -6,14 +6,9 @@ import PageSelector from "./PageSelector/PageSelector.tsx";
 import { TabsItemsCounts } from "../../shared/types.ts";
 import Scripts from "../../shared/utils/clientScripts.ts";
 import TabWithCounter from "./TabWithCounter/TabWithCounter.tsx";
-import {
-  InteractionStatus,
-  ISearchInteractionsParams,
-} from "./InteractionsList/InteractionsListTypes.ts";
-import InteractionsList from "./InteractionsList/InteractionsList.tsx";
 import { useSort } from "../../shared/hooks.ts";
 import TasksTab from "./TasksTab/TasksTab.tsx";
-import FilteredInteractions from "./FilteredInteractions/FilteredInteractions.tsx";
+import InteractionsTab from "./InteractionsTab/InteractionsTab.tsx";
 
 function useTabsItemsCount() {
   // Индикатор загрузки количества элементов на вкладках
@@ -48,20 +43,10 @@ export default function WorkTable() {
   }, []);
 
   const [elementsCount, setElementsCount] = useState<number>(189);
-  const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(
-    () => () => {}
-  );
-  const [addItemsHandler, setAddItemsHandler] = useState<
-    (page: number, size: number) => Promise<void>
-  >(() => async (page: number, size: number) => {});
-  const [displayableElementsCount, setDisplayableElementsCount] =
-    useState<number>();
+  const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(() => () => {});
+  const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {});
+  const [displayableElementsCount, setDisplayableElementsCount] = useState<number>();
   const { sortData, toggleSort } = useSort();
-
-  //const searchParams: ISearchInteractionsParams = {};
-  const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
-    {}
-  );
 
   return (
     <div className="worktable">
@@ -77,14 +62,15 @@ export default function WorkTable() {
               />
             }
           >
-            <FilteredInteractions setSearchParams={setSearchParams} />
-            <InteractionsList
-              searchParams={searchParams}
+            <InteractionsTab
+              key="groupInteractions"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
               sortData={sortData}
               toggleSort={toggleSort}
               setDisplayableElementsCount={setDisplayableElementsCount}
+              getInteractions={Scripts.getInteractionsGroup}
+              getInteractionsCount={Scripts.getInteractionsGroupCount}
             />
           </TabItem>
           <TabItem
@@ -97,7 +83,16 @@ export default function WorkTable() {
               />
             }
           >
-            Мои взаимодействия
+            <InteractionsTab
+              key="myInteractions"
+              setLoadData={setAddItemsHandler}
+              setClearList={setClearItemsHandler}
+              sortData={sortData}
+              toggleSort={toggleSort}
+              setDisplayableElementsCount={setDisplayableElementsCount}
+              getInteractions={Scripts.getInteractionsMy}
+              getInteractionsCount={Scripts.getInteractionsMyCount}
+            />
           </TabItem>
           <TabItem
             code="groupTasks"
@@ -110,11 +105,14 @@ export default function WorkTable() {
             }
           >
             <TasksTab
+              key="groupTasks"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
               sortData={sortData}
               toggleSort={toggleSort}
               setDisplayableElementsCount={setDisplayableElementsCount}
+              getTasks={Scripts.getTasksGroup}
+              getTasksCount={Scripts.getTasksGroupCount}
             />
           </TabItem>
           <TabItem
@@ -127,7 +125,16 @@ export default function WorkTable() {
               />
             }
           >
-            Мои задачи
+            <TasksTab
+              key="myTasks"
+              setLoadData={setAddItemsHandler}
+              setClearList={setClearItemsHandler}
+              sortData={sortData}
+              toggleSort={toggleSort}
+              setDisplayableElementsCount={setDisplayableElementsCount}
+              getTasks={Scripts.getTasksMy}
+              getTasksCount={Scripts.getTasksMyCount}
+            />
           </TabItem>
         </TabsWrapper>
       </div>

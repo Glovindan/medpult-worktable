@@ -4,22 +4,17 @@ import ListColumn from "../../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../../ListComponents/LinkColumn/LinkColumn";
 import Scripts from "../../../../../shared/utils/clientScripts";
 import { ITaskItem } from "../TasksListTypes";
-import { MiddleEllipsisString } from "../../../InteractionsList/InteractionsListRow/MiddleEllipsisString/MiddleEllipsisString";
+import { MiddleEllipsisString } from "../../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
 import DoubleStrokeColumn from "../../../InteractionsList/InteractionsListRow/EntryPointColumn/EntryPointColumn";
 
 type TasksListRowProps = {
   /** Данные строки задачи */
   item: ITaskItem;
-  items: ITaskItem[];
-  setItems: React.Dispatch<React.SetStateAction<ITaskItem[]>>;
 };
 
 /** Строка взаимодействия */
 export default function TasksListRow({
   item,
-  reloadData,
-  items,
-  setItems,
 }: TasksListRowProps) {
   /** Получить ссылку на страницу конкретного обращения */
   function getRequestHref(requestId: string) {

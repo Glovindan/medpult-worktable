@@ -1,6 +1,6 @@
-import { ChannelType, IInteractionItem, InteractionStatus } from '../../components/WorkTable/InteractionsList/InteractionsListTypes';
-import { ObjectItem } from '../../../UIKit/Filters/FiltersTypes';
-import { SlaStatus } from '../../components/WorkTable/WorkTableTypes';
+import { ChannelType, IInteractionItem, InteractionStatus } from '../../../components/WorkTable/InteractionsList/InteractionsListTypes';
+import { ObjectItem } from '../../../../UIKit/Filters/FiltersTypes';
+import { SlaStatus } from '../../../components/WorkTable/WorkTableTypes';
 
 // Специальные методы для каждого перечисления
 const randomInteractionStatus = () => {
@@ -120,6 +120,7 @@ function generateRandomString(length: number): string {
  * @returns Случайный email-адрес.
  */
 function generateRandomEmail(domain?: string): string {
+  if(1) return "test@gmail.com"
   const usernameLength = Math.floor(Math.random() * 10) + 5; // Длина имени пользователя от 5 до 14 символов
   const username = generateRandomString(usernameLength);
 

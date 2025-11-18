@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import StatusColumn from "./StatusColumn/StatusColumn";
 import ChannelColumn from "./ChannelColumn/ChannelColumn";
 import DoubleStrokeColumn from "./EntryPointColumn/EntryPointColumn";
 import moment from "moment";
 import ListColumn from "../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../ListComponents/LinkColumn/LinkColumn";
-import { MiddleEllipsisString } from "./MiddleEllipsisString/MiddleEllipsisString";
+import { MiddleEllipsisString } from "../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
 import icons from "../icons";
 import { IInteractionItem } from "../InteractionsListTypes";
-import Scripts from "../../../../shared/utils/clientScripts";
-import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
 import { getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
 
