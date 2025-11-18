@@ -53,6 +53,7 @@ function getTaskStatusName(status: TaskStatus) {
     case TaskStatus.postpone:  return "Отложена"
     case TaskStatus.complete:  return "Выполнена"
     case TaskStatus.control:  return "На контроле"
+    case TaskStatus.returned:  return "Возвращена"
     default: return "Анулировано"
   }
 }

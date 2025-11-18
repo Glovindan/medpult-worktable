@@ -65,7 +65,7 @@ const generateRandomObjectItem = () => {
 
 // Генерация случайной строки заданной длины с дополнением ведущими нулями
 export function generateFixedLengthString(length: number): string {
-    const randomNumber = Math.floor(Math.random() * 10); // Случайное число от 0 до 9
+    const randomNumber = Math.floor(Math.random() * 1000); // Случайное число от 0 до 9
     const leadingZerosCount = length - 1; // Ведущие нули занимают всю строку кроме последнего символа
     const result = '0'.repeat(leadingZerosCount) + randomNumber.toString();
 
@@ -120,7 +120,6 @@ function generateRandomString(length: number): string {
  * @returns Случайный email-адрес.
  */
 function generateRandomEmail(domain?: string): string {
-  if(1) return "test@gmail.com"
   const usernameLength = Math.floor(Math.random() * 10) + 5; // Длина имени пользователя от 5 до 14 символов
   const username = generateRandomString(usernameLength);
 

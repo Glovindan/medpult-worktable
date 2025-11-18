@@ -85,7 +85,9 @@ export enum TaskStatus {
     /** На контроле */
     control,
     /** Анулировано */
-    canceled
+    canceled,
+    /** Возвращена */
+    returned,
 }
 
 /** Элемент списка задач */
