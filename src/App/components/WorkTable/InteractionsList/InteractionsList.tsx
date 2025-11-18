@@ -79,6 +79,22 @@ export default function InteractionsList({
     setDisplayableElementsCount(items.length);
   }, [items]);
 
+  // обновить данные взаимодейтсвия
+  const reloadItem = async (id: string) => {
+    try {
+      const updated = await Scripts.getInteractionById(id);
+
+      setItems((prev) => prev.map((item) => (item.id === id ? updated : item)));
+    } catch (err) {
+      console.error("Ошибка в функции reloadItem", err);
+    }
+  };
+
+  useEffect(() => {
+    clearList();
+    loadData(1, 20);
+  }, [searchParams]);
+
   return (
     <div className="interactions-list">
       <div className="interactions-list__header">
@@ -114,7 +130,7 @@ export default function InteractionsList({
             setOpenRowIndex={setOpenRowIndex}
             items={items}
             setItems={setItems}
-            reloadData={() => loadData(0, items.length)}
+            reloadData={reloadItem}
           />
         ))}
         {isLoading && <Loader />}

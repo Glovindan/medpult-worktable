@@ -6,7 +6,10 @@ import {
   ISearchInteractionsParams,
 } from "../../components/WorkTable/InteractionsList/InteractionsListTypes";
 import { SearchParams, TabsItemsCounts } from "../types";
-import { generateInteractionsArray } from "./interactionsGenerator";
+import {
+  generateInteractionsArray,
+  generateRandomInteractionItem,
+} from "./interactionsGenerator";
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 
@@ -36,10 +39,18 @@ async function getInteractions(
   searchParams: SearchParams<ISearchInteractionsParams>
 ): Promise<IInteractionItem[]> {
   await randomDelay();
-
   return generateInteractionsArray(searchParams.size);
 }
 
+/**Обновление взаимодейтсвий взаимодействий */
+async function getInteractionById(id: string): Promise<IInteractionItem> {
+  await randomDelay();
+  const item = generateRandomInteractionItem();
+  return {
+    ...item,
+    id,
+  };
+}
 /** Получение детальных данных взаимодействия */
 async function getInteractionsDetails(
   interactionId: string
@@ -112,8 +123,40 @@ async function toggleSendEmailForward(interactionId: string, taskId?: string) {
   }
 }
 
+/** Получение каналов */
+async function getChannels(lines?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+  const channels: ObjectItem[] = [
+    new ObjectItem({ code: "test1", value: "Телефон" }),
+    new ObjectItem({ code: "test2", value: "Email" }),
+  ];
+
+  return channels;
+}
+/** Получение линий */
+async function getLines(channels?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+  const lines: ObjectItem[] = [
+    new ObjectItem({ code: "test1", value: "103@sberins.ru" }),
+    new ObjectItem({ code: "test2", value: "911@sberins.ru" }),
+    new ObjectItem({ code: "test3", value: "dms.kurators@sberins.ru" }),
+  ];
+  return lines;
+}
+
+/** Получение статусов взаимодействий */
+async function getStatuses(): Promise<ObjectItem[]> {
+  await randomDelay();
+  /** Статусы */
+  const statuses: ObjectItem[] = [
+    new ObjectItem({ code: "test1", value: "Новое" }),
+    new ObjectItem({ code: "test2", value: "В очереди" }),
+    new ObjectItem({ code: "test3", value: "В работе" }),
+  ];
+  return statuses;
+}
 /** Получение групп */
-async function getUserGroups(userId?: string): Promise<ObjectItem[]> {
+async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
   const authors: ObjectItem[] = [
@@ -128,7 +171,7 @@ async function getUserGroups(userId?: string): Promise<ObjectItem[]> {
   return authors;
 }
 /** Получение исполнителей */
-async function getUsersInteraction(groupId?: string): Promise<ObjectItem[]> {
+async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
   const authors: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
@@ -199,12 +242,17 @@ function getIcomingEmailLink(): string {
 export default {
   getTabItemsCount,
   getInteractions,
+  getInteractionById,
   getInteractionsDetails,
   getInteractionsDublicateCount,
   setStatusAtWork,
   setStatusProcessed,
   toggleSendEmailAnswer,
   toggleSendEmailForward,
+
+  getChannels,
+  getLines,
+  getStatuses,
   getUserGroups,
   getUsersInteraction,
   saveGroupExecutor,
