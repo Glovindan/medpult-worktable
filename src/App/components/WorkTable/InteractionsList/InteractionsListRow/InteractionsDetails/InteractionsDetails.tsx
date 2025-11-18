@@ -14,7 +14,7 @@ interface InteractionsDetailsProps {
   /** Обработчик нажатия на строку */
   onClickRowHandler: () => any;
   /** Перезагрузить список */
-  reloadData: () => void;
+  reloadData: (id: string) => void;
   /** Список взаимодействий */
   items: IInteractionItem[];
   /** Установить список взаимодействий */

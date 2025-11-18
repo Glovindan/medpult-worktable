@@ -1,0 +1,28 @@
+@import url("CustomInputSelect/customInputSelect.scss");
+@import url("CustomMultiSelect/customMultiSelect.scss");
+
+.filtered-interactions {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  gap: 20px;
+  font-family: "Inter";
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__button {
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+    }
+  }
+
+  &__search {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+  }
+}

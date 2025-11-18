@@ -6,45 +6,61 @@ import PageSelector from "./PageSelector/PageSelector.tsx";
 import { TabsItemsCounts } from "../../shared/types.ts";
 import Scripts from "../../shared/utils/clientScripts.ts";
 import TabWithCounter from "./TabWithCounter/TabWithCounter.tsx";
-import { InteractionStatus, ISearchInteractionsParams } from "./InteractionsList/InteractionsListTypes.ts";
+import {
+  InteractionStatus,
+  ISearchInteractionsParams,
+} from "./InteractionsList/InteractionsListTypes.ts";
 import InteractionsList from "./InteractionsList/InteractionsList.tsx";
 import { useSort } from "../../shared/hooks.ts";
+import FilteredInteractions from "./FilteredInteractions/FilteredInteractions.tsx";
 
 function useTabsItemsCount() {
   // Индикатор загрузки количества элементов на вкладках
-  const [isTabsItemsCountsLoading, setIsTabsItemsCountsLoading] = useState<boolean>(true);
+  const [isTabsItemsCountsLoading, setIsTabsItemsCountsLoading] =
+    useState<boolean>(true);
   // Количество элементов на каждой вкладке
-  const [tabsItemsCounts, setTabsItemsCounts] = useState<TabsItemsCounts>(new TabsItemsCounts());
-  
+  const [tabsItemsCounts, setTabsItemsCounts] = useState<TabsItemsCounts>(
+    new TabsItemsCounts()
+  );
+
   // Обновление количества элементов на вкладках
-  const updateTabsItemsCounts = async() => {
+  const updateTabsItemsCounts = async () => {
     setIsTabsItemsCountsLoading(true);
 
     const count = await Scripts.getTabItemsCount();
     setTabsItemsCounts(count);
 
     setIsTabsItemsCountsLoading(false);
-  }
+  };
 
-  return {isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts}
+  return { isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts };
 }
 
 /** Рабочий стол */
 export default function WorkTable() {
-  const {isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts} = useTabsItemsCount();
+  const { isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts } =
+    useTabsItemsCount();
   // Иницизализация
   useEffect(() => {
     // Получение количества элементов на вкладках
-    updateTabsItemsCounts()
-  }, [])
+    updateTabsItemsCounts();
+  }, []);
 
-  const [elementsCount, setElementsCount] = useState<number>(189)
-  const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(() => () => {})
-  const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {})
-  const [displayableElementsCount, setDisplayableElementsCount] = useState<number>();
-  const {sortData, toggleSort} = useSort()
+  const [elementsCount, setElementsCount] = useState<number>(189);
+  const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(
+    () => () => {}
+  );
+  const [addItemsHandler, setAddItemsHandler] = useState<
+    (page: number, size: number) => Promise<void>
+  >(() => async (page: number, size: number) => {});
+  const [displayableElementsCount, setDisplayableElementsCount] =
+    useState<number>();
+  const { sortData, toggleSort } = useSort();
 
-  const searchParams: ISearchInteractionsParams = {};
+  //const searchParams: ISearchInteractionsParams = {};
+  const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>(
+    {}
+  );
 
   return (
     <div className="worktable">
@@ -60,6 +76,7 @@ export default function WorkTable() {
               />
             }
           >
+            <FilteredInteractions setSearchParams={setSearchParams} />
             <InteractionsList
               searchParams={searchParams}
               setLoadData={setAddItemsHandler}
