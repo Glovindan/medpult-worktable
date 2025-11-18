@@ -11,6 +11,7 @@ import {
   generateRandomInteractionItem,
 } from "./interactionsGenerator";
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
+import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -262,4 +263,6 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
+
+  ...tasksClientScripts
 };

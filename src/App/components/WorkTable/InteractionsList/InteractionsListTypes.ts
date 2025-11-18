@@ -1,4 +1,5 @@
 import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
+import { SlaStatus } from "../WorkTableTypes";
 
 /** Статус взаимодействия */
 export enum InteractionStatus {
@@ -24,16 +25,6 @@ export enum ChannelType {
   sms,
   /** Ручной ввод */
   manual,
-}
-
-/** Статус SLA. TODO: На будущую проработку */
-export enum SlaStatus {
-  /** Нормально */
-  ok,
-  /** Срок подходит к концу */
-  warning,
-  /** Просрочено */
-  overdue,
 }
 
 /** Данные точки входа */

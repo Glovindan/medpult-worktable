@@ -15,10 +15,11 @@ const START_LENGTH = 2;
 const END_LENGTH = 6;
 /** Строка с многоточием по-середине */
 export function MiddleEllipsisString({value, startLength = START_LENGTH, endLength = END_LENGTH}: MiddleEllipsisStringProps) {
-    const startSubstring = value.substring(0, startLength)
-    const middleSubstring = value.substring(startLength, value.length - endLength)
-    const endSubstring = value.substring(value.length - endLength, value.length)
+  const startSubstring = value.substring(0, startLength)
+  const middleSubstring = value.substring(startLength, value.length - endLength)
+  const endSubstring = value.substring(value.length - endLength, value.length)
 
+  console.log(startSubstring, middleSubstring, endSubstring)
   const handleCopy = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault(); // предотвращаем стандартное поведение
     e.clipboardData.setData("text/plain", value); // вставляем исходное значение

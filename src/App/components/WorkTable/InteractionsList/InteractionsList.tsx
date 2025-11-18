@@ -20,6 +20,7 @@ import LinkColumn from "../ListComponents/LinkColumn/LinkColumn";
 import { MiddleEllipsisString } from "./InteractionsListRow/MiddleEllipsisString/MiddleEllipsisString";
 import icons from "./icons";
 import InteractionsListRow from "./InteractionsListRow/InteractionsListRow";
+import { useSortHandlers } from "../ListComponents/ListComponentsHooks";
 
 type InteractionsListProps = {
   /** Поисковые данные взаимодействий */
@@ -52,20 +53,8 @@ export default function InteractionsList({
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
   );
-
-  const getSortingState = (fieldCode: string) => {
-    if (sortData?.code != fieldCode) return SortingState.unsorted;
-    if (sortData.isAscending) return SortingState.ascending;
-
-    return SortingState.descending;
-  };
-
-  const getListColumnProps = (fieldCode: string) => {
-    const handleSortClick = () => toggleSort(fieldCode);
-    const sortingState = getSortingState(fieldCode);
-
-    return { handleSortClick, sortingState };
-  };
+  
+  const {getListColumnProps} = useSortHandlers(sortData, toggleSort)
 
   const getInteractionsHandler = async (
     searchParams: SearchParams<ISearchInteractionsParams>

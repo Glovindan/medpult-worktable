@@ -219,6 +219,31 @@ export async function onClickDownloadFileByUrl(
   URL.revokeObjectURL(link.href);
 }
 
+
+/** Получить ссылку на страницу конкретного обращения */
+export function getRequestHref(requestId: string) {
+  const requestPageLink = Scripts.getRequestPagePath();
+  const origin = window.location.origin;
+  const url = new URL(`${origin}/${requestPageLink}`);
+
+  url.searchParams.set("requestId", requestId);
+
+  const href = url.toString();
+
+  return href;
+}
+
+/** Получить ссылку на страницу конкретной задачи */
+export function getTaskHref(requestId: string, taskId: string) {
+  const url = new URL(getRequestHref(requestId));
+
+  url.searchParams.set("taskId", taskId);
+
+  const href = url.toString();
+
+  return href;
+}
+
 export default {
   redirectSPA,
   setRequest,

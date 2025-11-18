@@ -12,6 +12,7 @@ import {
 } from "./InteractionsList/InteractionsListTypes.ts";
 import InteractionsList from "./InteractionsList/InteractionsList.tsx";
 import { useSort } from "../../shared/hooks.ts";
+import TasksTab from "./TasksTab/TasksTab.tsx";
 import FilteredInteractions from "./FilteredInteractions/FilteredInteractions.tsx";
 
 function useTabsItemsCount() {
@@ -108,7 +109,13 @@ export default function WorkTable() {
               />
             }
           >
-            Задачи группы
+            <TasksTab
+              setLoadData={setAddItemsHandler}
+              setClearList={setClearItemsHandler}
+              sortData={sortData}
+              toggleSort={toggleSort}
+              setDisplayableElementsCount={setDisplayableElementsCount}
+            />
           </TabItem>
           <TabItem
             code="myTasks"
