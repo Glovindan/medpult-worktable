@@ -4,7 +4,7 @@ import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 import Loader from "../../../../../UIKit/Loader/Loader";
 
 interface MultiSelectProps {
-  value: string[];
+  value?: string[];
   setValue: (v: string[]) => void;
   title: string;
   getDataHandler: () => Promise<ObjectItem[]>;
@@ -13,7 +13,7 @@ interface MultiSelectProps {
 }
 
 export default function CustomMultiSelect({
-  value,
+  value = [],
   setValue,
   title,
   getDataHandler,

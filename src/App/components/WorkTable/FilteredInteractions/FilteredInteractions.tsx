@@ -2,26 +2,17 @@ import React, { useEffect, useState, useCallback } from "react";
 import CustomInputSelect from "./CustomInputSelect/CustomInputSelect";
 import CustomMultiSelect from "./CustomMultiSelect/CustomMultiSelect";
 import Button from "../../../../UIKit/Button/Button";
-import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
 import Scripts from "../../../shared/utils/clientScripts.ts";
+import { ISearchInteractionsParams } from "../InteractionsList/InteractionsListTypes.ts";
 
-interface InteractionsFilters {
-  searchQuery: string;
-  searchField: string;
-  channels: string[];
-  lines: string[];
-  groups: string[];
-  users: string[];
-  statuses: string[];
-}
 interface FilteredInteractionsProps {
-  setSearchParams: (filters: InteractionsFilters) => void;
+  setSearchParams: (filters: ISearchInteractionsParams) => void;
 }
 export default function FilteredInteractions({
   setSearchParams,
 }: FilteredInteractionsProps) {
   /** Состояние фильтров */
-  const [filters, setFilters] = useState<InteractionsFilters>({
+  const [filters, setFilters] = useState<ISearchInteractionsParams>({
     searchQuery: "",
     searchField: "phoneOrEmail",
     channels: [],

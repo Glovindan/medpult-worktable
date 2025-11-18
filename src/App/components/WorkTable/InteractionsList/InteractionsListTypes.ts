@@ -133,4 +133,10 @@ export interface IInteractionDetailsItem {
 export interface ISearchInteractionsParams {
   /** Данные поисковой строки */
   searchQuery?: string;
+  searchField?: string;
+  channels?: string[];
+  lines?: string[];
+  groups?: string[];
+  users?: string[];
+  statuses?: string[];
 }
