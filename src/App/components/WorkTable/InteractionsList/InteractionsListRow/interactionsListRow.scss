@@ -2,3 +2,11 @@
 @import url("ChannelColumn/channelColumn.scss");
 @import url("InteractionsDetails/interactionsDetails.scss");
 @import url("InteractionsDetails/InteractionsDetailsOpen/interactionsDetailsOpen.scss");
+
+.expand-button {
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    width: fit-content;
+    padding: 0;
+}
