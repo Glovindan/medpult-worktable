@@ -26,6 +26,11 @@
 
         display: flex;
 
+        & > span {
+            display: flex;
+            align-items: center;
+        }
+
         & > span:first-of-type {
             transform: rotate(180deg);
         }
