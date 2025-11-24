@@ -19,8 +19,8 @@ async function getInteractions(
 }
 
 /** Получение количества взаимодействий */
-async function getInteractionsCount(searchParams: SearchParams<ISearchInteractionsParams>): Promise<number> {
-  return Math.floor(Math.random() * 1000);
+async function getInteractionsCount(searchParams: ISearchInteractionsParams): Promise<number> {
+  return Math.floor(Math.random() * 200);
 }
 
 /** Поиск взаимодействий группы */
@@ -29,7 +29,7 @@ async function getInteractionsGroup(searchParams: SearchParams<ISearchInteractio
 }
 
 /** Получение количества моих взаимодействий */
-async function getInteractionsGroupCount(searchParams: SearchParams<ISearchInteractionsParams>): Promise<number> {
+async function getInteractionsGroupCount(searchParams: ISearchInteractionsParams): Promise<number> {
   return getInteractionsCount(searchParams);
 }
 
@@ -39,7 +39,7 @@ async function getInteractionsMy(searchParams: SearchParams<ISearchInteractionsP
 }
 
 /** Получение количества моих взаимодействий */
-async function getInteractionsMyCount(searchParams: SearchParams<ISearchInteractionsParams>): Promise<number> {
+async function getInteractionsMyCount(searchParams: ISearchInteractionsParams): Promise<number> {
   return getInteractionsCount(searchParams);
 }
 

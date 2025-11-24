@@ -83,10 +83,10 @@ type PageSelectorProps = {
   clearItemsHandler: () => void;
   /** Обработчик добавления элементов в список */
   addItemsHandler: (page: number, size: number) => Promise<void>;
-  /** Данные сортировки */
-  sortData: SortData | undefined
-  /** Количество отобаражемых элементов */
-  displayableElementsCount: number | undefined
+  /** Количество отфильтрованных элементов */
+  filteredElementsCount: number | undefined
+  /** Триггер для сброса списка */
+  resetTrigger: Date
 };
 
 /** Выбор страницы */
@@ -94,8 +94,8 @@ export default function PageSelector({
   elementsCount,
   clearItemsHandler,
   addItemsHandler,
-  sortData,
-  displayableElementsCount,
+  filteredElementsCount,
+  resetTrigger,
 }: PageSelectorProps) {
   // Индекс текущей страницы
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -122,7 +122,7 @@ export default function PageSelector({
     handleClearItems()
     handleAddItems(0, PART_SIZE)
     setCurrentPageIndex(0);
-  }, [elementsCount, clearItemsHandler, addItemsHandler, sortData?.isAscending]);
+  }, [resetTrigger]);
 
   const [isShowMoreLoading, setIsShowMoreLoading] = useState<boolean>(false);
 
@@ -185,7 +185,7 @@ export default function PageSelector({
           {isShowMoreLoading ? <Loader /> : "Показать больше"}
         </button>
         <div className="page-selector__button-wrapper_counter">
-          {displayableElementsCount} из {elementsCount}
+          {filteredElementsCount} из {elementsCount}
         </div>
       </div>
       <div className="page-selector__selector">

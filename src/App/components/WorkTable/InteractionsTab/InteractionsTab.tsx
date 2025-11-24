@@ -13,21 +13,41 @@ export interface IInteractionsTabProps {
   sortData: SortData | undefined;
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
-  /** Установить количество отображаемых элементов */
-  setDisplayableElementsCount: React.Dispatch<React.SetStateAction<number | undefined>>;
+  /** Установить количество отфильтрованных элементов */
+  setFilteredElementsCount: React.Dispatch<React.SetStateAction<number>>;
   /** Получить количество взаимодействий */
-  getInteractionsCount: (searchParams: SearchParams<ISearchInteractionsParams>) => Promise<number>
+  getInteractionsCount: (searchParams: ISearchInteractionsParams) => Promise<number>
   /** Обработчик получения взаимодействий */
   getInteractions: (searchParams: SearchParams<ISearchInteractionsParams>) => Promise<IInteractionItem[]>
+  /** Скрытвать поле выбора сотрудника в фильтрах */
+  hideEmployeeFilter?: boolean
+  /** Обработчик сброса списка и его контролера */
+  handleResetList: () => void
 };
 
 /** Вкладка взаимодействий */
 export default function InteractionsTab(props: IInteractionsTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>({})
-  
+
+  const {handleResetList, hideEmployeeFilter, getInteractionsCount, setFilteredElementsCount} = props;
+
+  useEffect(() => {
+    handleResetList()
+  }, [searchParams, props.sortData])
+
+  // Обновление количества отфильтрованных Взаимодействий
+  const updateFilteredElementsCount = async() => {
+    const count = await getInteractionsCount(searchParams);
+    setFilteredElementsCount(count);
+  }
+
+  useEffect(() => {
+    updateFilteredElementsCount()
+  }, [searchParams])
+
   return (
     <>
-      <FilteredInteractions setSearchParams={setSearchParams} />
+      <FilteredInteractions hideEmployeeFilter={hideEmployeeFilter} setSearchParams={setSearchParams} />
       <InteractionsList {...props} searchParams={searchParams} />
     </>
   );

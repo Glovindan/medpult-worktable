@@ -4,12 +4,15 @@ import CustomMultiSelect from "./CustomMultiSelect/CustomMultiSelect";
 import Button from "../../../../UIKit/Button/Button";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 import { ISearchInteractionsParams } from "../InteractionsList/InteractionsListTypes.ts";
+import { useEnterClickHandler } from "../../../shared/hooks.ts";
 
 interface FilteredInteractionsProps {
   setSearchParams: (filters: ISearchInteractionsParams) => void;
+  hideEmployeeFilter?: boolean
 }
 export default function FilteredInteractions({
   setSearchParams,
+  hideEmployeeFilter,
 }: FilteredInteractionsProps) {
   /** Состояние фильтров */
   const [filters, setFilters] = useState<ISearchInteractionsParams>({
@@ -21,6 +24,7 @@ export default function FilteredInteractions({
     users: [],
     statuses: [],
   });
+
   /** Варианты поиска */
   const searchOptions = [
     { code: "phoneOrEmail", name: "Телефон / Email" },
@@ -51,19 +55,8 @@ export default function FilteredInteractions({
   const applyFilters = () => {
     setSearchParams(filters);
   };
-
-  /**  Обработчик нажатия на enter*/
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
-        applyFilters();
-      }
-    };
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [filters]);
+  
+  useEnterClickHandler(filters, applyFilters)
 
   //Получение каналов
   const getChannels = useCallback(
@@ -135,14 +128,17 @@ export default function FilteredInteractions({
           placeholder="Введите название группы"
           getDataHandler={getGroups}
         />
-        <CustomMultiSelect
-          value={filters.users}
-          setValue={(val) => setFilters((prev) => ({ ...prev, users: val }))}
-          title="Сотрудник"
-          isSearch={true}
-          placeholder="Введите ФИО сотрудника"
-          getDataHandler={getUsers}
-        />
+        {
+          !hideEmployeeFilter &&
+          <CustomMultiSelect
+            value={filters.users}
+            setValue={(val) => setFilters((prev) => ({ ...prev, users: val }))}
+            title="Сотрудник"
+            isSearch={true}
+            placeholder="Введите ФИО сотрудника"
+            getDataHandler={getUsers}
+          />
+        }
         <CustomMultiSelect
           value={filters.statuses}
           setValue={(val) => setFilters((prev) => ({ ...prev, statuses: val }))}

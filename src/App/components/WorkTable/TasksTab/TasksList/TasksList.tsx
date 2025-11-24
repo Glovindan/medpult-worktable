@@ -23,7 +23,6 @@ export default function TasksList({
   setClearList,
   sortData,
   toggleSort,
-  setDisplayableElementsCount,
   getTasksCount,
   getTasks,
 }: ITasksListProps) {
@@ -47,10 +46,6 @@ export default function TasksList({
     setLoadData(() => loadData);
     setClearList(() => clearList);
   }, []);
-
-  useEffect(() => {
-    setDisplayableElementsCount(items.length);
-  }, [items]);
 
   return (
     <div className="tasks-list">

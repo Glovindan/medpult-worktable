@@ -1,6 +1,14 @@
 import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 import { SlaStatus } from "../../WorkTableTypes";
 
+/** Данные поисковой строки с выпдающим списком поля фильтрации */
+export type SearchQueryData = {
+    /** Поисковый запрос */
+    query: string,
+    /** Код поля */
+    fieldCode: string,
+}
+
 /** Параметры поиска Задач */
 export type ISearchTasksParams = {
     /** Номер */
@@ -12,17 +20,17 @@ export type ISearchTasksParams = {
     /** Регион */
     region?: string;
     /** Срочность */
-    urgencyId?: string;
+    urgencyIds?: string[];
     /** Тип задачи */
-    taskTypeId?: string;
+    taskTypeIds?: string[];
     /** Вид задачи */
-    taskSortId?: string;
+    taskSortIds?: string[];
     /** Группа */
-    groupId?: string;
+    groupIds?: string[];
     /** Сотрудник */
-    employeeId?: string;
+    employeeIds?: string[];
     /** Статус задачи */
-    taskStatusCode?: string;
+    taskStatusCodes?: string[];
     /** Дата с */
     dateFrom?: Date;
     /** Дата по */

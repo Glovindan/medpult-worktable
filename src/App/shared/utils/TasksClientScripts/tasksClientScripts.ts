@@ -21,8 +21,8 @@ async function getTasks(
 }
 
 /** Получение количества взаимодействий */
-async function getTasksCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
-  return Math.floor(Math.random() * 1000);
+async function getTasksCount(searchParams: ISearchTasksParams): Promise<number> {
+  return Math.floor(Math.random() * 200);
 }
 
 /** Поиск моих задач */
@@ -31,7 +31,7 @@ async function getTasksMy(searchParams: SearchParams<ISearchTasksParams>): Promi
 }
 
 /** Получение количества моих задач */
-async function getTasksMyCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
+async function getTasksMyCount(searchParams:ISearchTasksParams): Promise<number> {
   return getTasksCount(searchParams);
 }
 
@@ -41,7 +41,7 @@ async function getTasksGroup(searchParams: SearchParams<ISearchTasksParams>): Pr
 }
 
 /** Получение количества задач группы */
-async function getTasksGroupCount(searchParams: SearchParams<ISearchTasksParams>): Promise<number> {
+async function getTasksGroupCount(searchParams: ISearchTasksParams): Promise<number> {
   return getTasksCount(searchParams);
 }
 

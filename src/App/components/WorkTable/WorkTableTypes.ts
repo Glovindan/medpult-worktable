@@ -7,3 +7,15 @@ export enum SlaStatus {
   /** Просрочено */
   overdue,
 }
+
+/** Коды вкладок */
+export enum TabCode {
+  /** Взаимодействия группы */
+  groupInteractions = "groupInteractions",
+  /** Мои взаимодействия */
+  myInteractions = "myInteractions",
+  /** Задачи группы */
+  groupTasks = "groupTasks",
+  /** Мои задачи */
+  myTasks = "myTasks",
+}

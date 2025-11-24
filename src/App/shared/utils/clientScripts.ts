@@ -212,6 +212,17 @@ function getIcomingEmailLink(): string {
   return "";
 }
 
+/** Получение значений справочника Срочность */
+async function getUrgencyList(): Promise<ObjectItem[]> {
+  await randomDelay();
+  const channels: ObjectItem[] = [
+    new ObjectItem({ code: "test1", value: "Срочно" }),
+    new ObjectItem({ code: "test2", value: "Несрочно" }),
+  ];
+
+  return channels;
+}
+
 export default {
   getTabItemsCount,
 
@@ -234,6 +245,8 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
+
+  getUrgencyList,
 
   ...interactionsListScripts,
   ...tasksClientScripts,

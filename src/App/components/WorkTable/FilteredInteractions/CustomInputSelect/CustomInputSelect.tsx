@@ -3,7 +3,7 @@ import icons from "../../../../shared/icons";
 
 interface CustomInputSelectProps {
   value?: string;
-  setValue?: (val: string) => void;
+  setValue?: (val?: string) => void;
   searchFields?: string[];
   selectedField?: string;
   setSelectedField?: (field: string) => void;
@@ -37,7 +37,7 @@ function CustomInputSelect({
 
   const handleOptionClick = (field: string) => {
     setSelectedField?.(field);
-    setValue?.("");
+    setValue?.();
     setDropdownOpen(false);
   };
 
