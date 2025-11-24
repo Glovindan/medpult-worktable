@@ -15,40 +15,72 @@ export default function FilteredInteractions({
   hideEmployeeFilter,
 }: FilteredInteractionsProps) {
   /** Состояние фильтров */
-  const [filters, setFilters] = useState<ISearchInteractionsParams>({
-    searchQuery: "",
-    searchField: "phoneOrEmail",
-    channels: [],
-    lines: [],
-    groups: [],
-    users: [],
-    statuses: [],
-  });
+  const [filters, setFilters] = useState<ISearchInteractionsParams>({});
+  const setFilter = (updateData: ISearchInteractionsParams) => {
+    setFilters((prev) => ({ ...prev, ...updateData }))
+  };
+
+  enum SearchFieldCode {
+    /** Телефон / Email */
+    phoneOrEmail = "phoneOrEmail",
+    /** Тема обращения */
+    topic = "topic",
+    /** Контрагент */
+    contractorName = "contractorName",
+    /** Обращение */
+    request = "request",
+    /** Задача */
+    task = "task",
+  }
 
   /** Варианты поиска */
   const searchOptions = [
-    { code: "phoneOrEmail", name: "Телефон / Email" },
-    { code: "topic", name: "Тема обращения" },
-    { code: "contractorName", name: "Контрагент" },
-    { code: "request", name: "Обращение" },
-    { code: "task", name: "Задача" },
+    { code: SearchFieldCode.phoneOrEmail, name: "Телефон / Email" },
+    { code: SearchFieldCode.topic, name: "Тема обращения" },
+    { code: SearchFieldCode.contractorName, name: "Контрагент" },
+    { code: SearchFieldCode.request, name: "Обращение" },
+    { code: SearchFieldCode.task, name: "Задача" },
   ];
+  
+  const defaultSearchField = searchOptions[0];
+  const [selectedFieldCode, setSelectedFieldCode] = useState<SearchFieldCode>(defaultSearchField.code);
 
-  const selectedFieldName = searchOptions.find(
-    (o) => o.code === filters.searchField
-  )?.name;
+  const setSelectedFieldByName = (name: string) => {
+    const option = searchOptions.find((o) => o.name === name);
+    if (option) setSelectedFieldCode(option.code)
+  }
+
+  const getSelectedFieldName = () => {
+    const option = searchOptions.find(searchOption => searchOption.code == selectedFieldCode);
+    return option?.name
+  }
+
+  /** Получение значения поискового запроса */
+  const getSearchQuery = () => {
+    switch(selectedFieldCode) {
+      case SearchFieldCode.phoneOrEmail: return filters.phoneOrEmail;
+      case SearchFieldCode.topic: return filters.topic;
+      case SearchFieldCode.contractorName: return filters.contractorName;
+      case SearchFieldCode.request: return filters.request;
+      default: return filters.task;
+    }
+  }
+
+  /** Установить значения поискового запроса в соответствующее поле фильтров */
+  const setSearchQuery = (query?: string) => {
+    switch(selectedFieldCode) {
+      case SearchFieldCode.phoneOrEmail: return setFilter({phoneOrEmail: query })
+      case SearchFieldCode.topic: return setFilter({topic: query })
+      case SearchFieldCode.contractorName: return setFilter({contractorName: query })
+      case SearchFieldCode.request: return setFilter({request: query })
+      default: return setFilter({task: query })
+    }
+  }
+
 
   /** Очистка всех фильтров */
   const clearFilters = () => {
-    setFilters({
-      searchQuery: "",
-      searchField: "phoneOrEmail",
-      channels: [],
-      lines: [],
-      groups: [],
-      users: [],
-      statuses: [],
-    });
+    setFilters({});
   };
 
   /** Применить все фильтры */
@@ -84,19 +116,13 @@ export default function FilteredInteractions({
       <div className="filtered-interactions__header">
         {/* Поле поиска */}
         <CustomInputSelect
-          value={filters.searchQuery}
-          setValue={(val) =>
-            setFilters((prev) => ({ ...prev, searchQuery: val }))
-          }
+          value={getSearchQuery()}
+          setValue={setSearchQuery}
           cursor="text"
           placeholder="Поиск"
           searchFields={searchOptions.map((o) => o.name)}
-          selectedField={selectedFieldName}
-          setSelectedField={(name) => {
-            const option = searchOptions.find((o) => o.name === name);
-            if (option)
-              setFilters((prev) => ({ ...prev, searchField: option.code }));
-          }}
+          selectedField={getSelectedFieldName()}
+          setSelectedField={setSelectedFieldByName}
         />
         <div className="filtered-interactions__header__button">
           <Button

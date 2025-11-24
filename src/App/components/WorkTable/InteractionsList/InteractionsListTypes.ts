@@ -131,12 +131,24 @@ export interface IInteractionDetailsItem {
 
 /** Параметры поиска Взаимодействий */
 export interface ISearchInteractionsParams {
-  /** Данные поисковой строки */
-  searchQuery?: string;
-  searchField?: string;
+  /** Телефон / Email */
+  phoneOrEmail?: string
+  /** Тема обращения */
+  topic?: string
+  /** Контрагент */
+  contractorName?: string
+  /** Обращение */
+  request?: string
+  /** Задача */
+  task?: string
+  /** Канал */
   channels?: string[];
+  /** Точка входа */
   lines?: string[];
+  /** Группа */
   groups?: string[];
+  /** Сотрудник */
   users?: string[];
+  /** Статус обработки */
   statuses?: string[];
 }
