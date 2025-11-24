@@ -101,7 +101,7 @@ export default function PageSelector({
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   
   // Количество страниц
-  const pagesCount = Math.ceil(elementsCount / PART_SIZE);
+  const pagesCount = Math.ceil((filteredElementsCount ?? 0) / PART_SIZE);
   // Номер текущей страницы
   const currentPageNumber = currentPageIndex + 1;
 

@@ -15,6 +15,10 @@ import { IInteractionsTabProps } from "../InteractionsTab/InteractionsTab";
 interface IInteractionsListProps extends IInteractionsTabProps {
   /** Поисковые данные взаимодействий */
   searchParams: ISearchInteractionsParams;
+  /** Данные сортировки */
+  sortData: SortData | undefined;
+  /** Переключить данные сортировки */
+  toggleSort: (fieldCode: string) => void;
 };
 
 /** Список взаимодействий */
@@ -46,7 +50,7 @@ export default function InteractionsList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, []);
+  }, [loadData]);
 
   // обновить данные взаимодейтсвия
   const reloadItem = async (id: string) => {

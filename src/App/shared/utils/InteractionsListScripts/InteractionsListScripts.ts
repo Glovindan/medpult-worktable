@@ -15,6 +15,7 @@ async function getInteractions(
   searchParams: SearchParams<ISearchInteractionsParams>
 ): Promise<IInteractionItem[]> {
   await randomDelay();
+  console.log(searchParams)
   return generateInteractionsArray(searchParams.size);
 }
 

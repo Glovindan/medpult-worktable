@@ -36,8 +36,8 @@ function CustomInputSelect({
   };
 
   const handleOptionClick = (field: string) => {
-    setSelectedField?.(field);
     setValue?.();
+    setSelectedField?.(field);
     setDropdownOpen(false);
   };
 

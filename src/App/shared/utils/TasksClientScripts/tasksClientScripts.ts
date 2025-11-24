@@ -1,3 +1,4 @@
+import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
 import { ISearchTasksParams, ITaskItem, TaskStatus } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
 import { SearchParams } from "../../types";
 import { generateTasksArray } from "./tasksGenerator";
@@ -17,6 +18,7 @@ async function getTasks(
 ): Promise<ITaskItem[]> {
   await randomDelay();
 
+  console.log(searchParams)
   return generateTasksArray(searchParams.size);
 }
 
@@ -58,10 +60,60 @@ function getTaskStatusName(status: TaskStatus) {
   }
 }
 
+/** Получение типов задач */
+async function getTaskTypes(taskSortIds?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  if(taskSortIds?.length) return [
+    new ObjectItem({ code: "test", value: "Тип один" }),
+    new ObjectItem({ code: "test1", value: "Тип два" })
+  ]
+
+  return [
+    new ObjectItem({ code: "test", value: "Тип один" }),
+    new ObjectItem({ code: "test1", value: "Тип два" }),
+    new ObjectItem({ code: "test2", value: "Тип три" }),
+  ];
+}
+
+/** Получение видов задач */
+async function getTaskSorts(taskTypesIds?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  if(taskTypesIds?.length) return [
+    new ObjectItem({ code: "test", value: "Вид один" }),
+    new ObjectItem({ code: "test1", value: "Вид два" })
+  ]
+
+  return [
+    new ObjectItem({ code: "test", value: "Вид один" }),
+    new ObjectItem({ code: "test1", value: "Вид два" }),
+    new ObjectItem({ code: "test2", value: "Вид три" }),
+  ];
+}
+
+/** Получение статусов задач */
+async function getTaskStatuses(): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  return [
+    new ObjectItem({ code: "queue", value: "В очереди" }),
+    new ObjectItem({ code: "atWork", value: "В работе" }),
+    new ObjectItem({ code: "postpone", value: "Отложена" }),
+    new ObjectItem({ code: "complete", value: "Выполнена" }),
+    new ObjectItem({ code: "control", value: "На контроле" }),
+    new ObjectItem({ code: "returned", value: "Возвращена" }),
+  ];
+}
+
 export default {
   getTasksMy,
   getTasksGroup,
   getTasksMyCount,
   getTasksGroupCount,
   getTaskStatusName,
+
+  getTaskTypes,
+  getTaskSorts,
+  getTaskStatuses,
 };

@@ -61,7 +61,6 @@ export default function WorkTable() {
   const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(() => () => {});
   const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {});
   const [filteredElementsCount, setFilteredElementsCount] = useState<number>(0);
-  const { sortData, toggleSort } = useSort();
 
   const [lastResetDate, setLastResetDate] = useState<Date>(new Date());
   /** Обработчик сброса списка и его контролера */
@@ -89,8 +88,6 @@ export default function WorkTable() {
               key="groupInteractions"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
-              sortData={sortData}
-              toggleSort={toggleSort}
               setFilteredElementsCount={setFilteredElementsCount}
               getInteractions={Scripts.getInteractionsGroup}
               getInteractionsCount={Scripts.getInteractionsGroupCount}
@@ -111,8 +108,6 @@ export default function WorkTable() {
               key="myInteractions"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
-              sortData={sortData}
-              toggleSort={toggleSort}
               setFilteredElementsCount={setFilteredElementsCount}
               getInteractions={Scripts.getInteractionsMy}
               getInteractionsCount={Scripts.getInteractionsMyCount}
@@ -134,8 +129,6 @@ export default function WorkTable() {
               key="groupTasks"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
-              sortData={sortData}
-              toggleSort={toggleSort}
               setFilteredElementsCount={setFilteredElementsCount}
               getTasks={Scripts.getTasksGroup}
               getTasksCount={Scripts.getTasksGroupCount}
@@ -156,8 +149,6 @@ export default function WorkTable() {
               key="myTasks"
               setLoadData={setAddItemsHandler}
               setClearList={setClearItemsHandler}
-              sortData={sortData}
-              toggleSort={toggleSort}
               setFilteredElementsCount={setFilteredElementsCount}
               getTasks={Scripts.getTasksMy}
               getTasksCount={Scripts.getTasksMyCount}

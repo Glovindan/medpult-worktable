@@ -14,6 +14,10 @@ import { ITasksTabProps } from "../TasksTab";
 export interface ITasksListProps extends ITasksTabProps {
   /** Поисковые данные задач */
   searchParams: ISearchTasksParams;
+  /** Данные сортировки */
+  sortData: SortData | undefined;
+  /** Переключить данные сортировки */
+  toggleSort: (fieldCode: string) => void;
 };
 
 /** Список взаимодействий */
@@ -23,7 +27,6 @@ export default function TasksList({
   setClearList,
   sortData,
   toggleSort,
-  getTasksCount,
   getTasks,
 }: ITasksListProps) {
   const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
@@ -45,7 +48,7 @@ export default function TasksList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, []);
+  }, [loadData]);
 
   return (
     <div className="tasks-list">

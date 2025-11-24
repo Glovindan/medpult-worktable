@@ -38,7 +38,7 @@ export function useSort() {
     setSortData(undefined);
   };
 
-  return { sortData, toggleSort, setAscending, setDescending };
+  return { sortData, setSortData, toggleSort, setAscending, setDescending };
 }
 
 /** Кастмоный хук для обработки загрузки и пагинации списка */

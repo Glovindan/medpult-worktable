@@ -66,12 +66,25 @@ export default function TasksFilters({
   // Обработчик нажатия на enter
   useEnterClickHandler(filters, applyFilters)
 
-  //Получение групп
+  // Получение Типов задач
+  const getTypes = useCallback(
+    () => Scripts.getTaskTypes(filters.taskSortIds),
+    [filters.taskSortIds]
+  );
+
+  // Получение Видов задач
+  const getSorts = useCallback(
+    () => Scripts.getTaskSorts(filters.taskTypeIds),
+    [filters.taskTypeIds]
+  );
+
+  // Получение групп
   const getGroups = useCallback(
     () => Scripts.getUserGroups(filters.employeeIds),
     [filters.employeeIds]
   );
-  //Получение сотрудников
+
+  // Получение сотрудников
   const getUsers = useCallback(
     () => Scripts.getUsersInteraction(filters.groupIds),
     [filters.groupIds]
@@ -123,7 +136,7 @@ export default function TasksFilters({
         <div className="tasks-filters__search">
           <CustomMultiSelect
             value={filters.urgencyIds}
-            setValue={(val) => setFilter({urgencyIds: val })}
+            setValue={(val) => setFilter({urgencyIds: val})}
             title="Срочность"
             getDataHandler={Scripts.getUrgencyList}
           />
@@ -131,13 +144,13 @@ export default function TasksFilters({
             value={filters.taskTypeIds}
             setValue={(val) => setFilter({taskTypeIds: val})}
             title="Тип задачи"
-            getDataHandler={Scripts.getUrgencyList}
+            getDataHandler={getTypes}
           />
           <CustomMultiSelect
             value={filters.taskSortIds}
             setValue={(val) => setFilter({taskSortIds: val})}
             title="Вид задачи"
-            getDataHandler={Scripts.getUrgencyList}
+            getDataHandler={getSorts}
           />
           <CustomMultiSelect
             value={filters.groupIds}
@@ -151,7 +164,7 @@ export default function TasksFilters({
             !hideEmployeeFilter &&
             <CustomMultiSelect
               value={filters.employeeIds}
-              setValue={(val) =>  setFilter({employeeIds: val})}
+              setValue={(val) => setFilter({employeeIds: val})}
               title="Сотрудник"
               isSearch={true}
               placeholder="Введите ФИО сотрудника"
@@ -162,7 +175,7 @@ export default function TasksFilters({
             value={filters.taskStatusCodes}
             setValue={(val) => setFilter({taskStatusCodes: val})}
             title="Статус обработки"
-            getDataHandler={Scripts.getStatuses}
+            getDataHandler={Scripts.getTaskStatuses}
           />
         </div>
       </div>
