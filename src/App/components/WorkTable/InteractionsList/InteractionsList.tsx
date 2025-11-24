@@ -15,6 +15,10 @@ import { IInteractionsTabProps } from "../InteractionsTab/InteractionsTab";
 interface IInteractionsListProps extends IInteractionsTabProps {
   /** Поисковые данные взаимодействий */
   searchParams: ISearchInteractionsParams;
+  /** Данные сортировки */
+  sortData: SortData | undefined;
+  /** Переключить данные сортировки */
+  toggleSort: (fieldCode: string) => void;
 };
 
 /** Список взаимодействий */
@@ -24,9 +28,7 @@ export default function InteractionsList({
   setClearList,
   sortData,
   toggleSort,
-  setDisplayableElementsCount,
-  getInteractions,
-  getInteractionsCount
+  getInteractions
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -48,11 +50,7 @@ export default function InteractionsList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, []);
-
-  useEffect(() => {
-    setDisplayableElementsCount(items.length);
-  }, [items]);
+  }, [loadData]);
 
   // обновить данные взаимодейтсвия
   const reloadItem = async (id: string) => {
@@ -64,11 +62,6 @@ export default function InteractionsList({
       console.error("Ошибка в функции reloadItem", err);
     }
   };
-
-  useEffect(() => {
-    clearList();
-    loadData(1, 20);
-  }, [searchParams]);
 
   return (
     <div className="interactions-list">

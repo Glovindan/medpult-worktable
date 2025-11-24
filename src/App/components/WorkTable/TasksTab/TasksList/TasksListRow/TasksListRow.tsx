@@ -5,7 +5,9 @@ import LinkColumn from "../../../ListComponents/LinkColumn/LinkColumn";
 import Scripts from "../../../../../shared/utils/clientScripts";
 import { ITaskItem } from "../TasksListTypes";
 import { MiddleEllipsisString } from "../../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
-import DoubleStrokeColumn from "../../../InteractionsList/InteractionsListRow/EntryPointColumn/EntryPointColumn";
+import DoubleStrokeColumn from "../../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
+import TaskStatusColumn from "./TaskStatusColumn/TaskStatusColumn";
+import TaskInsuredColumn from "./TaskInsuredColumn/TaskInsuredColumn";
 
 type TasksListRowProps = {
   /** Данные строки задачи */
@@ -55,14 +57,12 @@ export default function TasksListRow({
         {/* TODO: Колонка SLA */}
         <ListColumn></ListColumn>
         <ListColumn>{item.urgency}</ListColumn>
-        {/* TODO: Колонка Застрахованного */}
-        <ListColumn>{item.insured.fullName}</ListColumn>
+        <TaskInsuredColumn insuredData={item.insured} />
         <ListColumn>{item.region}</ListColumn>
         <ListColumn>{moment(item.createdAt).format("DD.MM.YYYY HH:mm")}</ListColumn>
         <ListColumn>{moment(item.controlDate).format("DD.MM.YYYY HH:mm")}</ListColumn>
         <DoubleStrokeColumn firstRowValue={item.taskTypeData.sort} secondRowValue={item.taskTypeData.type} />
-        {/* TODO: Колонка Статуса задачи */}
-        <ListColumn>{Scripts.getTaskStatusName(item.taskStatus)}</ListColumn>
+        <TaskStatusColumn taskStatus={item.taskStatus}/>
         <DoubleStrokeColumn firstRowValue={item.executor.fullName} secondRowValue={item.executor.groupName} />
       </div>
     </>

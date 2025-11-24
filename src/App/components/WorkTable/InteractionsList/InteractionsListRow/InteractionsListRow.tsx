@@ -1,7 +1,7 @@
 import React from "react";
 import StatusColumn from "./StatusColumn/StatusColumn";
 import ChannelColumn from "./ChannelColumn/ChannelColumn";
-import DoubleStrokeColumn from "./EntryPointColumn/EntryPointColumn";
+import DoubleStrokeColumn from "../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
 import moment from "moment";
 import ListColumn from "../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../ListComponents/LinkColumn/LinkColumn";
@@ -46,7 +46,7 @@ export default function InteractionsListRow({
 
   return (
     <>
-      <div className="interactions-list-row" onClick={toggleShowDetails}>
+      <div className="interactions-list-row">
         <StatusColumn status={item.status} />
         <ChannelColumn
           channel={item.channelType}
@@ -104,14 +104,16 @@ export default function InteractionsListRow({
         ) : (
           emptyColumn
         )}
-        <ListColumn>
-          <div
+        <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
+          <button
+            className="expand-button"
             style={{
               transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
             }}
+            onClick={toggleShowDetails}
           >
             {icons.arrowIcon}
-          </div>
+          </button>
         </ListColumn>
       </div>
       {/* Детальная информация */}

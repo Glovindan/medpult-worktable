@@ -4,7 +4,7 @@ import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 import Loader from "../../../../../UIKit/Loader/Loader";
 
 interface MultiSelectProps {
-  value: string[];
+  value?: string[];
   setValue: (v: string[]) => void;
   title: string;
   getDataHandler: () => Promise<ObjectItem[]>;
@@ -13,7 +13,7 @@ interface MultiSelectProps {
 }
 
 export default function CustomMultiSelect({
-  value,
+  value = [],
   setValue,
   title,
   getDataHandler,
@@ -23,13 +23,13 @@ export default function CustomMultiSelect({
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState<ObjectItem[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
   // Подгрузка данных при открытии дропдауна
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     if (open) {
       setIsLoading(true);
       getDataHandler()
@@ -67,6 +67,7 @@ export default function CustomMultiSelect({
   ).filter(
     (opt) => !isSearch || opt.value.toLowerCase().includes(search.toLowerCase())
   );
+
   // Закрытие дропдауна при клике вне
   useEffect(() => {
     const handleOutside = (e: MouseEvent) => {

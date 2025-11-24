@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FetchData, SearchParams, SortData } from "./types";
 
 /** Кастмоный хук для обработки сортировки */
@@ -38,7 +38,7 @@ export function useSort() {
     setSortData(undefined);
   };
 
-  return { sortData, toggleSort, setAscending, setDescending };
+  return { sortData, setSortData, toggleSort, setAscending, setDescending };
 }
 
 /** Кастмоный хук для обработки загрузки и пагинации списка */
@@ -74,4 +74,19 @@ export function useList<ItemType = any, SearchDataType = any>(
   };
 
   return { items, clearList, setItems, loadData, isLoading };
+}
+
+/** Обработчик нажатия на enter*/
+export function useEnterClickHandler(filters: any, applyFilters: () => void) {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        applyFilters();
+      }
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [filters]);
 }

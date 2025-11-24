@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IEntryPoint } from "../../InteractionsListTypes";
+import { IEntryPoint } from "../../InteractionsList/InteractionsListTypes";
 
 type DoubleStrokeColumnProps = {
     /** Значение первой строки */

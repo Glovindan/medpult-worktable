@@ -3,6 +3,8 @@ import { generateFixedLengthString, randomSlaStatus } from "../InteractionsListS
 
 // Генерация случайного значения для категории полиса
 const randomPolicyCategory = () => {
+    if(Math.round(Math.random())) return;
+    
     switch (Math.floor(Math.random() * 3)) {
         case 0: return PolicyCategory.gold;
         case 1: return PolicyCategory.platinum;
@@ -37,12 +39,13 @@ const randomRegion = () => {
 const randomFullName = () => {
     const firstNames = ['Иван', 'Марина', 'Алексей', 'Анна', 'Сергей', 'Ольга', 'Дмитрий', 'Елена', 'Андрей', 'Юлия'];
     const lastNames = ['Иванов', 'Петрова', 'Смирнов', 'Васильева', 'Попова', 'Кузнецов', 'Соколова', 'Федоров', 'Николаева', 'Зайцев'];
-    return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`;
+    const middleName = ['Иванович', 'Маринович', 'Алексеевич', 'Аннович', 'Сергеевич', 'Ольгович', 'Дмитриевич', 'Еленович', 'Андреевич', 'Юлиевич'];
+    return `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]} ${middleName[Math.floor(Math.random() * middleName.length)]}`;
 };
 
 // Генерация случайного номера полиса
 const randomPolicyNumber = () => {
-    return `POLICY-${Math.floor(Math.random() * 10000)}`;
+    return `00SB${generateFixedLengthString(12)}/1`;
 };
 
 // Генерация случайного типа и вида задачи
@@ -63,12 +66,13 @@ const randomExecutorData = () => {
 
 // Генерация случайного статуса задачи
 const randomTaskStatus = () => {
-    switch (Math.floor(Math.random() * 6)) {
+    switch (Math.floor(Math.random() * 7)) {
         case 0: return TaskStatus.queue;
         case 1: return TaskStatus.atWork;
         case 2: return TaskStatus.postpone;
         case 3: return TaskStatus.complete;
         case 4: return TaskStatus.control;
+        case 5: return TaskStatus.returned;
         default: return TaskStatus.canceled;
     }
 };
