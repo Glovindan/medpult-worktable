@@ -3,6 +3,7 @@ import { useList } from "../../../shared/hooks";
 import { SearchParams, SortData } from "../../../shared/types";
 import {
   IInteractionItem,
+  InteractionsSortableFieldCode,
   ISearchInteractionsParams,
 } from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
@@ -68,17 +69,17 @@ export default function InteractionsList({
       <div className="interactions-list__header">
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("entryPoint")}>
+        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.entryPoint)}>
           Точка входа
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("slaStatus")}>
+        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.slaStatus)}>
           SLA
         </ListHeaderColumn>
         <ListHeaderColumn tooltip="Телефон / Email">
           Телефон /<br />
           Email
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("createdAt")}>
+        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.createdAt)}>
           Дата и время
         </ListHeaderColumn>
         <ListHeaderColumn>Контрагент</ListHeaderColumn>

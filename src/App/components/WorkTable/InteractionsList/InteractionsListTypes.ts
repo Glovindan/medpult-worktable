@@ -152,3 +152,13 @@ export interface ISearchInteractionsParams {
   /** Статус обработки */
   statuses?: string[];
 }
+
+/** Коды сортируемых колонок взаимодействий */
+export enum InteractionsSortableFieldCode {
+  /** Точка входа */
+  entryPoint = "entryPoint",
+  /** SLA */
+  slaStatus = "slaStatus",
+  /** Дата создания */
+  createdAt = "createdAt",
+}
