@@ -170,7 +170,7 @@ export function getRequestHref(requestId: string) {
   const origin = window.location.origin;
   const url = new URL(`${origin}/${requestPageLink}`);
 
-  url.searchParams.set("requestId", requestId);
+  url.searchParams.set("request_id", requestId);
 
   const href = url.toString();
 
@@ -181,7 +181,7 @@ export function getRequestHref(requestId: string) {
 export function getTaskHref(requestId: string, taskId: string) {
   const url = new URL(getRequestHref(requestId));
 
-  url.searchParams.set("taskId", taskId);
+  url.searchParams.set("task_id", taskId);
 
   const href = url.toString();
 
