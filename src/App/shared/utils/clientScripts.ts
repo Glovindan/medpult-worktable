@@ -166,7 +166,7 @@ async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
     new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
     new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
-    new ObjectItem({ code: "test3", value: "Васильев Василий Васильевич" }),
+    new ObjectItem({ code: "test3", value: "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч" }),
     new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
     new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
   ];
