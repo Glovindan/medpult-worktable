@@ -85,7 +85,7 @@ export default function InteractionsListRow({
         <ListColumn tooltip="">
           {item.hasAttachments && icons.attachmentIcon}
         </ListColumn>
-        <ListColumn>{item.requestTopic}</ListColumn>
+        <ListColumn noWrap={true}>{item.requestTopic}</ListColumn>
         {!!item.request ? (
           <LinkColumn
             href={getRequestHref(item.request.code)}

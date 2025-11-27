@@ -5,13 +5,15 @@ import icons from "../../../../shared/icons";
 interface IListColumnProps extends PropsWithChildren {
   /** Тултип */
   tooltip?: string
+  /** white-space: nowrap ? */
+  noWrap?: boolean
 }
 
 /** Столбец списка */
-export default function ListColumn({children, tooltip}: IListColumnProps) {
+export default function ListColumn({children, tooltip, noWrap}: IListColumnProps) {
   return (
     <div className="list-column" title={tooltip ?? children?.toString()}>
-      <div className="list-column__content">{children}</div>
+      <div className="list-column__content" style={noWrap ? {whiteSpace: "nowrap"} : {}}>{children}</div>
     </div>
   );
 }

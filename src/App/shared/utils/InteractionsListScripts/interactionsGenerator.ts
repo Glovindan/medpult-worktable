@@ -159,6 +159,45 @@ const generateRandomContactData = () => {
 // Создание простого псевдо-уникального ID
 const createUniqueId = () =>
   `${Date.now().toString(36)}${(Math.random() * 100000000).toFixed(0)}`;
+// Фрагменты текста для генерации
+const loremIpsumFragments = [
+  'Lorem ipsum dolor sit amet',
+  'consectetur adipiscing elit',
+  'sed do eiusmod tempor incididunt ut labore et dolore magna aliqua',
+  'Ut enim ad minim veniam',
+  'quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat',
+  'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+  'Excepteur sint occaecat cupidatat non proident',
+  'sunt in culpa qui officia deserunt mollit anim id est laborum'
+];
+
+class LoremIpsumGenerator {
+  // Количество строк для вывода
+  private count: number;
+
+  constructor(count: number) {
+    this.count = count;
+  }
+
+  public generate(): string[] {
+    const result: string[] = [];
+    for (let i = 0; i < this.count; i++) {
+      let sentence = '';
+      const fragmentCount = Math.floor(Math.random() * (8 - 4 + 1)) + 4; // генерируем от 4 до 8 фрагментов
+
+      for (let j = 0; j < fragmentCount; j++) {
+        const randomIndex = Math.floor(Math.random() * loremIpsumFragments.length);
+        sentence += `${loremIpsumFragments[randomIndex]} `;
+      }
+
+      result.push(sentence.trim());
+    }
+    return result;
+  }
+}
+
+// Пример использования класса
+const generator = new LoremIpsumGenerator(5); // создаём экземпляр с 5-ю строками
 
 // Генерация случайного объекта IInteractionItem
 export const generateRandomInteractionItem = (): IInteractionItem => {
@@ -174,7 +213,7 @@ export const generateRandomInteractionItem = (): IInteractionItem => {
     createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата в пределах последних 30 дней
     contractorName: generateRandomContractorName(),
     hasAttachments: Boolean(Math.round(Math.random())),
-    requestTopic: `Тема №${Math.ceil(Math.random() * 10)}`,
+    requestTopic: generator.generate().join(" "),
     request: request,
     task: task,
     executor: generateRandomExecutorData(),
