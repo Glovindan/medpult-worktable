@@ -26,8 +26,6 @@ interface InteractionsDetailsProps {
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
   const { data, reloadData, items, setItems, taskId } = props;
-  // Флаг загрузки
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // Детальные данные взаимодействия
   const [interactionsDetailsData, setInteractionsDetailsData] =
@@ -50,13 +48,12 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
 
   return (
     <>
-      {isLoading ? (
+      {!interactionsDetailsData ? (
         <div className="custom-list-row-approval custom-list-row-approval_openable amendment-details">
           <Loader />
         </div>
       ) : (
         <div className="interactions-details">
-          {interactionsDetailsData && (
             <div className="interactions-details__content">
               <InteractionsDetailsOpen
                 data={interactionsDetailsData}
@@ -66,7 +63,6 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 reloadData={reloadData}
               />
             </div>
-          )}
         </div>
       )}
     </>

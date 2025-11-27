@@ -124,3 +124,26 @@ export interface ITaskItem {
     executor: ExecutorData;
 }
 
+/** Коды сортируемых колонок задач */
+export enum TasksSortableFieldCode {
+    /** Номер */
+    taskNumber = "taskNumber",
+    /** SLA */
+    slaStatus = "slaStatus",
+    /** Срочность */
+    urgency = "urgency",
+    /** Застрахованный */
+    insured = "insured",
+    /** Регион */
+    region = "region",
+    /** Дата создания */
+    createdAt = "createdAt",
+    /** Дата контроля */
+    controlDate = "controlDate",
+    /** Вид задачи */
+    taskTypeData = "taskTypeData",
+    /** Статус задачи */
+    taskStatus = "taskStatus",
+    /** Исполнитель */
+    executor = "executor",
+}

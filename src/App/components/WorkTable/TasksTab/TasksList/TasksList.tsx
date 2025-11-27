@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ISearchTasksParams, ITaskItem } from "./TasksListTypes";
+import { ISearchTasksParams, ITaskItem, TasksSortableFieldCode } from "./TasksListTypes";
 import { SearchParams, SortData } from "../../../../shared/types";
 import ListHeaderColumn, {
   SortingState,
@@ -53,34 +53,34 @@ export default function TasksList({
   return (
     <div className="tasks-list">
       <div className="tasks-list__header">
-        <ListHeaderColumn {...getListColumnProps("taskNumber")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.taskNumber)}>
           Номер
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("slaStatus")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.slaStatus)}>
           SLA
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("urgency")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.urgency)}>
           Срочность
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("insured")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.insured)}>
           Застрахованный
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("region")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.region)}>
           Регион
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("createdAt")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.createdAt)}>
           Дата создания
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("controlDate")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.controlDate)}>
           Дата контроля
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("taskTypeData")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.taskTypeData)}>
           Вид задачи
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("taskStatus")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.taskStatus)}>
           Статус задачи
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps("executor")}>
+        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.executor)}>
           Исполнитель
         </ListHeaderColumn>
       </div>

@@ -8,6 +8,7 @@ import { MiddleEllipsisString } from "../../../ListComponents/MiddleEllipsisStri
 import DoubleStrokeColumn from "../../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
 import TaskStatusColumn from "./TaskStatusColumn/TaskStatusColumn";
 import TaskInsuredColumn from "./TaskInsuredColumn/TaskInsuredColumn";
+import { getTaskHref } from "../../../../../shared/utils/utils";
 
 type TasksListRowProps = {
   /** Данные строки задачи */
@@ -18,30 +19,6 @@ type TasksListRowProps = {
 export default function TasksListRow({
   item,
 }: TasksListRowProps) {
-  /** Получить ссылку на страницу конкретного обращения */
-  function getRequestHref(requestId: string) {
-    const requestPageLink = Scripts.getRequestPagePath();
-    const origin = window.location.origin;
-    const url = new URL(`${origin}/${requestPageLink}`);
-
-    url.searchParams.set("requestId", requestId);
-
-    const href = url.toString();
-
-    return href;
-  }
-
-  /** Получить ссылку на страницу конкретной задачи */
-  function getTaskHref(requestId: string, taskId: string) {
-    const url = new URL(getRequestHref(requestId));
-
-    url.searchParams.set("taskId", taskId);
-
-    const href = url.toString();
-
-    return href;
-  }
-
   const emptyColumn = <ListColumn>–</ListColumn>;
   const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
 

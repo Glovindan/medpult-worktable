@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import StatusColumn from "./StatusColumn/StatusColumn";
 import ChannelColumn from "./ChannelColumn/ChannelColumn";
 import DoubleStrokeColumn from "../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
@@ -10,6 +10,7 @@ import icons from "../icons";
 import { IInteractionItem } from "../InteractionsListTypes";
 import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
 import { getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
+import Scripts from "../../../../shared/utils/clientScripts";
 
 type InteractionsListRowProps = {
   /** Данные строки взаимодействия */
@@ -43,6 +44,15 @@ export default function InteractionsListRow({
     setOpenRowIndex(String(item.id));
   };
   const isShowDetails = String(item.id) === openRowIndex;
+  const [isExecutor, setIsExecutor] = useState<boolean | null>()
+
+  useEffect(() => {
+    async function checkExecutor() {
+      const result = await Scripts.isCurrentUserExecutor(item.id);
+      setIsExecutor(result);
+    }
+    checkExecutor();
+  }, []);
 
   return (
     <>
@@ -104,17 +114,20 @@ export default function InteractionsListRow({
         ) : (
           emptyColumn
         )}
-        <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
-          <button
-            className="expand-button"
-            style={{
-              transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
-            }}
-            onClick={toggleShowDetails}
-          >
-            {icons.arrowIcon}
-          </button>
-        </ListColumn>
+        {
+          isExecutor &&
+          <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
+            <button
+              className="expand-button"
+              style={{
+                transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
+              }}
+              onClick={toggleShowDetails}
+            >
+              {icons.arrowIcon}
+            </button>
+          </ListColumn>
+        }
       </div>
       {/* Детальная информация */}
       {isShowDetails && (

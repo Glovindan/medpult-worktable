@@ -44,6 +44,7 @@ async function getInteractionById(id: string): Promise<IInteractionItem> {
 async function getInteractionsDetails(
   interactionId: string
 ): Promise<IInteractionDetailsItem> {
+  await randomDelay()
   return {
     id: "111",
     number: "VZ00000809/21",
@@ -223,6 +224,12 @@ async function getUrgencyList(): Promise<ObjectItem[]> {
   return channels;
 }
 
+async function isCurrentUserExecutor(id: string): Promise<boolean> {
+  await randomDelay();
+
+  return Math.random() > 0.5;
+}
+
 export default {
   getTabItemsCount,
 
@@ -247,6 +254,7 @@ export default {
   getIcomingEmailLink,
 
   getUrgencyList,
+  isCurrentUserExecutor,
 
   ...interactionsListScripts,
   ...tasksClientScripts,
