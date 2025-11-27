@@ -48,7 +48,7 @@ export default function TasksList({
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
-  }, [loadData]);
+  }, [searchParams, sortData]);
 
   return (
     <div className="tasks-list">
