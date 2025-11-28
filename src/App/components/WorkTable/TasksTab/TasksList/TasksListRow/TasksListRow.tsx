@@ -35,7 +35,7 @@ export default function TasksListRow({
         <ListColumn></ListColumn>
         <ListColumn>{item.urgency}</ListColumn>
         <TaskInsuredColumn insuredData={item.insured} />
-        <ListColumn>{item.region}</ListColumn>
+        <ListColumn noWrap={true}>{item.region}</ListColumn>
         <ListColumn>{moment(item.createdAt).format("DD.MM.YYYY HH:mm")}</ListColumn>
         <ListColumn>{moment(item.controlDate).format("DD.MM.YYYY HH:mm")}</ListColumn>
         <DoubleStrokeColumn firstRowValue={item.taskTypeData.sort} secondRowValue={item.taskTypeData.type} />
