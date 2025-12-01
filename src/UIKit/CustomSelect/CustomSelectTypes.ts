@@ -17,4 +17,8 @@ export interface CustomSelectProps extends CustomInputProps {
 	isViewMode?: boolean
 	/** Флажок валидации */
 	isInvalid?: boolean
+	/** Только для чтения */
+	disabled?: boolean;
+	showClearButton?: boolean;
+	isEmail?: boolean;
 }

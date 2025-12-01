@@ -14,6 +14,10 @@ interface InteractionsDetailsOpenProps {
   taskId?: string;
   onSave?: () => void;
   reloadData: (id: string) => void;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
 }
 
 /** Проект комментария */
@@ -22,7 +26,9 @@ function InteractionsDetailsOpen({
   interactionId,
   taskId,
   onSave,
-  reloadData,
+  reloadData, 
+  handleOpenReplyModal, 
+  handleOpenForwardModal,
 }: InteractionsDetailsOpenProps) {
   //Количетсво дублей
   const [countDuplicate, setCountDuplicate] = useState<number | null>(null);
@@ -53,6 +59,8 @@ function InteractionsDetailsOpen({
         data={data}
         interactionId={interactionId}
         taskId={taskId}
+        handleOpenReplyModal={handleOpenReplyModal}
+        handleOpenForwardModal={handleOpenForwardModal}
       />
       <span className="interactions-open-panel__line"></span>
 

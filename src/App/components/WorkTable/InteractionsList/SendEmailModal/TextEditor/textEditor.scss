@@ -1,0 +1,56 @@
+.text-editor {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  &__format {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    margin-bottom: 12px;
+    &__button {
+      cursor: pointer;
+      border: 2px solid #64c3f4;
+      border-radius: 9px;
+      padding: 5px 10px;
+      background: transparent;
+      color: #64c3f4;
+      min-width: 35px;
+      height: 35px;
+      padding: 5px 10px;
+    }
+
+    &__input {
+      cursor: pointer;
+      border: 2px solid #64c3f4;
+      border-radius: 9px;
+      background: transparent;
+      color: #64c3f4;
+      min-width: 35px;
+      height: 35px;
+      padding: 3px;
+    }
+  }
+
+  &__content {
+    border: 2px solid #d9d9d9;
+    border-radius: 9px;
+    padding: 5px;
+    flex: 1;
+    min-height: 150px;
+    font-size: 16px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    outline: none;
+
+    &.invalid {
+      border-color: #ff0505;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #000;
+      margin: 20px 0;
+    }
+  }
+}

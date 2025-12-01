@@ -21,11 +21,15 @@ interface InteractionsDetailsProps {
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
   /** Идентификатор задачи */
   taskId?: string;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const { data, reloadData, items, setItems, taskId } = props;
+  const { data, reloadData, items, setItems, taskId, handleOpenReplyModal, handleOpenForwardModal } = props;
 
   // Детальные данные взаимодействия
   const [interactionsDetailsData, setInteractionsDetailsData] =
@@ -61,6 +65,8 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
                 taskId={taskId}
                 onSave={fetchInteractionsDetails}
                 reloadData={reloadData}
+                handleOpenReplyModal={handleOpenReplyModal}
+                handleOpenForwardModal={handleOpenForwardModal}
               />
             </div>
         </div>

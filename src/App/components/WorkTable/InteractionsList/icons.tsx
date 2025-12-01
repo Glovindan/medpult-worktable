@@ -345,6 +345,58 @@ const InteracrionMissed = (
   </svg>
 );
 
+const arrowGreyIcon = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6 9L12 15L18 9"
+      stroke="#565A62"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    />
+  </svg>
+);
+
+const fileEmailModal = (
+  <svg
+    width="18"
+    height="16"
+    viewBox="0 0 18 16"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M8.9999 15.2L0.33965 8.00001L17.6602 8.00001L8.9999 15.2Z"
+      fill="#949494"
+      fill-opacity="0.7"
+    />
+    <rect x="5" width="8" height="8" fill="#949494" fill-opacity="0.7" />
+  </svg>
+);
+
+const Wastebasket = (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M4 6H20M19 6L18.1245 19.133C18.0544 20.1836 17.1818 21 16.1289 21H7.87111C6.81818 21 5.94558 20.1836 5.87554 19.133L5 6M16 6L15.4558 4.36754C15.1836 3.55086 14.4193 3 13.5585 3H10.4415C9.58066 3 8.81638 3.55086 8.54415 4.36754L8 6M14 11V16M10 11V16"
+      stroke="#FF4545"
+      stroke-width="2"
+      stroke-linecap="round"
+    />
+  </svg>
+);
+
 export default {
   /** Иконка вложения */
   attachmentIcon,
@@ -386,4 +438,9 @@ export default {
   InteracrionQueue,
   InteracrionProcessed,
   InteracrionMissed,
+  /** Иконка раскрытия списка статусов телефонии */
+  arrowGreyIcon,
+
+  fileEmailModal,
+  Wastebasket,
 };

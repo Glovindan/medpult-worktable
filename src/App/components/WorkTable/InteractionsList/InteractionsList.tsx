@@ -20,6 +20,10 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   sortData: SortData | undefined;
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
 };
 
 /** Список взаимодействий */
@@ -29,7 +33,9 @@ export default function InteractionsList({
   setClearList,
   sortData,
   toggleSort,
-  getInteractions
+  getInteractions,
+  handleOpenReplyModal,
+  handleOpenForwardModal,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -100,6 +106,8 @@ export default function InteractionsList({
             items={items}
             setItems={setItems}
             reloadData={reloadItem}
+            handleOpenReplyModal={handleOpenReplyModal}
+            handleOpenForwardModal={handleOpenForwardModal}
           />
         ))}
         {isLoading && <Loader />}

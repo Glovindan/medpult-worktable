@@ -9,6 +9,7 @@ import {generateRandomInteractionItem} from "./InteractionsListScripts/interacti
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 import interactionsListScripts from "./InteractionsListScripts/InteractionsListScripts";
+import emailClientScripts from "./EmailClientScripts/EmailClientScripts";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -258,4 +259,5 @@ export default {
 
   ...interactionsListScripts,
   ...tasksClientScripts,
+  ...emailClientScripts,
 };
