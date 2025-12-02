@@ -5,7 +5,7 @@ import {
   InteractionStatus,
 } from "../../components/WorkTable/InteractionsList/InteractionsListTypes";
 import { TabsItemsCounts } from "../types";
-import {generateRandomInteractionItem} from "./InteractionsListScripts/interactionsGenerator";
+import { generateRandomInteractionItem } from "./InteractionsListScripts/interactionsGenerator";
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 import interactionsListScripts from "./InteractionsListScripts/InteractionsListScripts";
@@ -45,7 +45,7 @@ async function getInteractionById(id: string): Promise<IInteractionItem> {
 async function getInteractionsDetails(
   interactionId: string
 ): Promise<IInteractionDetailsItem> {
-  await randomDelay()
+  await randomDelay();
   return {
     id: "111",
     number: "VZ00000809/21",
@@ -168,7 +168,11 @@ async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
     new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
     new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
-    new ObjectItem({ code: "test3", value: "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч" }),
+    new ObjectItem({
+      code: "test3",
+      value:
+        "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч",
+    }),
     new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
     new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
   ];
@@ -214,6 +218,11 @@ function getIcomingEmailLink(): string {
   return "";
 }
 
+/** Получение ссылки для перехода на страницу входящего звонка */
+function getIcomingCallLink(): string {
+  return "";
+}
+
 /** Получение значений справочника Срочность */
 async function getUrgencyList(): Promise<ObjectItem[]> {
   await randomDelay();
@@ -254,6 +263,7 @@ export default {
   getRequestPagePath,
   getRequestIdByTaskId,
   getIcomingEmailLink,
+  getIcomingCallLink,
 
   getUrgencyList,
   isCurrentUserExecutor,
