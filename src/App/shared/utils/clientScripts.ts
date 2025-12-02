@@ -228,7 +228,8 @@ async function getUrgencyList(): Promise<ObjectItem[]> {
 async function isCurrentUserExecutor(id: string): Promise<boolean> {
   await randomDelay();
 
-  return Math.random() > 0.5;
+  // return Math.random() > 0.5;
+  return true;
 }
 
 export default {

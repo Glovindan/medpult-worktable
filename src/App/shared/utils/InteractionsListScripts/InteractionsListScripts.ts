@@ -19,6 +19,14 @@ async function getInteractions(
   return generateInteractionsArray(searchParams.size);
 }
 
+/** Получение данных взаимодействия по умолчанию */
+async function getInitialInteractionItem(interactionId: string): Promise<IInteractionItem> {
+  await randomDelay();
+  const interactions = generateInteractionsArray(1)
+
+  return {...interactions[0], id: interactionId};
+}
+
 /** Получение количества взаимодействий */
 async function getInteractionsCount(searchParams: ISearchInteractionsParams): Promise<number> {
   return Math.floor(Math.random() * 200);
@@ -66,4 +74,5 @@ export default {
     getInteractionsMy,
     getInteractionsMyCount,
     getInteractionStatusName,
+    getInitialInteractionItem,
 }

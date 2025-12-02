@@ -24,6 +24,8 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   handleOpenReplyModal: (interactionId: string) => void
   /** Открыть Модальное окно пересылки сообщения */
   handleOpenForwardModal: (interactionId: string) => void
+  /** Идентификатор взаимодействия открытого по умолчанию */
+  initialInteractionId: string | undefined
 };
 
 /** Список взаимодействий */
@@ -36,6 +38,7 @@ export default function InteractionsList({
   getInteractions,
   handleOpenReplyModal,
   handleOpenForwardModal,
+  initialInteractionId,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
@@ -70,6 +73,51 @@ export default function InteractionsList({
     }
   };
 
+  const [initialItem, setInitialItem] = useState<IInteractionItem>();
+  const [isInitialItemLoading, setIsInitialItemLoading] = useState<boolean>(false);
+  const [isInitialItemOpen, setIsInitialItemOpen] = useState<boolean>(false);
+
+  const handleInitialInteraction = async (initialInteractionId: string) => {
+    setIsInitialItemLoading(true);
+    
+    const initialInteractionItem = await Scripts.getInitialInteractionItem(initialInteractionId);
+    setInitialItem(initialInteractionItem);
+    setIsInitialItemOpen(true);
+
+    setIsInitialItemLoading(false);
+  }
+
+  useEffect(() => { 
+    if(!initialInteractionId) {
+      setInitialItem(undefined);
+      setIsInitialItemOpen(false);
+      return;
+    }
+
+    handleInitialInteraction(initialInteractionId);
+  }, [initialInteractionId])
+
+  const getInitialOpenRowIndex = (openRowIndex: string | undefined, isInitialItemOpen: boolean) => {
+    // Если выбран элемент из основного списка, то изначальный закрыт
+    if(openRowIndex?.length) return;
+    // Если изначальный не открыт, то изначальный закрыт
+    if(!isInitialItemOpen) return;
+
+    console.log("getInitialOpenRowIndex", initialInteractionId)
+    return initialInteractionId
+  }
+
+  const setInitialOpenRowIndex = (id?: string) => {
+    if(id) {
+      setIsInitialItemOpen(true);
+      setOpenRowIndex(undefined);
+      
+      return;
+    }
+
+    setIsInitialItemOpen(false);
+  }
+
   return (
     <div className="interactions-list">
       <div className="interactions-list__header">
@@ -97,7 +145,21 @@ export default function InteractionsList({
         <ListHeaderColumn></ListHeaderColumn>
       </div>
       <div className="interactions-list__list">
-        {items.map((item) => (
+        {
+          !isInitialItemLoading && initialItem && initialInteractionId &&
+          <InteractionsListRow
+            key={initialItem.id}
+            item={initialItem}
+            openRowIndex={getInitialOpenRowIndex(openRowIndex, isInitialItemOpen)}
+            setOpenRowIndex={setInitialOpenRowIndex}
+            items={[]}
+            setItems={() => {}}
+            reloadData={reloadItem}
+            handleOpenReplyModal={handleOpenReplyModal}
+            handleOpenForwardModal={handleOpenForwardModal}
+          />
+        }
+        {!isInitialItemLoading && items.map((item) => (
           <InteractionsListRow
             key={item.id}
             item={item}
@@ -110,7 +172,7 @@ export default function InteractionsList({
             handleOpenForwardModal={handleOpenForwardModal}
           />
         ))}
-        {isLoading && <Loader />}
+        {(isLoading || isInitialItemLoading) && <Loader />}
       </div>
     </div>
   );

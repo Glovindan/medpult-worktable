@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TabsWrapper from "../../../UIKit/Tabs/TabsWrapper/TabsWrapper.tsx";
 import TabItem from "../../../UIKit/Tabs/TabItem/TabItem.tsx";
 import WorkTableTabsActions from "./WorkTableTabsActions/WorkTableTabsActions.tsx";
@@ -12,6 +12,7 @@ import InteractionsTab from "./InteractionsTab/InteractionsTab.tsx";
 import { TabCode } from "./WorkTableTypes.ts";
 import SendEmailModal from "./InteractionsList/SendEmailModal/SendEmailModal.tsx";
 import { useEmailModalController } from "./InteractionsList/SendEmailModal/SendEmailModalHooks.ts";
+import { AppFilter } from "../../../UIKit/Filters/FiltersTypes.ts";
 
 function useTabsController(setElementsCount: React.Dispatch<React.SetStateAction<number>>) {
   // Индикатор загрузки количества элементов на вкладках
@@ -107,6 +108,16 @@ export default function WorkTable() {
     window.history.replaceState({}, '', newUrl.href);
   }, [])
 
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if(isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    
+    setInitialInteractionId(undefined)
+  }, [activeTabCode])
+
   return (
     <>
       {isModalVisible && <SendEmailModal {...modalProps} openTabCode={activeTabCode}/>}
@@ -137,6 +148,8 @@ export default function WorkTable() {
                 handleResetList={handleResetList}
                 handleOpenReplyModal={handleOpenReplyModal}
                 handleOpenForwardModal={handleOpenForwardModal}
+                initialInteractionId={initialInteractionId}
+                clearInitialInteractionId={() => setInitialInteractionId(undefined)}
               />
             </TabItem>
             <TabItem
@@ -160,6 +173,8 @@ export default function WorkTable() {
                 handleResetList={handleResetList}
                 handleOpenReplyModal={handleOpenReplyModal}
                 handleOpenForwardModal={handleOpenForwardModal}
+                initialInteractionId={initialInteractionId}
+                clearInitialInteractionId={() => setInitialInteractionId(undefined)} 
               />
             </TabItem>
             <TabItem
@@ -212,6 +227,7 @@ export default function WorkTable() {
             addItemsHandler={addItemsHandler}
             resetTrigger={lastResetDate}
             filteredElementsCount={filteredElementsCount}
+            onClickPage={() => setInitialInteractionId(undefined)} 
           />
         </div>
       </div>

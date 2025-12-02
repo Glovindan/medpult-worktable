@@ -185,6 +185,7 @@ export default function SendEmailModal({
                 saveStateHandler={saveState}
                 style={{ border: "2px solid #d9d9d9", height: "29px" }}
                 isInvalid={isRecipientInvalid}
+                removeValueHandler={() => setRecipient("")}
               />
             ) : (
               <CustomInput

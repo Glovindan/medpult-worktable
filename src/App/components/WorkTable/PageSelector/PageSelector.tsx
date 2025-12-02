@@ -87,6 +87,8 @@ type PageSelectorProps = {
   filteredElementsCount: number | undefined
   /** Триггер для сброса списка */
   resetTrigger: Date
+  /** Триггер для сброса списка */
+  onClickPage: () => void
 };
 
 /** Выбор страницы */
@@ -96,6 +98,7 @@ export default function PageSelector({
   addItemsHandler,
   filteredElementsCount,
   resetTrigger,
+  onClickPage,
 }: PageSelectorProps) {
   // Индекс текущей страницы
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
@@ -149,6 +152,7 @@ export default function PageSelector({
 
   /** Обработчик выбора страницы */
   const handlePageClick = (pageIndex: number) => {
+    onClickPage();
     setCurrentPageIndex(pageIndex);
 
     // Показать PART_SIZE элементов
