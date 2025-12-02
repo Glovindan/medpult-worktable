@@ -19,12 +19,18 @@ interface InteractionsContentProps {
   interactionId: string;
   /** Идентификатор задачи */
   taskId?: string;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
 }
 
 function InteractionsContent({
   data,
   interactionId,
   taskId,
+  handleOpenReplyModal, 
+  handleOpenForwardModal,
 }: InteractionsContentProps) {
   /** Выпадающий список для файлов */
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -45,11 +51,12 @@ function InteractionsContent({
 
   /** Обработка нажатия на кнопку ответить */
   const handleReplyClick = async () => {
-    await Scripts.toggleSendEmailAnswer(interactionId, taskId);
+    handleOpenReplyModal(data.id)
   };
+  
   /** Обработка нажатия на кнопку переслать */
   const handleForwardClick = async () => {
-    await Scripts.toggleSendEmailForward(interactionId, taskId);
+    handleOpenForwardModal(data.id)
   };
 
   /** Получение иконки по статусу взаимодействия */

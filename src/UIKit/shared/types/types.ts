@@ -14,7 +14,7 @@ export interface CustomInputProps extends React.ComponentProps<'input'> {
 	/** Флажок открытости (Для выпадающего списка) */
 	isOpen?: boolean
 	/** Ссылка на обертку поля ввода */
-	wrapperRef?: React.RefObject<HTMLDivElement>
+	wrapperRef?: React.RefObject<HTMLDivElement | null>
 	/** Флажок только для чтения */
 	readOnly?: boolean
 	/** Флажок режим просмотра */

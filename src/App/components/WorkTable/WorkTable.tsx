@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import TabsWrapper from "../../../UIKit/Tabs/TabsWrapper/TabsWrapper.tsx";
 import TabItem from "../../../UIKit/Tabs/TabItem/TabItem.tsx";
 import WorkTableTabsActions from "./WorkTableTabsActions/WorkTableTabsActions.tsx";
@@ -10,6 +10,9 @@ import { useSort } from "../../shared/hooks.ts";
 import TasksTab from "./TasksTab/TasksTab.tsx";
 import InteractionsTab from "./InteractionsTab/InteractionsTab.tsx";
 import { TabCode } from "./WorkTableTypes.ts";
+import SendEmailModal from "./InteractionsList/SendEmailModal/SendEmailModal.tsx";
+import { useEmailModalController } from "./InteractionsList/SendEmailModal/SendEmailModalHooks.ts";
+import { AppFilter } from "../../../UIKit/Filters/FiltersTypes.ts";
 
 function useTabsController(setElementsCount: React.Dispatch<React.SetStateAction<number>>) {
   // Индикатор загрузки количества элементов на вкладках
@@ -66,107 +69,168 @@ export default function WorkTable() {
   /** Обработчик сброса списка и его контролера */
   const handleResetList = () => setLastResetDate(new Date());
 
+
+  const {modalProps, isModalVisible, handleOpenReplyModal, handleOpenForwardModal, handleCloseModal} = useEmailModalController();
+
+  // Идентификатор раскрытого взаимодействие при инициализации формы
+  const [initialInteractionId, setInitialInteractionId] = useState<string>()
+  useEffect(() => {
+    const currentURL = new URL(window.location.href);
+    
+    const contractorId = currentURL.searchParams.get("contractorId");
+    const tabCode = currentURL.searchParams.get("tab_code");
+    const interactionId = currentURL.searchParams.get("interaction_id");
+    
+    const getTabCode = () => {
+      switch(tabCode) {
+        case TabCode.myInteractions: return TabCode.myInteractions;
+        case TabCode.groupInteractions: return TabCode.groupInteractions;
+        default: return null;
+      }
+    }
+
+    // Открыть требуемую вкладку
+    const tabCodeEnum = getTabCode()
+    if(tabCodeEnum) setActiveTabCode(tabCodeEnum);
+
+    // Указать раскрытое взаимодействие
+    if(interactionId) setInitialInteractionId(interactionId);
+
+    // Указать выбранного контрагента и открыть модалку
+    if(interactionId && contractorId) handleOpenForwardModal(interactionId, contractorId)
+
+    const newUrl = new URL(currentURL);
+
+    newUrl.searchParams.delete("contractorId");
+    newUrl.searchParams.delete("tab_code");
+    newUrl.searchParams.delete("interaction_id");
+
+    window.history.replaceState({}, '', newUrl.href);
+  }, [])
+
+  const isFirstRender = useRef(true);
+  useEffect(() => {
+    if(isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    
+    setInitialInteractionId(undefined)
+  }, [activeTabCode])
+
   return (
-    <div className="worktable">
-      <div className="worktable__tabs">
-        <TabsWrapper 
-          actionsLayout={<WorkTableTabsActions />}
-          setActiveTabCodeGlobal={setActiveTabCode}
-          activeTabCodeGlobal={activeTabCode}
-        >
-          <TabItem
-            code={TabCode.groupInteractions}
-            name={
-              <TabWithCounter
-                title="Взаимодействия группы"
-                count={tabsItemsCounts.groupInteractions}
-                isLoading={isTabsItemsCountsLoading}
-              />
-            }
+    <>
+      {isModalVisible && <SendEmailModal {...modalProps} openTabCode={activeTabCode}/>}
+      <div className="worktable">
+        <div className="worktable__tabs">
+          <TabsWrapper 
+            actionsLayout={<WorkTableTabsActions />}
+            setActiveTabCodeGlobal={setActiveTabCode}
+            activeTabCodeGlobal={activeTabCode}
           >
-            <InteractionsTab
-              key="groupInteractions"
-              setLoadData={setAddItemsHandler}
-              setClearList={setClearItemsHandler}
-              setFilteredElementsCount={setFilteredElementsCount}
-              getInteractions={Scripts.getInteractionsGroup}
-              getInteractionsCount={Scripts.getInteractionsGroupCount}
-              handleResetList={handleResetList}
-            />
-          </TabItem>
-          <TabItem
-            code={TabCode.myInteractions}
-            name={
-              <TabWithCounter
-                title="Мои взаимодействия"
-                count={tabsItemsCounts.myInteractions}
-                isLoading={isTabsItemsCountsLoading}
+            <TabItem
+              code={TabCode.groupInteractions}
+              name={
+                <TabWithCounter
+                  title="Взаимодействия группы"
+                  count={tabsItemsCounts.groupInteractions}
+                  isLoading={isTabsItemsCountsLoading}
+                />
+              }
+            >
+              <InteractionsTab
+                key="groupInteractions"
+                setLoadData={setAddItemsHandler}
+                setClearList={setClearItemsHandler}
+                setFilteredElementsCount={setFilteredElementsCount}
+                getInteractions={Scripts.getInteractionsGroup}
+                getInteractionsCount={Scripts.getInteractionsGroupCount}
+                handleResetList={handleResetList}
+                handleOpenReplyModal={handleOpenReplyModal}
+                handleOpenForwardModal={handleOpenForwardModal}
+                initialInteractionId={initialInteractionId}
+                clearInitialInteractionId={() => setInitialInteractionId(undefined)}
               />
-            }
-          >
-            <InteractionsTab
-              key="myInteractions"
-              setLoadData={setAddItemsHandler}
-              setClearList={setClearItemsHandler}
-              setFilteredElementsCount={setFilteredElementsCount}
-              getInteractions={Scripts.getInteractionsMy}
-              getInteractionsCount={Scripts.getInteractionsMyCount}
-              hideEmployeeFilter={true}
-              handleResetList={handleResetList}
-            />
-          </TabItem>
-          <TabItem
-            code={TabCode.groupTasks}
-            name={
-              <TabWithCounter
-                title="Задачи группы"
-                count={tabsItemsCounts.groupTasks}
-                isLoading={isTabsItemsCountsLoading}
+            </TabItem>
+            <TabItem
+              code={TabCode.myInteractions}
+              name={
+                <TabWithCounter
+                  title="Мои взаимодействия"
+                  count={tabsItemsCounts.myInteractions}
+                  isLoading={isTabsItemsCountsLoading}
+                />
+              }
+            >
+              <InteractionsTab
+                key="myInteractions"
+                setLoadData={setAddItemsHandler}
+                setClearList={setClearItemsHandler}
+                setFilteredElementsCount={setFilteredElementsCount}
+                getInteractions={Scripts.getInteractionsMy}
+                getInteractionsCount={Scripts.getInteractionsMyCount}
+                hideEmployeeFilter={true}
+                handleResetList={handleResetList}
+                handleOpenReplyModal={handleOpenReplyModal}
+                handleOpenForwardModal={handleOpenForwardModal}
+                initialInteractionId={initialInteractionId}
+                clearInitialInteractionId={() => setInitialInteractionId(undefined)} 
               />
-            }
-          >
-            <TasksTab
-              key="groupTasks"
-              setLoadData={setAddItemsHandler}
-              setClearList={setClearItemsHandler}
-              setFilteredElementsCount={setFilteredElementsCount}
-              getTasks={Scripts.getTasksGroup}
-              getTasksCount={Scripts.getTasksGroupCount}
-              handleResetList={handleResetList}
-            />
-          </TabItem>
-          <TabItem
-            code={TabCode.myTasks}
-            name={
-              <TabWithCounter
-                title="Мои задачи"
-                count={tabsItemsCounts.myTasks}
-                isLoading={isTabsItemsCountsLoading}
+            </TabItem>
+            <TabItem
+              code={TabCode.groupTasks}
+              name={
+                <TabWithCounter
+                  title="Задачи группы"
+                  count={tabsItemsCounts.groupTasks}
+                  isLoading={isTabsItemsCountsLoading}
+                />
+              }
+            >
+              <TasksTab
+                key="groupTasks"
+                setLoadData={setAddItemsHandler}
+                setClearList={setClearItemsHandler}
+                setFilteredElementsCount={setFilteredElementsCount}
+                getTasks={Scripts.getTasksGroup}
+                getTasksCount={Scripts.getTasksGroupCount}
+                handleResetList={handleResetList}
               />
-            }
-          >
-            <TasksTab
-              key="myTasks"
-              setLoadData={setAddItemsHandler}
-              setClearList={setClearItemsHandler}
-              setFilteredElementsCount={setFilteredElementsCount}
-              getTasks={Scripts.getTasksMy}
-              getTasksCount={Scripts.getTasksMyCount}
-              handleResetList={handleResetList}
-              hideEmployeeFilter={true}
-            />
-          </TabItem>
-        </TabsWrapper>
+            </TabItem>
+            <TabItem
+              code={TabCode.myTasks}
+              name={
+                <TabWithCounter
+                  title="Мои задачи"
+                  count={tabsItemsCounts.myTasks}
+                  isLoading={isTabsItemsCountsLoading}
+                />
+              }
+            >
+              <TasksTab
+                key="myTasks"
+                setLoadData={setAddItemsHandler}
+                setClearList={setClearItemsHandler}
+                setFilteredElementsCount={setFilteredElementsCount}
+                getTasks={Scripts.getTasksMy}
+                getTasksCount={Scripts.getTasksMyCount}
+                handleResetList={handleResetList}
+                hideEmployeeFilter={true}
+              />
+            </TabItem>
+          </TabsWrapper>
+        </div>
+        <div className="worktable__page-selector">
+          <PageSelector
+            elementsCount={elementsCount}
+            clearItemsHandler={clearItemsHandler}
+            addItemsHandler={addItemsHandler}
+            resetTrigger={lastResetDate}
+            filteredElementsCount={filteredElementsCount}
+            onClickPage={() => setInitialInteractionId(undefined)} 
+          />
+        </div>
       </div>
-      <div className="worktable__page-selector">
-        <PageSelector
-          elementsCount={elementsCount}
-          clearItemsHandler={clearItemsHandler}
-          addItemsHandler={addItemsHandler}
-          resetTrigger={lastResetDate}
-          filteredElementsCount={filteredElementsCount}
-        />
-      </div>
-    </div>
+    </>
   );
 }

@@ -274,6 +274,23 @@ const SortArrow = (
   </svg>
 );
 
+const closeIcon = (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M19.0006 5L5 19.0001M19.0006 19.0001L5.00037 5"
+      stroke="#565A62"
+      stroke-width="1.5"
+      stroke-linecap="round"
+    />
+  </svg>
+);
+
 export default {
   /** Кнопка назад */
   ReturnButton,
@@ -297,4 +314,5 @@ export default {
   StatusPostpone,
   StatusComplete,
   SortArrow,
+  closeIcon,
 };

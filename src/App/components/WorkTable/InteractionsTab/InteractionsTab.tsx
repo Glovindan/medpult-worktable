@@ -20,17 +20,26 @@ export interface IInteractionsTabProps {
   hideEmployeeFilter?: boolean
   /** Обработчик сброса списка и его контролера */
   handleResetList: () => void
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
+  /** Идентификатор взаимодействия открытого по умолчанию */
+  initialInteractionId: string | undefined
+  /** Очистить изначальное взаимодействие */
+  clearInitialInteractionId: () => void
 };
 
 /** Вкладка взаимодействий */
 export default function InteractionsTab(props: IInteractionsTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>({})
 
-  const {handleResetList, hideEmployeeFilter, getInteractionsCount, setFilteredElementsCount} = props;
+  const {handleResetList, hideEmployeeFilter, getInteractionsCount, setFilteredElementsCount, clearInitialInteractionId} = props;
   const { sortData, toggleSort } = useSort();
 
   useEffect(() => {
     handleResetList()
+    clearInitialInteractionId()
   }, [searchParams, sortData])
 
   // Обновление количества отфильтрованных Взаимодействий

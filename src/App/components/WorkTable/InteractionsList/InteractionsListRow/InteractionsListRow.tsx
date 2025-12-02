@@ -16,10 +16,14 @@ type InteractionsListRowProps = {
   /** Данные строки взаимодействия */
   item: IInteractionItem;
   openRowIndex: string | undefined;
-  setOpenRowIndex: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setOpenRowIndex: (id?: string | undefined) => void;
   reloadData: (id: string) => void;
   items: IInteractionItem[];
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
+  /** Открыть Модальное окно ответа на сообщение */
+  handleOpenReplyModal: (interactionId: string) => void
+  /** Открыть Модальное окно пересылки сообщения */
+  handleOpenForwardModal: (interactionId: string) => void
 };
 
 /** Строка взаимодействия */
@@ -30,6 +34,8 @@ export default function InteractionsListRow({
   reloadData,
   items,
   setItems,
+  handleOpenReplyModal,
+  handleOpenForwardModal,
 }: InteractionsListRowProps) {
   const emptyColumn = <ListColumn>–</ListColumn>;
   const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
@@ -137,6 +143,8 @@ export default function InteractionsListRow({
           onClickRowHandler={toggleShowDetails}
           items={items}
           setItems={setItems}
+          handleOpenReplyModal={handleOpenReplyModal}
+          handleOpenForwardModal={handleOpenForwardModal}
         />
       )}
     </>

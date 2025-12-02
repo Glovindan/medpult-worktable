@@ -9,6 +9,7 @@ import {generateRandomInteractionItem} from "./InteractionsListScripts/interacti
 import { ObjectItem } from "../../../UIKit/Filters/FiltersTypes";
 import tasksClientScripts from "./TasksClientScripts/tasksClientScripts";
 import interactionsListScripts from "./InteractionsListScripts/InteractionsListScripts";
+import emailClientScripts from "./EmailClientScripts/EmailClientScripts";
 
 /** Заглушка ожидания ответа сервера */
 function randomDelay() {
@@ -227,7 +228,8 @@ async function getUrgencyList(): Promise<ObjectItem[]> {
 async function isCurrentUserExecutor(id: string): Promise<boolean> {
   await randomDelay();
 
-  return Math.random() > 0.5;
+  // return Math.random() > 0.5;
+  return true;
 }
 
 export default {
@@ -258,4 +260,5 @@ export default {
 
   ...interactionsListScripts,
   ...tasksClientScripts,
+  ...emailClientScripts,
 };

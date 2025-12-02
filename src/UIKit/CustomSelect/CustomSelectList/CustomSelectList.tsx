@@ -2,7 +2,7 @@ import React, { PropsWithChildren, useEffect, useRef } from 'react'
 import Loader from '../../Loader/Loader';
 
 interface CustomSelectListProps {
-	rootRef: React.RefObject<HTMLDivElement>,
+	rootRef: React.RefObject<HTMLDivElement | null>,
 	isOpen: boolean,
 	closeHandler: () => void,
 	isLoading: boolean,
