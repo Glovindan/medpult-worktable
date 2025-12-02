@@ -37,8 +37,6 @@ async function getEmails(): Promise<ObjectItem[]> {
   return emails;
 }
 
-
-
 async function getEmailDataByInteractionId(
   interactionId: string
 ): Promise<SendEmailAction> {
@@ -56,9 +54,24 @@ async function getEmailDataByInteractionId(
   };
 }
 
+/** Получение данных контрагента по его идентификатору */
+async function getEmailDataByContractorId(
+  contractorId: string
+): Promise<SendEmailAction> {
+  return {
+    contractor: {
+      id: "contractorId",
+      fullname: "Иванов Иван",
+      emails: ["foo@gmail.com", "bar@gmail.com"],
+      email: "foo@gmail.com",
+    },
+  };
+}
+
 export default {
     getSelectContractorLink,
     sendEmail,
     getEmails,
     getEmailDataByInteractionId,
+    getEmailDataByContractorId,
 }

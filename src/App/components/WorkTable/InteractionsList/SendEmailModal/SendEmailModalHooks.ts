@@ -24,12 +24,13 @@ export function useEmailModalController() {
         setIsModalVisible(false);
     }
 
-    const handleOpenModal = async (interactionId: string, mode: "reply" | "forward" | null) => {
+    const handleOpenReplyModal = async (interactionId: string) => {
         const data = await Scripts.getEmailDataByInteractionId(interactionId);
+
         setModalProps({
             interactionId: interactionId,
             closeModal: handleCloseModal,
-            mode: mode,
+            mode: "reply",
             saveState: saveState,
             initialData:  {
                 text: data.text,
@@ -42,12 +43,24 @@ export function useEmailModalController() {
         setIsModalVisible(true);
     }
 
-    const handleOpenReplyModal = async (interactionId: string) => {
-        return handleOpenModal(interactionId, "reply")
-    }
-
-    const handleOpenForwardModal = async (interactionId: string) => {
-        return handleOpenModal(interactionId, "forward")
+    const handleOpenForwardModal = async (interactionId: string, contractorId?: string) => {
+        const contractorData = contractorId ? await Scripts.getEmailDataByContractorId(contractorId) : undefined;
+        const data = await Scripts.getEmailDataByInteractionId(interactionId);
+        
+        setModalProps({
+            interactionId: interactionId,
+            closeModal: handleCloseModal,
+            mode: "forward",
+            saveState: saveState,
+            initialData:  {
+                contractor: contractorData?.contractor,
+                text: data.text,
+                topic: data.topic,
+                filesData: data.filesData,
+            }
+        });
+        
+        setIsModalVisible(true);
     }
 
     return {

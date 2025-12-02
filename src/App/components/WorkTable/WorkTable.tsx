@@ -71,8 +71,40 @@ export default function WorkTable() {
 
   const {modalProps, isModalVisible, handleOpenReplyModal, handleOpenForwardModal, handleCloseModal} = useEmailModalController();
 
+  // Идентификатор раскрытого взаимодействие при инициализации формы
+  const [initialInteractionId, setInitialInteractionId] = useState<string>()
   useEffect(() => {
-    // Получить
+    const currentURL = new URL(window.location.href);
+    
+    const contractorId = currentURL.searchParams.get("contractorId");
+    const tabCode = currentURL.searchParams.get("tab_code");
+    const interactionId = currentURL.searchParams.get("interaction_id");
+    
+    const getTabCode = () => {
+      switch(tabCode) {
+        case TabCode.myInteractions: return TabCode.myInteractions;
+        case TabCode.groupInteractions: return TabCode.groupInteractions;
+        default: return null;
+      }
+    }
+
+    // Открыть требуемую вкладку
+    const tabCodeEnum = getTabCode()
+    if(tabCodeEnum) setActiveTabCode(tabCodeEnum);
+
+    // Указать раскрытое взаимодействие
+    if(interactionId) setInitialInteractionId(interactionId);
+
+    // Указать выбранного контрагента и открыть модалку
+    if(interactionId && contractorId) handleOpenForwardModal(interactionId, contractorId)
+
+    const newUrl = new URL(currentURL);
+
+    newUrl.searchParams.delete("contractorId");
+    newUrl.searchParams.delete("tab_code");
+    newUrl.searchParams.delete("interaction_id");
+
+    window.history.replaceState({}, '', newUrl.href);
   }, [])
 
   return (

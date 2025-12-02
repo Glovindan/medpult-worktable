@@ -39,6 +39,7 @@ export default function SendEmailModal({
     setText(initialData.text || "");
 
     if (mode === "forward") {
+      setRecipient(initialData.contractor?.fullname || "");
       setFiles(initialData.filesData?.map((f) => new File([], f.name)) || []);
       setTopic(initialData.topic || "");
     }
