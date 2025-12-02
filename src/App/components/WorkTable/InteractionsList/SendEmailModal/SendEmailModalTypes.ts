@@ -40,4 +40,5 @@ export interface SendEmailModalProps {
   initialData?: Partial<SendEmailAction>;
   /** Сохранение состояния вкладки */
   saveState: () => void;
+  openTabCode?: string;
 }

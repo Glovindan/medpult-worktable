@@ -17,6 +17,7 @@ export default function SendEmailModal({
   mode,
   initialData,
   saveState,
+  openTabCode,
 }: SendEmailModalProps) {
   /** Локальное состояние формы */
   const [recipient, setRecipient] = useState("");
@@ -75,13 +76,19 @@ export default function SendEmailModal({
     console.log("Сохранено состояние:", formState);
   };
 
-  /** Ссылка на форму отбора контрагентов */
-  const selectContractorHref = (() => {
+  const getSelectContractorHref = () => {
     const baseLink = Scripts.getSelectContractorLink();
     const url = new URL(window.location.origin + "/" + baseLink);
-    url.searchParams.set("field_id", "select-interaction-contractors");
+
+    url.searchParams.set("field_id", "worktable-send-email");
+    if(openTabCode) url.searchParams.set("tab_code", openTabCode);
+    url.searchParams.set("interaction_id", interactionId);
+
     return url.toString();
-  })();
+  }
+
+  /** Ссылка на форму отбора контрагентов */
+  const selectContractorHref = getSelectContractorHref();
 
   // Валидация окна отправки Email
   const [isEmailInvalid, setIsEmailInvalid] = useState(false);

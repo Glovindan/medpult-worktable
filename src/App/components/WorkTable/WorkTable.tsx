@@ -77,7 +77,7 @@ export default function WorkTable() {
 
   return (
     <>
-      {isModalVisible && <SendEmailModal {...modalProps} />}
+      {isModalVisible && <SendEmailModal {...modalProps} openTabCode={activeTabCode}/>}
       <div className="worktable">
         <div className="worktable__tabs">
           <TabsWrapper 
