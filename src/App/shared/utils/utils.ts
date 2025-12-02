@@ -201,6 +201,60 @@ export const getMaskedPhone = (value: string) => {
   );
 };
 
+export function convertDateToTimezone(
+  date: Date,
+  timezone: string,
+  dateFormat: string
+): string {
+  
+  const fillWithZeros = (num: number, totalLength: number): string => {
+      let strNum = num.toString();
+      while (strNum.length < totalLength) {
+          strNum = '0' + strNum;
+      }
+      return strNum;
+  }
+
+  // Проверяем валидность переданной даты
+  if (!(date instanceof Date && !isNaN(date.valueOf()))) {
+    throw new Error('Invalid input date.');
+  }
+
+  try {
+    // Преобразовываем дату в указанной временной зоне с помощью toLocaleString()
+    const result = date.toLocaleString('ru-RU', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      fractionalSecondDigits: undefined,
+      timeZone: timezone,
+    });
+
+    // Разбираем полученный результат и формируем строковое представление даты
+    const parts = result.split(', ');
+    const [ddmmYY, hhmmss] = parts.map((part) => part.trim()).filter(Boolean);
+
+    const [dd, mm, YY] = ddmmYY.split('.');
+    const [hh, min, sec] = hhmmss.split(':');
+
+    // Формируем итоговую строку по переданному формату
+    const formattedDate = dateFormat
+      .replace('DD', `${fillWithZeros(parseInt(dd), 2)}`)
+      .replace('MM', `${fillWithZeros(parseInt(mm), 2)}`)
+      .replace('YYYY', `${fillWithZeros(parseInt(YY), 2)}`)
+      .replace('HH', `${fillWithZeros(parseInt(hh), 2)}`)
+      .replace('mm', `${fillWithZeros(parseInt(min), 2)}`);
+
+    return formattedDate;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}
+
 export default {
   redirectSPA,
   setRequest,

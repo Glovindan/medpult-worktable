@@ -1,7 +1,5 @@
-import { max } from "moment";
 import React, { useEffect, useState } from "react";
 import Loader from "../../../../UIKit/Loader/Loader";
-import { SortData } from "../../../shared/types";
 
 /** Возможное количество отображаемых страниц слева и справа от текущей */
 const PAGES_RANGE = 2;

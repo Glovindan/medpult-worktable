@@ -210,7 +210,8 @@ export const generateRandomInteractionItem = (): IInteractionItem => {
     entryPoint: generateRandomEntryPoint(),
     slaStatus: randomSlaStatus(),
     contactData: generateRandomContactData(),
-    createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата в пределах последних 30 дней
+    // createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата в пределах последних 30 дней
+    createdAt: new Date(Date.now()), // Случайная дата в пределах последних 30 дней
     contractorName: generateRandomContractorName(),
     hasAttachments: Boolean(Math.round(Math.random())),
     requestTopic: generator.generate().join(" "),

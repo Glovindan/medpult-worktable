@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import moment from "moment";
 import ListColumn from "../../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../../ListComponents/LinkColumn/LinkColumn";
 import Scripts from "../../../../../shared/utils/clientScripts";
@@ -8,7 +7,7 @@ import { MiddleEllipsisString } from "../../../ListComponents/MiddleEllipsisStri
 import DoubleStrokeColumn from "../../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
 import TaskStatusColumn from "./TaskStatusColumn/TaskStatusColumn";
 import TaskInsuredColumn from "./TaskInsuredColumn/TaskInsuredColumn";
-import { getTaskHref } from "../../../../../shared/utils/utils";
+import { convertDateToTimezone, getTaskHref } from "../../../../../shared/utils/utils";
 
 type TasksListRowProps = {
   /** Данные строки задачи */
@@ -36,8 +35,8 @@ export default function TasksListRow({
         <ListColumn>{item.urgency}</ListColumn>
         <TaskInsuredColumn insuredData={item.insured} />
         <ListColumn noWrap={true}>{item.region}</ListColumn>
-        <ListColumn>{moment(item.createdAt).format("DD.MM.YYYY HH:mm")}</ListColumn>
-        <ListColumn>{moment(item.controlDate).format("DD.MM.YYYY HH:mm")}</ListColumn>
+        <ListColumn>{convertDateToTimezone(item.createdAt, 'Europe/Moscow', "DD.MM.YYYY HH:mm")}</ListColumn>
+        <ListColumn>{convertDateToTimezone(item.controlDate, 'Europe/Moscow', "DD.MM.YYYY HH:mm")}</ListColumn>
         <DoubleStrokeColumn firstRowValue={item.taskTypeData.sort} secondRowValue={item.taskTypeData.type} />
         <TaskStatusColumn taskStatus={item.taskStatus}/>
         <DoubleStrokeColumn firstRowValue={item.executor.fullName} secondRowValue={item.executor.groupName} />

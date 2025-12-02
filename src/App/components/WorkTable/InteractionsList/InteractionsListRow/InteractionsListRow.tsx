@@ -9,7 +9,7 @@ import { MiddleEllipsisString } from "../../ListComponents/MiddleEllipsisString/
 import icons from "../icons";
 import { IInteractionItem } from "../InteractionsListTypes";
 import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
-import { getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
+import { convertDateToTimezone, getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
 import Scripts from "../../../../shared/utils/clientScripts";
 
 type InteractionsListRowProps = {
@@ -81,7 +81,7 @@ export default function InteractionsListRow({
           />
         </ListColumn>
         <ListColumn>
-          {moment(item.createdAt).format("DD.MM.YYYY HH:mm")}
+          {convertDateToTimezone(item.createdAt, 'Europe/Moscow', "DD.MM.YYYY HH:mm")}
         </ListColumn>
         {!!item.contractorName ? (
           <ListColumn>{item.contractorName}</ListColumn>
