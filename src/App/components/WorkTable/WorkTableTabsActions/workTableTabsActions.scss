@@ -1,19 +1,25 @@
 .tabs-actions {
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  padding-bottom: 20px;
+  font-family: Inter;
+
+  &__call {
     display: flex;
     flex-direction: row;
-    gap: 40px;
-    padding-bottom: 20px;
-    
-    &__call {
-        display: flex;
-        flex-direction: row;
-        gap: 12px;
-        height: 40px;
+    gap: 12px;
+    height: 40px;
+    align-items: center;
 
-        &_input {
-            width: 200px;
-            height: 40px;
-            display: flex;
-        }
+    &_input {
+      width: 200px;
+      height: 40px;
+      display: flex;
     }
+    &_error {
+      color: var(--medpult-alert-color);
+      font-size: 14px;
+    }
+  }
 }

@@ -163,7 +163,6 @@ export async function onClickDownloadFileByUrl(
   URL.revokeObjectURL(link.href);
 }
 
-
 /** Получить ссылку на страницу конкретного обращения */
 export function getRequestHref(requestId: string) {
   const requestPageLink = Scripts.getRequestPagePath();
@@ -188,6 +187,20 @@ export function getTaskHref(requestId: string, taskId: string) {
   return href;
 }
 
+export const getMaskedPhone = (value: string) => {
+  return (
+    Array.from(
+      value.matchAll(
+        /(\+?7|8)\D*(\d{1,3})?\D*(\d{1,3})?\D*(\d{1,2})?\D*(\d{1,2})?/gm
+      )
+    )[0]
+      ?.slice(1)
+      .filter((val) => val)
+      .join(" ")
+      .replace(/^(7|8)/, "+7") ?? ""
+  );
+};
+
 export default {
   redirectSPA,
   setRequest,
@@ -196,4 +209,5 @@ export default {
   saveState,
   getStatusRequestColor,
   getStatusTaskIcon,
+  getMaskedPhone,
 };
