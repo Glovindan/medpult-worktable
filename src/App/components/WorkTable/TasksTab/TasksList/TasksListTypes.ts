@@ -115,7 +115,7 @@ export interface ITaskItem {
     /** Дата создания */
     createdAt: Date;
     /** Дата контроля */
-    controlDate: Date;
+    controlDate?: Date;
     /** Вид задачи */
     taskTypeData: TaskTypeData;
     /** Статус задачи */

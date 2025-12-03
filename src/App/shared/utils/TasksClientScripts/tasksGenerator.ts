@@ -109,7 +109,7 @@ export const generateRandomTaskItem = (): ITaskItem => {
         insured: randomInsuredData(),                       // Имя застрахованного
         region: randomRegion(),                          // Регион
         createdAt: new Date(Date.now() + Math.random() * 86400000 * 30), // Случайная дата создания
-        controlDate: new Date(Date.now() + Math.random() * 86400000 * 60), // Контрольная дата позже даты создания
+        controlDate: Math.random() > 0.5 ? new Date(Date.now() + Math.random() * 86400000 * 60) : undefined, // Контрольная дата позже даты создания
         taskTypeData: randomTaskTypeData(),              // Данные о типе и виде задачи
         taskStatus: randomTaskStatus(),                  // Статус задачи
         executor: randomExecutorData()                   // Данные исполнителя
