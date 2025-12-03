@@ -10,6 +10,7 @@ import Scripts from "../../../../shared/utils/clientScripts";
 import { useList } from "../../../../shared/hooks";
 import TasksListRow from "./TasksListRow/TasksListRow";
 import { ITasksTabProps } from "../TasksTab";
+import { useTaskSlaBuffer } from "./TasksListHooks";
 
 export interface ITasksListProps extends ITasksTabProps {
   /** Поисковые данные задач */
@@ -49,6 +50,18 @@ export default function TasksList({
     setLoadData(() => loadData);
     setClearList(() => clearList);
   }, [searchParams, sortData]);
+  
+  const [tasksIds, setTasksIds] = useState<string[]>([]);
+  useEffect(() => {
+    setTasksIds(items.map(item => item.id))
+  }, [items])
+
+  const {slaBuffers, getSlaBufferByTaskId} = useTaskSlaBuffer(tasksIds);
+  useEffect(() => {
+    console.log("Уёбок гавна пидорас тупой");
+    console.log(tasksIds);
+    console.log(slaBuffers);
+  }, [slaBuffers])
 
   return (
     <div className="tasks-list">
@@ -56,7 +69,7 @@ export default function TasksList({
         <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.taskNumber)}>
           Номер
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.slaStatus)}>
+        <ListHeaderColumn /* {...getListColumnProps(TasksSortableFieldCode.slaStatus)} */>
           SLA
         </ListHeaderColumn>
         <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.urgency)}>
@@ -65,7 +78,7 @@ export default function TasksList({
         <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.insured)}>
           Застрахованный
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.region)}>
+        <ListHeaderColumn /* {...getListColumnProps(TasksSortableFieldCode.region)} */>
           Регион
         </ListHeaderColumn>
         <ListHeaderColumn {...getListColumnProps(TasksSortableFieldCode.createdAt)}>
@@ -89,6 +102,7 @@ export default function TasksList({
             <TasksListRow
               key={item.id}
               item={item}
+              slaBuffer={getSlaBufferByTaskId(item.id)}
             />
         )}
         {isLoading && <Loader />}

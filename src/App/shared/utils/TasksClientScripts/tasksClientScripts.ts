@@ -1,7 +1,8 @@
 import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
-import { ISearchTasksParams, ITaskItem, TaskStatus } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
+import { ISearchTasksParams, ITaskItem, TaskStatus, TermBuffer } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
 import { SearchParams } from "../../types";
 import { generateTasksArray } from "./tasksGenerator";
+import { generateTermBufferList } from "./termBufferMockGenerator";
 
 
 /** Заглушка ожидания ответа сервера */
@@ -106,6 +107,12 @@ async function getTaskStatuses(): Promise<ObjectItem[]> {
   ];
 }
 
+/** Получить сроки решения задач */
+async function getTasksResolutionTerms(tasksIds: string[]): Promise<TermBuffer[]> {
+  await randomDelay();
+  return generateTermBufferList(tasksIds)
+}
+
 export default {
   getTasksMy,
   getTasksGroup,
@@ -116,4 +123,6 @@ export default {
   getTaskTypes,
   getTaskSorts,
   getTaskStatuses,
+
+  getTasksResolutionTerms,
 };

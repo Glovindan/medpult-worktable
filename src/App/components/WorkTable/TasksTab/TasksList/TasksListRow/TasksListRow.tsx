@@ -2,25 +2,26 @@ import React, { useEffect, useState } from "react";
 import ListColumn from "../../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../../ListComponents/LinkColumn/LinkColumn";
 import Scripts from "../../../../../shared/utils/clientScripts";
-import { ITaskItem } from "../TasksListTypes";
+import { ITaskItem, TermBuffer } from "../TasksListTypes";
 import { MiddleEllipsisString } from "../../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
 import DoubleStrokeColumn from "../../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
 import TaskStatusColumn from "./TaskStatusColumn/TaskStatusColumn";
 import TaskInsuredColumn from "./TaskInsuredColumn/TaskInsuredColumn";
 import { convertDateToTimezone, getTaskHref } from "../../../../../shared/utils/utils";
+import SlaColumn from "../../../ListComponents/SlaColumn/SlaColumn";
 
 type TasksListRowProps = {
   /** Данные строки задачи */
   item: ITaskItem;
+  /** Данные SLA */
+  slaBuffer: TermBuffer | undefined
 };
 
 /** Строка взаимодействия */
 export default function TasksListRow({
   item,
+  slaBuffer,
 }: TasksListRowProps) {
-  const emptyColumn = <ListColumn>–</ListColumn>;
-  const unknownColumn = <ListColumn>Неизвестно</ListColumn>;
-
   return (
     <>
       <div className="tasks-list-row">
@@ -31,7 +32,7 @@ export default function TasksListRow({
           <MiddleEllipsisString value={item.task.number} />
         </LinkColumn>
         {/* TODO: Колонка SLA */}
-        <ListColumn></ListColumn>
+        <SlaColumn remainingTimeInMinutes={slaBuffer?.minutesRemaining} totalTimeInMinutes={slaBuffer?.slaValue ?? 0} />
         <ListColumn>{item.urgency}</ListColumn>
         <TaskInsuredColumn insuredData={item.insured} />
         <ListColumn noWrap={true}>{item.region}</ListColumn>

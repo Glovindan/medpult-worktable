@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import StatusColumn from "./StatusColumn/StatusColumn";
 import ChannelColumn from "./ChannelColumn/ChannelColumn";
 import DoubleStrokeColumn from "../../ListComponents/DoubleStrokeColumn/DoubleStrokeColumn";
-import moment from "moment";
 import ListColumn from "../../ListComponents/ListColumn/ListColumn";
 import LinkColumn from "../../ListComponents/LinkColumn/LinkColumn";
 import { MiddleEllipsisString } from "../../ListComponents/MiddleEllipsisString/MiddleEllipsisString";
