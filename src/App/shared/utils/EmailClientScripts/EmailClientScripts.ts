@@ -51,6 +51,7 @@ async function getEmailDataByInteractionId(
       emails: ["foo@gmail.com", "bar@gmail.com"],
       email: "foo@gmail.com",
     },
+    emailsCopy: "bar@gmail.com",
   };
 }
 
@@ -69,9 +70,9 @@ async function getEmailDataByContractorId(
 }
 
 export default {
-    getSelectContractorLink,
-    sendEmail,
-    getEmails,
-    getEmailDataByInteractionId,
-    getEmailDataByContractorId,
-}
+  getSelectContractorLink,
+  sendEmail,
+  getEmails,
+  getEmailDataByInteractionId,
+  getEmailDataByContractorId,
+};

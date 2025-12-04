@@ -20,7 +20,16 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
 
   /** Копирование номера в буфер обмена */
   const handleCopyClick = async () => {
-    await navigator.clipboard.writeText(data.number);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(data.number);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = data.number;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand("copy");
+      document.body.removeChild(textarea);
+    }
   };
 
   /** Обработка нажатия на кнопку изменить/привязать */
@@ -35,12 +44,14 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
   /** Обработка нажатия на кнопку В работу */
   const onTakeToWorkClick = async () => {
     await Scripts.setStatusAtWork(data.id);
+    onSave?.();
     reloadData?.(data.id);
   };
 
   /** Обработка нажатия на кнопку Закрыть */
   const onTakeCloseClick = async () => {
     await Scripts.setStatusProcessed(data.id);
+    onSave?.();
     reloadData?.(data.id);
   };
 
