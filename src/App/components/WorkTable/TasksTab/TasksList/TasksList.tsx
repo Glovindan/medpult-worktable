@@ -57,11 +57,6 @@ export default function TasksList({
   }, [items])
 
   const {slaBuffers, getSlaBufferByTaskId} = useTaskSlaBuffer(tasksIds);
-  useEffect(() => {
-    console.log("Уёбок гавна пидорас тупой");
-    console.log(tasksIds);
-    console.log(slaBuffers);
-  }, [slaBuffers])
 
   return (
     <div className="tasks-list">

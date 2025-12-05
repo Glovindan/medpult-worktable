@@ -129,6 +129,24 @@ async function getTasksUserGroups(users?: string[]): Promise<ObjectItem[]> {
   return authors;
 }
 
+/** Получение исполнителей для вкладки задач */
+async function getUsersTasks(groups?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
+    new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
+    new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
+    new ObjectItem({
+      code: "test3",
+      value:
+        "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч",
+    }),
+    new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
+    new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
+  ];
+  return authors;
+}
+
 export default {
   getTasksMy,
   getTasksGroup,
@@ -143,4 +161,5 @@ export default {
   getTasksResolutionTerms,
 
   getTasksUserGroups,
+  getUsersTasks,
 };

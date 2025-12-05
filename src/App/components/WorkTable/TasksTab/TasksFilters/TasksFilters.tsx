@@ -86,7 +86,7 @@ export default function TasksFilters({
 
   // Получение сотрудников
   const getUsers = useCallback(
-    () => Scripts.getUsersInteraction(filters.groupIds),
+    () => Scripts.getUsersTasks(filters.groupIds),
     [filters.groupIds]
   );
 
