@@ -8,7 +8,7 @@ import { useEnterClickHandler } from "../../../shared/hooks.ts";
 
 interface FilteredInteractionsProps {
   setSearchParams: (filters: ISearchInteractionsParams) => void;
-  hideEmployeeFilter?: boolean
+  hideEmployeeFilter?: boolean;
 }
 export default function FilteredInteractions({
   setSearchParams,
@@ -17,7 +17,7 @@ export default function FilteredInteractions({
   /** Состояние фильтров */
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
   const setFilter = (updateData: ISearchInteractionsParams) => {
-    setFilters((prev) => ({ ...prev, ...updateData }))
+    setFilters((prev) => ({ ...prev, ...updateData }));
   };
 
   enum SearchFieldCode {
@@ -41,54 +41,69 @@ export default function FilteredInteractions({
     { code: SearchFieldCode.request, name: "Обращение" },
     { code: SearchFieldCode.task, name: "Задача" },
   ];
-  
+
   const defaultSearchField = searchOptions[0];
-  const [selectedFieldCode, setSelectedFieldCode] = useState<SearchFieldCode>(defaultSearchField.code);
+  const [selectedFieldCode, setSelectedFieldCode] = useState<SearchFieldCode>(
+    defaultSearchField.code
+  );
 
   const setSelectedFieldByName = (name: string) => {
     const option = searchOptions.find((o) => o.name === name);
-    if (option) setSelectedFieldCode(option.code)
-  }
+    if (option) setSelectedFieldCode(option.code);
+  };
 
   const getSelectedFieldName = () => {
-    const option = searchOptions.find(searchOption => searchOption.code == selectedFieldCode);
-    return option?.name
-  }
+    const option = searchOptions.find(
+      (searchOption) => searchOption.code == selectedFieldCode
+    );
+    return option?.name;
+  };
 
   /** Получение значения поискового запроса */
   const getSearchQuery = () => {
-    switch(selectedFieldCode) {
-      case SearchFieldCode.phoneOrEmail: return filters.phoneOrEmail;
-      case SearchFieldCode.topic: return filters.topic;
-      case SearchFieldCode.contractorName: return filters.contractorName;
-      case SearchFieldCode.request: return filters.request;
-      default: return filters.task;
+    switch (selectedFieldCode) {
+      case SearchFieldCode.phoneOrEmail:
+        return filters.phoneOrEmail;
+      case SearchFieldCode.topic:
+        return filters.topic;
+      case SearchFieldCode.contractorName:
+        return filters.contractorName;
+      case SearchFieldCode.request:
+        return filters.request;
+      default:
+        return filters.task;
     }
-  }
+  };
 
   /** Установить значения поискового запроса в соответствующее поле фильтров */
   const setSearchQuery = (query?: string) => {
-    switch(selectedFieldCode) {
-      case SearchFieldCode.phoneOrEmail: return setFilter({phoneOrEmail: query })
-      case SearchFieldCode.topic: return setFilter({topic: query })
-      case SearchFieldCode.contractorName: return setFilter({contractorName: query })
-      case SearchFieldCode.request: return setFilter({request: query })
-      default: return setFilter({task: query })
+    switch (selectedFieldCode) {
+      case SearchFieldCode.phoneOrEmail:
+        return setFilter({ phoneOrEmail: query });
+      case SearchFieldCode.topic:
+        return setFilter({ topic: query });
+      case SearchFieldCode.contractorName:
+        return setFilter({ contractorName: query });
+      case SearchFieldCode.request:
+        return setFilter({ request: query });
+      default:
+        return setFilter({ task: query });
     }
-  }
-
+  };
 
   /** Очистка всех фильтров */
   const clearFilters = () => {
     setFilters({});
+    setSearchParams({});
+    setSelectedFieldCode(defaultSearchField.code)
   };
 
   /** Применить все фильтры */
   const applyFilters = () => {
     setSearchParams(filters);
   };
-  
-  useEnterClickHandler(filters, applyFilters)
+
+  useEnterClickHandler(filters, applyFilters);
 
   //Получение каналов
   const getChannels = useCallback(
@@ -102,7 +117,11 @@ export default function FilteredInteractions({
   );
   //Получение групп
   const getGroups = useCallback(
-    () => Scripts.getUserGroups(filters.users),
+    () => hideEmployeeFilter 
+      // Для вкладки мих взаимодействий фильтровать по группам пользователя, 
+      ? Scripts.getGroupsByUserGroups(filters.users) 
+      // Иначе не фильтровать
+      : Scripts.getUserGroups(filters.users),
     [filters.users]
   );
   //Получение сотрудников
@@ -154,8 +173,7 @@ export default function FilteredInteractions({
           placeholder="Введите название группы"
           getDataHandler={getGroups}
         />
-        {
-          !hideEmployeeFilter &&
+        {!hideEmployeeFilter && (
           <CustomMultiSelect
             value={filters.users}
             setValue={(val) => setFilters((prev) => ({ ...prev, users: val }))}
@@ -163,8 +181,9 @@ export default function FilteredInteractions({
             isSearch={true}
             placeholder="Введите ФИО сотрудника"
             getDataHandler={getUsers}
+            isSelectedAllDefault={true}
           />
-        }
+        )}
         <CustomMultiSelect
           value={filters.statuses}
           setValue={(val) => setFilters((prev) => ({ ...prev, statuses: val }))}

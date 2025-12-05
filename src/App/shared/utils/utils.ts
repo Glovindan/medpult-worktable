@@ -202,7 +202,7 @@ export const getMaskedPhone = (value: string) => {
 };
 
 export function convertDateToTimezone(
-  date: Date,
+  date: Date | undefined,
   timezone: string,
   dateFormat: string
 ): string {
@@ -216,9 +216,7 @@ export function convertDateToTimezone(
   }
 
   // Проверяем валидность переданной даты
-  if (!(date instanceof Date && !isNaN(date.valueOf()))) {
-    throw new Error('Invalid input date.');
-  }
+  if (!(date instanceof Date && !isNaN(date.valueOf()))) {return ""}
 
   try {
     // Преобразовываем дату в указанной временной зоне с помощью toLocaleString()

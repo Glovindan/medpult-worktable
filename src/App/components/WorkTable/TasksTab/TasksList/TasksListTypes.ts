@@ -115,7 +115,7 @@ export interface ITaskItem {
     /** Дата создания */
     createdAt: Date;
     /** Дата контроля */
-    controlDate: Date;
+    controlDate?: Date;
     /** Вид задачи */
     taskTypeData: TaskTypeData;
     /** Статус задачи */
@@ -146,4 +146,34 @@ export enum TasksSortableFieldCode {
     taskStatus = "taskStatus",
     /** Исполнитель */
     executor = "executor",
+}
+
+/** Статус срока */
+export enum TermBufferStatus {
+    /** Активный */
+    active = "active",
+    /** Неактивный */
+    inactive = "inactive",
+    /** Пауза */
+    pause = "pause",
+    /** Выполнено */
+    done = "done",
+}
+
+/** Буфер значения срока */
+export type TermBuffer = {
+    /** Идентификатор объекта */
+    id: string,
+    /** Оставшееся количество минут */
+    minutesRemaining: number,
+    /** Статус срока */
+    status: TermBufferStatus,
+    /** Идентификатор SLA */
+    slaId?: string,
+    /** Значение SLA в минутах */
+    slaValue?: number,
+    /** Дата от которой отсчитывается дедлайн */
+    startDate?: Date
+    /** Дата от которой вычисляется оставшееся время */
+    endDate?: Date
 }

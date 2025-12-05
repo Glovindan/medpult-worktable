@@ -59,6 +59,7 @@ export default function SendEmailModal({
       const sessionsList = sessionValue ? [sessionValue] : [];
       setSessionOptions([...sessionsList, { value: "Новая сессия", code: "" }]);
       setSession(sessionValue);
+      setCopyEmails(initialData.emailsCopy || "");
     }
   }, [initialData, mode]);
 
@@ -82,11 +83,11 @@ export default function SendEmailModal({
     const url = new URL(window.location.origin + "/" + baseLink);
 
     url.searchParams.set("field_id", "worktable-send-email");
-    if(openTabCode) url.searchParams.set("tab_code", openTabCode);
+    if (openTabCode) url.searchParams.set("tab_code", openTabCode);
     url.searchParams.set("interaction_id", interactionId);
 
     return url.toString();
-  }
+  };
 
   /** Ссылка на форму отбора контрагентов */
   const selectContractorHref = getSelectContractorHref();

@@ -1,7 +1,8 @@
 import { ObjectItem } from "../../../../UIKit/Filters/FiltersTypes";
-import { ISearchTasksParams, ITaskItem, TaskStatus } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
+import { ISearchTasksParams, ITaskItem, TaskStatus, TermBuffer } from "../../../components/WorkTable/TasksTab/TasksList/TasksListTypes";
 import { SearchParams } from "../../types";
 import { generateTasksArray } from "./tasksGenerator";
+import { generateTermBufferList } from "./termBufferMockGenerator";
 
 
 /** Заглушка ожидания ответа сервера */
@@ -106,6 +107,46 @@ async function getTaskStatuses(): Promise<ObjectItem[]> {
   ];
 }
 
+/** Получить сроки решения задач */
+async function getTasksResolutionTerms(tasksIds: string[]): Promise<TermBuffer[]> {
+  await randomDelay();
+  return generateTermBufferList(tasksIds)
+}
+
+/** Получение групп для вкладок с задачами */
+async function getGroupsByUserGroups(users?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "testTask", value: "Группа записи" }),
+    new ObjectItem({ code: "testTask1", value: "Врачи кураторы МедКЦ (3 линия)" }),
+    new ObjectItem({ code: "testTask2", value: "Операторы (дев)" }),
+    new ObjectItem({ code: "testTask3", value: "Врачи кураторы МедКЦ (2 линия)" }),
+    new ObjectItem({ code: "testTask4", value: "Супервайзеры (дев)" }),
+    new ObjectItem({ code: "testTask5", value: "Экперты по претензиям (4 линия)" }),
+  ];
+
+  return authors;
+}
+
+/** Получение исполнителей для вкладки задач */
+async function getUsersByUserGroups(groups?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
+    new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
+    new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
+    new ObjectItem({
+      code: "test3",
+      value:
+        "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч",
+    }),
+    new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
+    new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
+  ];
+  return authors;
+}
+
 export default {
   getTasksMy,
   getTasksGroup,
@@ -116,4 +157,9 @@ export default {
   getTaskTypes,
   getTaskSorts,
   getTaskStatuses,
+
+  getTasksResolutionTerms,
+
+  getGroupsByUserGroups,
+  getUsersByUserGroups,
 };

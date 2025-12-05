@@ -12,6 +12,7 @@ interface ModalExecutorProps {
   initialGroup: ObjectItem | null;
   initialEmployee: ObjectItem | null;
   onSave?: () => void;
+  reloadData: (id: string) => void;
 }
 
 /** Модальное окно исполнителя */
@@ -21,6 +22,7 @@ export default function ModalExecutor({
   initialGroup,
   initialEmployee,
   onSave,
+  reloadData,
 }: ModalExecutorProps) {
   const [group, setGroup] = useState<ObjectItem | null>(initialGroup);
   const [employee, setEmployee] = useState<ObjectItem | null>(initialEmployee);
@@ -28,6 +30,7 @@ export default function ModalExecutor({
   const saveGroupExecutor = async () => {
     await Scripts.saveGroupExecutor(interactionId, group, employee);
     onSave?.();
+    reloadData?.(interactionId);
     closeModal();
   };
 

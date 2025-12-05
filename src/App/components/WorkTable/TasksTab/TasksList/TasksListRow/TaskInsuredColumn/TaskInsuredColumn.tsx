@@ -61,9 +61,9 @@ export default function TaskInsuredColumn({insuredData}: TaskInsuredColumnProps)
     <div className="task-insured-column">
         <div className="task-insured-column__first-row" title={insuredData.fullName}>{insuredData.fullName}</div>
         <div className="task-insured-column__second-row">
-					<span className="task-insured-column__policy-category" title={policyCategoryName}>{policyCategoryIcon}</span>
-					<span className="task-insured-column__policy-number" title={insuredData.policyNumber}>{insuredData.policyNumber}</span>
-				</div>
+			<span className="task-insured-column__policy-category" title={policyCategoryName}>{policyCategoryIcon}</span>
+			<span className="task-insured-column__policy-number" title={insuredData.policyNumber}>{insuredData.policyNumber}</span>
+		</div>
     </div>
   );
 }
