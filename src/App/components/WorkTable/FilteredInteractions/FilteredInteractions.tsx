@@ -111,6 +111,17 @@ export default function FilteredInteractions({
     [filters.groups]
   );
 
+  // const applyAllEmployeesFilter = async () => {
+  //   if(!hideEmployeeFilter) return;
+
+  //   const allUsers = await getUsers();
+
+  // }
+
+  // useEffect(() => {
+  //   applyAllEmployeesFilter()
+  // }, [])
+
   return (
     <div className="filtered-interactions">
       <div className="filtered-interactions__header">
@@ -163,6 +174,7 @@ export default function FilteredInteractions({
             isSearch={true}
             placeholder="Введите ФИО сотрудника"
             getDataHandler={getUsers}
+            isSelectedAllDefault={true}
           />
         }
         <CustomMultiSelect

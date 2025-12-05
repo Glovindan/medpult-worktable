@@ -80,7 +80,7 @@ export default function TasksFilters({
 
   // Получение групп
   const getGroups = useCallback(
-    () => Scripts.getUserGroups(filters.employeeIds),
+    () => Scripts.getTasksUserGroups(filters.employeeIds),
     [filters.employeeIds]
   );
 
@@ -169,6 +169,7 @@ export default function TasksFilters({
               isSearch={true}
               placeholder="Введите ФИО сотрудника"
               getDataHandler={getUsers}
+              isSelectedAllDefault={true}
             />
           }
           <CustomMultiSelect

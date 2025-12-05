@@ -10,6 +10,8 @@ interface MultiSelectProps {
   getDataHandler: () => Promise<ObjectItem[]>;
   isSearch?: boolean;
   placeholder?: string;
+  /** Выбраны все по-умолчанию */
+  isSelectedAllDefault?: boolean
 }
 
 export default function CustomMultiSelect({
@@ -19,6 +21,7 @@ export default function CustomMultiSelect({
   getDataHandler,
   isSearch = false,
   placeholder,
+  isSelectedAllDefault,
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -28,15 +31,20 @@ export default function CustomMultiSelect({
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
+  const handleLoadOptions = async () => {
+    setIsLoading(true);
+    const options = await getDataHandler();
+    setOptions(options);
+    // По-умолчанию выбрать все
+    if(isSelectedAllDefault) setValue(options.map((o) => o.code));
+    setIsLoading(false);
+
+    setSearch("");
+  }
+
   // Подгрузка данных при открытии дропдауна
   React.useLayoutEffect(() => {
-    if (open) {
-      setIsLoading(true);
-      getDataHandler()
-        .then((data) => setOptions(data))
-        .finally(() => setIsLoading(false));
-      setSearch("");
-    }
+    if (open || isSelectedAllDefault) handleLoadOptions();
   }, [open, getDataHandler]);
 
   const isAllSelected = value.length === options.length && options.length > 0;
@@ -141,7 +149,8 @@ export default function CustomMultiSelect({
 
                 return (
                   <div
-                    key={opt.value}
+                    title={opt.value}
+                    key={opt.code}
                     className="multi-select__dropdown__list__option"
                     onClick={(e) => {
                       e.stopPropagation();

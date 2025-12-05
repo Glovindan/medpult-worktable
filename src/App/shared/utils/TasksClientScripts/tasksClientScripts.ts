@@ -113,6 +113,22 @@ async function getTasksResolutionTerms(tasksIds: string[]): Promise<TermBuffer[]
   return generateTermBufferList(tasksIds)
 }
 
+/** Получение групп для вкладок с задачами */
+async function getTasksUserGroups(users?: string[]): Promise<ObjectItem[]> {
+  await randomDelay();
+
+  const authors: ObjectItem[] = [
+    new ObjectItem({ code: "testTask", value: "Группа записи" }),
+    new ObjectItem({ code: "testTask1", value: "Врачи кураторы МедКЦ (3 линия)" }),
+    new ObjectItem({ code: "testTask2", value: "Операторы (дев)" }),
+    new ObjectItem({ code: "testTask3", value: "Врачи кураторы МедКЦ (2 линия)" }),
+    new ObjectItem({ code: "testTask4", value: "Супервайзеры (дев)" }),
+    new ObjectItem({ code: "testTask5", value: "Экперты по претензиям (4 линия)" }),
+  ];
+
+  return authors;
+}
+
 export default {
   getTasksMy,
   getTasksGroup,
@@ -125,4 +141,6 @@ export default {
   getTaskStatuses,
 
   getTasksResolutionTerms,
+
+  getTasksUserGroups,
 };
