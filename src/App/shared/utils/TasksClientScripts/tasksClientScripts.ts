@@ -114,7 +114,7 @@ async function getTasksResolutionTerms(tasksIds: string[]): Promise<TermBuffer[]
 }
 
 /** Получение групп для вкладок с задачами */
-async function getTasksUserGroups(users?: string[]): Promise<ObjectItem[]> {
+async function getGroupsByUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
   const authors: ObjectItem[] = [
@@ -130,7 +130,7 @@ async function getTasksUserGroups(users?: string[]): Promise<ObjectItem[]> {
 }
 
 /** Получение исполнителей для вкладки задач */
-async function getUsersTasks(groups?: string[]): Promise<ObjectItem[]> {
+async function getUsersByUserGroups(groups?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
   const authors: ObjectItem[] = [
     new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
@@ -160,6 +160,6 @@ export default {
 
   getTasksResolutionTerms,
 
-  getTasksUserGroups,
-  getUsersTasks,
+  getGroupsByUserGroups,
+  getUsersByUserGroups,
 };

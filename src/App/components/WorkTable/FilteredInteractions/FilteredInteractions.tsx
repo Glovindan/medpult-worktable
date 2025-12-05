@@ -95,6 +95,7 @@ export default function FilteredInteractions({
   const clearFilters = () => {
     setFilters({});
     setSearchParams({});
+    setSelectedFieldCode(defaultSearchField.code)
   };
 
   /** Применить все фильтры */
@@ -116,7 +117,11 @@ export default function FilteredInteractions({
   );
   //Получение групп
   const getGroups = useCallback(
-    () => Scripts.getUserGroups(filters.users),
+    () => hideEmployeeFilter 
+      // Для вкладки мих взаимодействий фильтровать по группам пользователя, 
+      ? Scripts.getGroupsByUserGroups(filters.users) 
+      // Иначе не фильтровать
+      : Scripts.getUserGroups(filters.users),
     [filters.users]
   );
   //Получение сотрудников
@@ -124,17 +129,6 @@ export default function FilteredInteractions({
     () => Scripts.getUsersInteraction(filters.groups),
     [filters.groups]
   );
-
-  // const applyAllEmployeesFilter = async () => {
-  //   if(!hideEmployeeFilter) return;
-
-  //   const allUsers = await getUsers();
-
-  // }
-
-  // useEffect(() => {
-  //   applyAllEmployeesFilter()
-  // }, [])
 
   return (
     <div className="filtered-interactions">

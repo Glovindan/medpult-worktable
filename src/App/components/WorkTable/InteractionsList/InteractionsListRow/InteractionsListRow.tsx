@@ -49,15 +49,6 @@ export default function InteractionsListRow({
     setOpenRowIndex(String(item.id));
   };
   const isShowDetails = String(item.id) === openRowIndex;
-  const [isExecutor, setIsExecutor] = useState<boolean | null>()
-
-  useEffect(() => {
-    async function checkExecutor() {
-      const result = await Scripts.isCurrentUserExecutor(item.id);
-      setIsExecutor(result);
-    }
-    checkExecutor();
-  }, []);
 
   return (
     <>
@@ -119,20 +110,17 @@ export default function InteractionsListRow({
         ) : (
           emptyColumn
         )}
-        {
-          isExecutor &&
-          <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
-            <button
-              className="expand-button"
-              style={{
-                transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
-              }}
-              onClick={toggleShowDetails}
-            >
-              {icons.arrowIcon}
-            </button>
-          </ListColumn>
-        }
+        <ListColumn tooltip={isShowDetails ? "Свернуть" : "Развернуть"}>
+          <button
+            className="expand-button"
+            style={{
+              transform: isShowDetails ? "rotate(180deg)" : "rotate(0deg)",
+            }}
+            onClick={toggleShowDetails}
+          >
+            {icons.arrowIcon}
+          </button>
+        </ListColumn>
       </div>
       {/* Детальная информация */}
       {isShowDetails && (

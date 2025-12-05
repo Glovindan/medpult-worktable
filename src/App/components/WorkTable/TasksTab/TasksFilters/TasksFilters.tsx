@@ -56,7 +56,11 @@ export default function TasksFilters({
   };
 
   /** Очистка всех фильтров */
-  const clearFilters = () => setFilters({});
+  const clearFilters = () => {
+    setFilters({})
+    setSearchParams({});
+    setSelectedFieldCode(defaultSearchField.code)
+  };
 
   /** Применить все фильтры */
   const applyFilters = () => {
@@ -80,13 +84,13 @@ export default function TasksFilters({
 
   // Получение групп
   const getGroups = useCallback(
-    () => Scripts.getTasksUserGroups(filters.employeeIds),
+    () => Scripts.getGroupsByUserGroups(filters.employeeIds),
     [filters.employeeIds]
   );
 
   // Получение сотрудников
   const getUsers = useCallback(
-    () => Scripts.getUsersTasks(filters.groupIds),
+    () => Scripts.getUsersByUserGroups(filters.groupIds),
     [filters.groupIds]
   );
 
@@ -175,7 +179,7 @@ export default function TasksFilters({
           <CustomMultiSelect
             value={filters.taskStatusCodes}
             setValue={(val) => setFilter({taskStatusCodes: val})}
-            title="Статус обработки"
+            title="Статус задачи"
             getDataHandler={Scripts.getTaskStatuses}
           />
         </div>

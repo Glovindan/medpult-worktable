@@ -27,6 +27,7 @@ export default function CustomMultiSelect({
   const [search, setSearch] = useState("");
   const [options, setOptions] = useState<ObjectItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isSelectAllLoading, setIsSelectAllLoading] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setOpen((prev) => !prev);
@@ -35,16 +36,33 @@ export default function CustomMultiSelect({
     setIsLoading(true);
     const options = await getDataHandler();
     setOptions(options);
-    // По-умолчанию выбрать все
-    if(isSelectedAllDefault) setValue(options.map((o) => o.code));
+
     setIsLoading(false);
 
     setSearch("");
   }
 
+  const handleSelectAll = async () => {
+    if(!isSelectedAllDefault) {
+      setIsSelectAllLoading(false);
+      return
+    };
+
+    const options = await getDataHandler();
+    // По-умолчанию выбрать все
+    if(isSelectedAllDefault) setValue(options.map((o) => o.code));
+    
+    setIsSelectAllLoading(false);
+  }
+  
+  // Выбор всех при инициализации
+  React.useLayoutEffect(() => {
+    handleSelectAll();
+  }, [])
+
   // Подгрузка данных при открытии дропдауна
   React.useLayoutEffect(() => {
-    if (open || isSelectedAllDefault) handleLoadOptions();
+    if (open) handleLoadOptions();
   }, [open, getDataHandler]);
 
   const isAllSelected = value.length === options.length && options.length > 0;
@@ -140,7 +158,7 @@ export default function CustomMultiSelect({
 
           {/* Выпадающий список */}
           <div className="multi-select__dropdown__list">
-            {isLoading ? (
+            {(isLoading || isSelectAllLoading) ? (
               <Loader />
             ) : (
               filteredOptions.map((opt) => {
