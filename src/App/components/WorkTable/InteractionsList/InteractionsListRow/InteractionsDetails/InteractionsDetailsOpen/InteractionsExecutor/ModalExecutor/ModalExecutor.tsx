@@ -24,15 +24,58 @@ export default function ModalExecutor({
   onSave,
   reloadData,
 }: ModalExecutorProps) {
-  const [group, setGroup] = useState<ObjectItem | null>(initialGroup);
-  const [employee, setEmployee] = useState<ObjectItem | null>(initialEmployee);
+  const [group, setGroup] = useState<ObjectItem | null>(null);
+  const [employee, setEmployee] = useState<ObjectItem | null>(null);
 
+  // сохранить группу и email
   const saveGroupExecutor = async () => {
     await Scripts.saveGroupExecutor(interactionId, group, employee);
     onSave?.();
     reloadData?.(interactionId);
     closeModal();
   };
+
+  // функция для проверки принадлежности сотрудника к группе
+  const validateEmployeeForGroup = async (selectedGroup: ObjectItem | null) => {
+    if (!employee || !selectedGroup) return;
+    // Список сотрудников для выбранной группы
+    const employeesInGroup = await Scripts.validateEmployeeForGroup(
+      selectedGroup.code,
+      employee.code
+    );
+    // Если выбранный сотрудник не входит в эту группу — очищаем
+    if (!employeesInGroup) {
+      setEmployee(null);
+    }
+  };
+
+  // при изменении группы
+  const handleGroupSelect = async (selectedGroup: ObjectItem | null) => {
+    setGroup(selectedGroup);
+    await validateEmployeeForGroup(selectedGroup);
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const autoSelectGroupForEmployee = async () => {
+      if (!employee) return;
+
+      // Получаем группы сотрудника
+      const userGroups = await Scripts.getUserGroups([employee.code]);
+
+      // Если групп одна — автоматически подставляем
+      if (!cancelled && userGroups && userGroups.length === 1) {
+        setGroup(userGroups[0]);
+      }
+    };
+
+    autoSelectGroupForEmployee();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [employee]);
 
   return (
     <ModalWrapper>
@@ -48,23 +91,29 @@ export default function ModalExecutor({
           </div>
           <div className="modal-executor__content__input">
             <SearchableSelect
+              key={employee?.code ?? "no-employee"}
               label="Группа"
               placeholder="Введите название группы"
               value={group}
-              onSelect={setGroup}
-              getDataHandler={() =>
-                Scripts.getUserGroups(employee ? [employee.code] : [])
-              }
+              onSelect={handleGroupSelect}
+              getDataHandler={async () => {
+                return employee
+                  ? Scripts.getUserGroups([employee.code])
+                  : Scripts.getUserGroups();
+              }}
             />
 
             <SearchableSelect
+              key={group?.code ?? "no-group"}
               label="Сотрудник"
               placeholder="Введите ФИО сотрудника"
               value={employee}
               onSelect={setEmployee}
-              getDataHandler={() =>
-                Scripts.getUsersInteraction(group ? [group.code] : [])
-              }
+              getDataHandler={async () => {
+                return group
+                  ? Scripts.getUsersInteraction([group.code])
+                  : Scripts.getUsersInteraction();
+              }}
             />
           </div>
 

@@ -241,6 +241,13 @@ async function isCurrentUserExecutor(id: string): Promise<boolean> {
   return true;
 }
 
+async function validateEmployeeForGroup(
+  groupId: string,
+  userId: string
+): Promise<boolean> {
+  return false;
+}
+
 export default {
   getTabItemsCount,
 
@@ -267,6 +274,7 @@ export default {
 
   getUrgencyList,
   isCurrentUserExecutor,
+  validateEmployeeForGroup,
 
   ...interactionsListScripts,
   ...tasksClientScripts,
