@@ -14,13 +14,37 @@ import SendEmailModal from "./InteractionsList/SendEmailModal/SendEmailModal.tsx
 import { useEmailModalController } from "./InteractionsList/SendEmailModal/SendEmailModalHooks.ts";
 import { AppFilter } from "../../../UIKit/Filters/FiltersTypes.ts";
 
+
+const SAVED_TAB_CODE_KEY = "worktableTabCode";
+
 function useTabsController(setElementsCount: React.Dispatch<React.SetStateAction<number>>) {
   // Индикатор загрузки количества элементов на вкладках
   const [isTabsItemsCountsLoading, setIsTabsItemsCountsLoading] = useState<boolean>(true);
   // Количество элементов на каждой вкладке
   const [tabsItemsCounts, setTabsItemsCounts] = useState<TabsItemsCounts>(new TabsItemsCounts());
+
+  const getTabCodeByStringCode = (stringCode: string) => {
+    switch(stringCode) {
+      case TabCode.groupInteractions: return TabCode.groupInteractions
+      case TabCode.myInteractions: return TabCode.myInteractions
+      case TabCode.groupTasks: return TabCode.groupTasks
+      case TabCode.myTasks: return TabCode.myTasks
+      default: return;
+    }
+  }
+
+  const getSavedTabCode = () => {
+    const savedTabCode = localStorage.getItem(SAVED_TAB_CODE_KEY);
+
+    if(!savedTabCode) return;
+    const tabCode = getTabCodeByStringCode(savedTabCode)
+    if(!tabCode) return;
+
+    return tabCode;
+  }
+
   // Состояние кода выбранной вкладки
-  const [activeTabCode, setActiveTabCode] = useState<TabCode>(TabCode.groupInteractions)
+  const [activeTabCode, setActiveTabCode] = useState<TabCode>(getSavedTabCode() ?? TabCode.groupInteractions)
 
   // Обновление количества элементов на вкладках
   const updateTabsItemsCounts = async () => {
@@ -53,13 +77,13 @@ function useTabsController(setElementsCount: React.Dispatch<React.SetStateAction
     updateTabsItemsCounts();
   }, []);
 
-  return { isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts, activeTabCode, setActiveTabCode };
+  return { isTabsItemsCountsLoading, tabsItemsCounts, updateTabsItemsCounts, activeTabCode, setActiveTabCode, getTabCodeByStringCode };
 }
 
 /** Рабочий стол */
 export default function WorkTable() {
   const [elementsCount, setElementsCount] = useState<number>(0);
-  const { isTabsItemsCountsLoading, tabsItemsCounts, activeTabCode, setActiveTabCode } = useTabsController(setElementsCount);
+  const { isTabsItemsCountsLoading, tabsItemsCounts, activeTabCode, setActiveTabCode, getTabCodeByStringCode } = useTabsController(setElementsCount);
 
   const [clearItemsHandler, setClearItemsHandler] = useState<() => void>(() => () => {});
   const [addItemsHandler, setAddItemsHandler] = useState<(page: number, size: number) => Promise<void>>(() => async (page: number, size: number) => {});
@@ -74,24 +98,25 @@ export default function WorkTable() {
 
   // Идентификатор раскрытого взаимодействие при инициализации формы
   const [initialInteractionId, setInitialInteractionId] = useState<string>()
-  useEffect(() => {
+
+  const initWithSendEmailModal = () => {
     const currentURL = new URL(window.location.href);
     
     const contractorId = currentURL.searchParams.get("contractorId");
-    const tabCode = currentURL.searchParams.get("tab_code");
+    // const tabCode = currentURL.searchParams.get("tab_code");
     const interactionId = currentURL.searchParams.get("interaction_id");
     
-    const getTabCode = () => {
-      switch(tabCode) {
-        case TabCode.myInteractions: return TabCode.myInteractions;
-        case TabCode.groupInteractions: return TabCode.groupInteractions;
-        default: return null;
-      }
-    }
+    // const getTabCode = () => {
+    //   switch(tabCode) {
+    //     case TabCode.myInteractions: return TabCode.myInteractions;
+    //     case TabCode.groupInteractions: return TabCode.groupInteractions;
+    //     default: return null;
+    //   }
+    // }
 
-    // Открыть требуемую вкладку
-    const tabCodeEnum = getTabCode()
-    if(tabCodeEnum) setActiveTabCode(tabCodeEnum);
+    // // Открыть требуемую вкладку
+    // const tabCodeEnum = getTabCode()
+    // if(tabCodeEnum) setActiveTabCode(tabCodeEnum);
 
     // Указать раскрытое взаимодействие
     if(interactionId) setInitialInteractionId(interactionId);
@@ -106,6 +131,10 @@ export default function WorkTable() {
     newUrl.searchParams.delete("interaction_id");
 
     window.history.replaceState({}, '', newUrl.href);
+  }
+
+  useEffect(() => {
+    initWithSendEmailModal();
   }, [])
 
   const isFirstRender = useRef(true);
@@ -115,6 +144,7 @@ export default function WorkTable() {
       return;
     }
     
+    localStorage.setItem(SAVED_TAB_CODE_KEY, activeTabCode)
     setInitialInteractionId(undefined)
   }, [activeTabCode])
 
