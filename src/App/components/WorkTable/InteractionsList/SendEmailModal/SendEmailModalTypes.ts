@@ -1,4 +1,4 @@
-import { ObjectItem } from "../../../../../../../../UIKit/Filters/FiltersTypes";
+import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
 
 // Данные файла
 interface FileData {
@@ -31,6 +31,8 @@ export interface SendEmailAction {
   filesData?: FileData[];
   /** Тема письма */
   topic?: string;
+  /** Почты получателей копии */
+  emailsCopy?: string;
 }
 
 export interface SendEmailModalProps {

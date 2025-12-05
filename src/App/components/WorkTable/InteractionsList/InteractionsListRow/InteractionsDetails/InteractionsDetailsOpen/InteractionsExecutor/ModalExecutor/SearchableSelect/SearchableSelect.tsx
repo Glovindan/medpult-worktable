@@ -82,6 +82,7 @@ export function SearchableSelect({
                 width: "100%",
                 border: "1px solid #a4a7ae",
                 borderRadius: "8px",
+                height: "40px",
               }}
               onFocus={(e) => (e.target.style.border = "1px solid #1570ef")}
             />
