@@ -38,6 +38,7 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
     const link = Scripts.getIcomingEmailLink();
     const redirectUrl = new URL(window.location.origin + "/" + link);
     if (email) redirectUrl.searchParams.set("email", email);
+    if (data.id) redirectUrl.searchParams.set("interactionId", data.id);
     window.open(redirectUrl.toString(), "_blank");
   };
 
