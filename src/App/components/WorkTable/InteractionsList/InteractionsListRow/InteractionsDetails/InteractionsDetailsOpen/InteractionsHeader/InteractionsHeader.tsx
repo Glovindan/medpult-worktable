@@ -42,6 +42,12 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
     window.open(redirectUrl.toString(), "_blank");
   };
 
+  /** Обработка нажатия на кнопку Сохранить */
+  const onTakeSaveClick = async () => {
+    onSave?.();
+    reloadData?.(data.id);
+  };
+
   /** Обработка нажатия на кнопку В работу */
   const onTakeToWorkClick = async () => {
     await Scripts.setStatusAtWork(data.id);
@@ -106,6 +112,14 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
             disabled={data.status.code === InteractionStatus.processed}
           />
         )}
+        <CustomButton
+          title={`Сохранить${duplicateCount ? ` (${duplicateCount})` : ""}`}
+          clickHandler={onTakeSaveClick}
+          svg={icons.saveIcon}
+          svgPosition="left"
+          disabled={data.status.code === InteractionStatus.processed}
+        />
+
         {data.status.code === InteractionStatus.atWork && (
           <CustomButton
             buttonType="outline"
