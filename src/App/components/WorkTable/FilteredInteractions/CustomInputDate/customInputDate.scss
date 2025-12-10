@@ -1,0 +1,83 @@
+.custom-input-date-wt {
+  position: relative;
+  width: 100%;
+
+	&__picker {
+	  position: absolute;
+		visibility: hidden;
+		height: 100%;
+		width: 100%;
+	}
+
+	&__input {
+    width: 100% !important;
+    outline: none;
+    border: none;
+    margin: none;
+
+    color: #303337;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    
+    font-size: 14px;
+    height: 20px;
+    font-weight: 400;
+	}
+
+  &__title {
+    position: absolute;
+    top: -8px;
+    left: 8px;
+    background: #fff;
+    padding: 0 4px;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.25px;
+    font-weight: 400;
+    color: #565a62;
+    z-index: 2;
+  }
+
+  &__field {
+    border: 1px solid #a4a7ae;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    background: #fff;
+    align-items: center;
+    overflow: hidden;
+    &:focus {
+      outline: none;
+      border: 1px solid #1570ef;
+    }
+
+    &__label {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 400;
+      color: #303337;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  &__calendar {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+
+    background-color: transparent;
+    width: fit-content;
+    height: fit-content;
+    border: none;
+    padding: 0;
+
+    cursor: pointer;
+  }
+}

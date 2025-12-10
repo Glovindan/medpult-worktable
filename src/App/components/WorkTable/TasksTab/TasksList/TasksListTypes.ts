@@ -32,9 +32,9 @@ export type ISearchTasksParams = {
     /** Статус задачи */
     taskStatusCodes?: string[];
     /** Дата с */
-    dateFrom?: Date;
+    dateFrom?: string;
     /** Дата по */
-    dateTo?: Date;
+    dateTo?: string;
 }
 
 /** Данные типа и вида задачи */

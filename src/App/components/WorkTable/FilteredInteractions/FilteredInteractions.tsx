@@ -181,7 +181,6 @@ export default function FilteredInteractions({
             isSearch={true}
             placeholder="Введите ФИО сотрудника"
             getDataHandler={getUsers}
-            isSelectedAllDefault={true}
           />
         )}
         <CustomMultiSelect

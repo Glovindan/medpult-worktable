@@ -5,6 +5,8 @@ import Scripts from "../../../../shared/utils/clientScripts";
 import CustomMultiSelect from "../../FilteredInteractions/CustomMultiSelect/CustomMultiSelect";
 import Button from "../../../../../UIKit/Button/Button";
 import CustomInputSelect from "../../FilteredInteractions/CustomInputSelect/CustomInputSelect";
+import { InputDateType } from "../../../../../UIKit/CustomInputDate/CustomInputDateTypes";
+import CustomInputDate from "../../FilteredInteractions/CustomInputDate/CustomInputDate";
 
 type TasksFiltersProps = {
   setSearchParams: (filters: ISearchTasksParams) => void;
@@ -82,6 +84,24 @@ export default function TasksFilters({
     [filters.taskTypeIds]
   );
 
+  // Обработчик выбора Типа задач
+  const handleSelectTypeOption = async(selectedTypesCodes: string[]) => {
+    // // Фильтрация выбранных Видов задач
+    // const availableSorts = await Scripts.getTaskSorts(selectedTypesCodes)
+    // const selectedSortsFiltered = filters.taskSortIds?.filter(sortCode => availableSorts.find(availableSort => availableSort.code == sortCode));
+
+    setFilter({/* taskSortIds: selectedSortsFiltered, */ taskTypeIds: selectedTypesCodes})
+  }
+
+  // Обработчик выбора Вида задач
+  const handleSelectSortOption = async(selectedSortsCodes: string[]) => {
+    // // Фильтрация выбранных Типов задач
+    // const availableTypes = await Scripts.getTaskTypes(selectedSortsCodes)
+    // const selectedTypesFiltered = filters.taskTypeIds?.filter(typeCode => availableTypes.find(availableType => availableType.code == typeCode));
+
+    setFilter({taskSortIds: selectedSortsCodes/* , taskTypeIds: selectedTypesFiltered */})
+  }
+
   // Получение групп
   const getGroups = useCallback(
     () => Scripts.getGroupsByUserGroups(filters.employeeIds),
@@ -146,13 +166,14 @@ export default function TasksFilters({
           />
           <CustomMultiSelect
             value={filters.taskTypeIds}
-            setValue={(val) => setFilter({taskTypeIds: val})}
+            setValue={handleSelectTypeOption}
             title="Тип задачи"
             getDataHandler={getTypes}
           />
           <CustomMultiSelect
             value={filters.taskSortIds}
-            setValue={(val) => setFilter({taskSortIds: val})}
+            // setValue={(val) => setFilter({taskSortIds: val})}
+            setValue={handleSelectSortOption}
             title="Вид задачи"
             getDataHandler={getSorts}
           />
@@ -173,7 +194,6 @@ export default function TasksFilters({
               isSearch={true}
               placeholder="Введите ФИО сотрудника"
               getDataHandler={getUsers}
-              isSelectedAllDefault={true}
             />
           }
           <CustomMultiSelect
@@ -182,6 +202,8 @@ export default function TasksFilters({
             title="Статус задачи"
             getDataHandler={Scripts.getTaskStatuses}
           />
+          <CustomInputDate title="Дата с" type={InputDateType.date} value={filters.dateFrom} setValue={(val) => setFilter({dateFrom: val})} />
+          <CustomInputDate title="Дата по" type={InputDateType.date} value={filters.dateTo} setValue={(val) => setFilter({dateTo: val})} />
         </div>
       </div>
     </>

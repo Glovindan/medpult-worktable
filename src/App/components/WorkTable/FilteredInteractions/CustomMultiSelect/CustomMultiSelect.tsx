@@ -105,7 +105,7 @@ export default function CustomMultiSelect({
     document.addEventListener("mousedown", handleOutside);
     return () => document.removeEventListener("mousedown", handleOutside);
   }, []);
-
+  
   return (
     <div className="multi-select" ref={rootRef}>
       <div className="multi-select__title">{title}</div>

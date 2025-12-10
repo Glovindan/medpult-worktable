@@ -61,36 +61,59 @@ function getTaskStatusName(status: TaskStatus) {
   }
 }
 
+const types = [
+  new ObjectItem({ code: "type", value: "Тип один" }),
+  new ObjectItem({ code: "type1", value: "Тип два" }),
+  new ObjectItem({ code: "type2", value: "Тип три" }),
+];
+
+const sorts = [
+  new ObjectItem({ code: "sort", value: "Вид один" }),
+  new ObjectItem({ code: "sort1", value: "Вид два" }),
+  new ObjectItem({ code: "sort2", value: "Вид три" }),
+  new ObjectItem({ code: "sort3", value: "Вид четыре" }),
+  new ObjectItem({ code: "sort4", value: "Вид пять" }),
+]
+
+const typeSortMaps = [
+  {type: "type", sorts: ["sort"],},
+  {type: "type1", sorts: ["sort1", "sort2"]},
+  {type: "type2 ", sorts: ["sort3", "sort4"]},
+]
+
 /** Получение типов задач */
 async function getTaskTypes(taskSortIds?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
-  if(taskSortIds?.length) return [
-    new ObjectItem({ code: "test", value: "Тип один" }),
-    new ObjectItem({ code: "test1", value: "Тип два" })
-  ]
+  if(taskSortIds?.length) {
+    const typesFiltered = types.filter(type => {
+      const mapItem = typeSortMaps.find(typeSortMap => typeSortMap.type == type.code);
+      if(!mapItem) return false;
 
-  return [
-    new ObjectItem({ code: "test", value: "Тип один" }),
-    new ObjectItem({ code: "test1", value: "Тип два" }),
-    new ObjectItem({ code: "test2", value: "Тип три" }),
-  ];
+      return mapItem.sorts.find(sortCode => taskSortIds.find(id => sortCode == id));
+    })
+
+    return typesFiltered;
+  }
+
+  return types;
 }
 
 /** Получение видов задач */
 async function getTaskSorts(taskTypesIds?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
-  if(taskTypesIds?.length) return [
-    new ObjectItem({ code: "test", value: "Вид один" }),
-    new ObjectItem({ code: "test1", value: "Вид два" })
-  ]
+  if(taskTypesIds?.length) {
+    const sortCodes = typeSortMaps
+      .filter(typeSortMap => taskTypesIds.find(id => id == typeSortMap.type))
+      .flatMap(typeSortMap => typeSortMap.sorts);
 
-  return [
-    new ObjectItem({ code: "test", value: "Вид один" }),
-    new ObjectItem({ code: "test1", value: "Вид два" }),
-    new ObjectItem({ code: "test2", value: "Вид три" }),
-  ];
+    const sortsFiltered = sorts.filter(sort => sortCodes.find(sortCode => sortCode == sort.code))
+
+    return sortsFiltered;
+  }
+
+  return sorts;
 }
 
 /** Получение статусов задач */

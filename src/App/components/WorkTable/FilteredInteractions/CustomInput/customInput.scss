@@ -1,0 +1,82 @@
+.custom-input-wt {
+  &__buttons {
+    padding-right: 6px;
+    display: flex;
+  }
+
+  &__wrapper {
+    border: 1px solid #a4a7ae;
+    border-radius: 8px;
+    padding: 8px 12px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    background: #fff;
+    align-items: center;
+    overflow: hidden;
+    &:focus {
+      outline: none;
+      border: 1px solid #1570ef;
+    }
+
+    // &__label {
+    //   font-size: 14px;
+    //   line-height: 20px;
+    //   font-weight: 400;
+    //   color: #303337;
+
+    //   overflow: hidden;
+    //   text-overflow: ellipsis;
+    //   white-space: nowrap;
+    // }
+  }
+  // &__wrapper {
+  //   color: black;
+  //   font-size: 14px;
+  //   font-style: normal;
+  //   font-weight: 400;
+  //   line-height: normal;
+  //   letter-spacing: 0.42px;
+
+  //   opacity: 1;
+
+  //   border: 1px solid #a4a7ae;
+  //   border-radius: 8px;
+  //   height: 40px;
+  //   width: 100%;
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+  //   overflow: hidden;
+
+  //   &_open {
+  //     border-bottom-right-radius: 0;
+  //     border-bottom-left-radius: 0;
+  //     box-shadow: none;
+  //   }
+
+  //   &_invalid {
+  //     border: 1px solid #ff0505;
+  //   }
+  // }
+
+  &__input {
+    width: 100% !important;
+    height: 100%;
+    padding-left: 6px;
+    user-select: text;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    font-style: normal;
+    font-weight: 400;
+    font-family: "Inter";
+    font-size: 14px;
+  }
+}
+
+.button__wrapper {
+  width: 30px;
+  height: 30px;
+  background-color: red;
+}
