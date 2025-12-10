@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { InputDateType } from './CustomInputDateTypes';
-import icons from '../../../../../UIKit/shared/icons';
-import { CustomInputProps } from '../../../../../UIKit/shared/types/types';
-import InputButton from '../../../../../UIKit/InputButton/InputButton';
 import masks from '../../../../../UIKit/shared/utils/masks';
-import CustomInput from '../CustomInput/CustomInput';
 import CustomInputDateIcons from './CustomInputDateIcons';
 import moment from 'moment';
 
@@ -22,8 +18,6 @@ function CustomInputDate(props: CustomInputDateProps) {
 	const { type = InputDateType.date, setValue, title, value } = props;
 	const pickerRef = useRef<HTMLInputElement>(null)
 
-	const buttonSvg = CustomInputDateIcons.calendar;
-
 	// Открыть календарь
 	const openPicker = () => {
 		const picker = pickerRef.current;
@@ -38,28 +32,31 @@ function CustomInputDate(props: CustomInputDateProps) {
 		if (!picker) return;
 
 		let value = "";
-		switch (picker.type) {
-			case InputDateType.date:
-				{
-					const values = picker.value.split("-");
-					value = values.reverse().join(".");
-					break;
-				}
-			case InputDateType.time:
-				{
-					value = picker.value;
-					break;
-				}
-			case InputDateType.datetime:
-				{
-					const values = picker.value.split("T");
-					const dateValues = values[0].split("-");
-					const timeValue = values[1];
+		// switch (picker.type) {
+		// 	case InputDateType.date:
+		// 		{
+		// 			const values = picker.value.split("-");
+		// 			value = values.reverse().join(".");
+		// 			break;
+		// 		}
+		// 	case InputDateType.time:
+		// 		{
+		// 			value = picker.value;
+		// 			break;
+		// 		}
+		// 	case InputDateType.datetime:
+		// 		{
+		// 			const values = picker.value.split("T");
+		// 			const dateValues = values[0].split("-");
+		// 			const timeValue = values[1];
 
-					value = dateValues.reverse().join(".") + " " + timeValue;
-					break;
-				}
-		}
+		// 			value = dateValues.reverse().join(".") + " " + timeValue;
+		// 			break;
+		// 		}
+		// }
+
+		const values = picker.value.split("-");
+		value = values.reverse().join(".");
 
 		// setValue(value)
 		setStringValue(value)
@@ -90,6 +87,10 @@ function CustomInputDate(props: CustomInputDateProps) {
 			setValue("")
 		}
 	}, [stringValue])
+
+	useEffect(() => {
+		if(!value?.length)  setStringValue("")
+	}, [value])
 
 	return (
 		<div className='custom-input-date-wt'>

@@ -11,19 +11,16 @@
 
 	&__input {
     width: 100% !important;
-    outline: none;
-    border: none;
-    margin: none;
+    outline: none !important;
+    border: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
 
-    color: #303337;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    color: #303337 !important;
     
-    font-size: 14px;
-    height: 20px;
-    font-weight: 400;
+    font-size: 14px !important;
+    height: 20px !important;
+    font-weight: 400 !important;
 	}
 
   &__title {
