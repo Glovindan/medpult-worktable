@@ -62,6 +62,7 @@ export default function TasksFilters({
     setFilters({})
     setSearchParams({});
     setSelectedFieldCode(defaultSearchField.code)
+    handleClearDateFilters()
   };
 
   /** Применить все фильтры */
@@ -134,6 +135,11 @@ export default function TasksFilters({
     }
   }
 
+  const [clearedAt, setClearedAt] = useState<Date>(new Date());
+  const handleClearDateFilters = () => {
+    setClearedAt(new Date())
+  }
+
   return (
     <>
       <div className="tasks-filters">
@@ -202,8 +208,8 @@ export default function TasksFilters({
             title="Статус задачи"
             getDataHandler={Scripts.getTaskStatuses}
           />
-          <CustomInputDate title="Дата с" type={InputDateType.date} value={filters.dateFrom} setValue={(val) => setFilter({dateFrom: val})} />
-          <CustomInputDate title="Дата по" type={InputDateType.date} value={filters.dateTo} setValue={(val) => setFilter({dateTo: val})} />
+          <CustomInputDate title="Дата с" type={InputDateType.date} value={filters.dateFrom} setValue={(val) => setFilter({dateFrom: val})} clearedAt={clearedAt} />
+          <CustomInputDate title="Дата по" type={InputDateType.date} value={filters.dateTo} setValue={(val) => setFilter({dateTo: val})} clearedAt={clearedAt} />
         </div>
       </div>
     </>

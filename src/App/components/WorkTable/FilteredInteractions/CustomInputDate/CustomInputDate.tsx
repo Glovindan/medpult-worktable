@@ -9,14 +9,17 @@ interface CustomInputDateProps {
 	type: InputDateType,
 	title: string,
 	value?: string,
+	/** Дата очистки фильтра (Триггер) */
+	clearedAt?: Date
 	/** Изменение состояния */
 	setValue: (value: string, ...args: any) => any
 }
 
 /** Поле ввода даты */
 function CustomInputDate(props: CustomInputDateProps) {
-	const { type = InputDateType.date, setValue, title, value } = props;
+	const { type = InputDateType.date, setValue, title, value, clearedAt } = props;
 	const pickerRef = useRef<HTMLInputElement>(null)
+   	const inputRef = useRef<HTMLInputElement>(null);
 
 	// Открыть календарь
 	const openPicker = () => {
@@ -89,28 +92,27 @@ function CustomInputDate(props: CustomInputDateProps) {
 	}, [stringValue])
 
 	useEffect(() => {
-		if(!value?.length)  setStringValue("")
-	}, [value])
+		setStringValue("")
+	}, [clearedAt])
+
+	const handleContainerClick = () => {
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
+    };
 
 	return (
-		<div className='custom-input-date-wt'>
+		<div className='custom-input-date-wt' onClick={handleContainerClick}>
 			<div className="custom-input-date-wt__title">{title}</div>
 			<input type={type} onChange={onChangePickerValue} className='custom-input-date-wt__picker' ref={pickerRef} />
 	
 			<div className="custom-input-date-wt__field" tabIndex={0}>
-				<input className="custom-input-date-wt__input" value={stringValue} onInput={onInput} type="text" />
+				<input className="custom-input-date-wt__input" value={stringValue} onInput={onInput} type="text" ref={inputRef}/>
 		
 				<button className="custom-input-date-wt__calendar" onClick={openPicker}>
 					{CustomInputDateIcons.calendar}
 				</button>
 			</div>
-			{/* <CustomInput
-				{...props}
-				type='text'
-				buttons={<InputButton svg={buttonSvg} clickHandler={openPicker} />}
-				placeholder={props.placeholder ?? "ДД.ММ.ГГГГ"}
-				maskFunction={masks.applyDateMask}
-			/> */}
 		</div>
 	)
 }

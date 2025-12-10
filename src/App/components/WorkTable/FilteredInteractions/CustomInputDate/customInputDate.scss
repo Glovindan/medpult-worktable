@@ -43,11 +43,12 @@
     padding: 8px 12px;
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
+    cursor: text;
     background: #fff;
     align-items: center;
     overflow: hidden;
-    &:focus {
+
+    &:focus-within {
       outline: none;
       border: 1px solid #1570ef;
     }
