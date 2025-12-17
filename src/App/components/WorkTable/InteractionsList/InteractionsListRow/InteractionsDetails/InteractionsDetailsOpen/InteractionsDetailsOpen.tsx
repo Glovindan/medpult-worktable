@@ -35,7 +35,7 @@ function InteractionsDetailsOpen({
   useEffect(() => {
     const fetchDuplicateCount = async () => {
       try {
-        const count = await Scripts.getInteractionsDublicateCount();
+        const count = await Scripts.getInteractionsDublicateCount(data);
         setCountDuplicate(count);
       } catch (error) {
         console.error("Ошибка в функции fetchDuplicateCount:", error);
