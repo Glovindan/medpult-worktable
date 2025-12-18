@@ -4,6 +4,7 @@ import { SearchParams, SortData } from "../../../shared/types";
 import {
   IInteractionItem,
   InteractionsSortableFieldCode,
+  InteractionStatus,
   ISearchInteractionsParams,
 } from "./InteractionsListTypes";
 import Scripts from "../../../shared/utils/clientScripts";
@@ -121,6 +122,11 @@ export default function InteractionsList({
 
   // Обновление списка взаимодействий
   useInteractionsUpdates(items, setItems, 3000);
+
+  // При изменении открытого взаимодействия чистить список от выполненных 
+  useEffect(() => {
+    setItems((prev) => prev.filter(prevItem => prevItem.status != InteractionStatus.processed));
+  }, [openRowIndex])
 
   return (
     <div className="interactions-list">
