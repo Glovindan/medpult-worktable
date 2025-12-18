@@ -52,6 +52,30 @@ async function getInteractionsMyCount(searchParams: ISearchInteractionsParams): 
   return getInteractionsCount(searchParams);
 }
 
+let dateBuffer = new Date();
+(window as any)["setLastUpdateDate"] = (date: Date) => dateBuffer = date;
+/** Получить последнюю дату обновления в миллисекундах по массиву идентификаторов Взаимодействий */
+async function getInteractionsLastUpdateDate(interactionsIds: string[]): Promise<number> {
+  return dateBuffer.getTime()
+}
+
+/** Получить обновленные данные по массиву идентификаторов Взаимодействий */
+async function getInteractionsUpdatedData(interactionsIds: string[]): Promise<IInteractionItem[]> {
+  const interactions = await getInteractions({page: 0, size: interactionsIds.length});
+  let interactionsUpdated: IInteractionItem[] = [];
+
+  for (let index = 0; index < interactionsIds.length; index++) {
+    const interactionId = interactionsIds[index];
+    const interaction = interactions[index]
+
+    interaction.id = interactionId;
+
+    interactionsUpdated.push(interaction)
+  }
+
+  return interactionsUpdated;
+}
+
 /** Получение названия статуса */
 function getInteractionStatusName(status: InteractionStatus) {
   switch (status) {
@@ -75,4 +99,6 @@ export default {
     getInteractionsMyCount,
     getInteractionStatusName,
     getInitialInteractionItem,
+    getInteractionsLastUpdateDate,
+    getInteractionsUpdatedData,
 }

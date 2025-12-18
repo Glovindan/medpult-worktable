@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useList } from "../../../shared/hooks";
 import { SearchParams, SortData } from "../../../shared/types";
 import {
@@ -12,6 +12,7 @@ import Loader from "../../../../UIKit/Loader/Loader";
 import InteractionsListRow from "./InteractionsListRow/InteractionsListRow";
 import { useSortHandlers } from "../ListComponents/ListComponentsHooks";
 import { IInteractionsTabProps } from "../InteractionsTab/InteractionsTab";
+import useInteractionsUpdates from "./useInteractionsUpdates";
 
 interface IInteractionsListProps extends IInteractionsTabProps {
   /** Поисковые данные взаимодействий */
@@ -117,6 +118,9 @@ export default function InteractionsList({
 
     setIsInitialItemOpen(false);
   }
+
+  // Обновление списка взаимодействий
+  useInteractionsUpdates(items, setItems, 3000);
 
   return (
     <div className="interactions-list">
