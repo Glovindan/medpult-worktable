@@ -146,6 +146,18 @@ async function getStatuses(): Promise<ObjectItem[]> {
   ];
   return statuses;
 }
+
+/** Получение статусов взаимодействий (Для вкладки мои взаимодействия) */
+async function getStatusesMyInteractions(): Promise<ObjectItem[]> {
+  await randomDelay();
+  /** Статусы */
+  const statuses: ObjectItem[] = [
+    new ObjectItem({ code: "test2", value: "В очереди" }),
+    new ObjectItem({ code: "test3", value: "В работе" }),
+  ];
+  return statuses;
+}
+
 /** Получение групп */
 async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
@@ -275,6 +287,8 @@ export default {
   getUrgencyList,
   isCurrentUserExecutor,
   validateEmployeeForGroup,
+
+  getStatusesMyInteractions,
 
   ...interactionsListScripts,
   ...tasksClientScripts,

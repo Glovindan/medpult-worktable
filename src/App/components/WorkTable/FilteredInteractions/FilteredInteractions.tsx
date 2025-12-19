@@ -8,11 +8,12 @@ import { useEnterClickHandler } from "../../../shared/hooks.ts";
 
 interface FilteredInteractionsProps {
   setSearchParams: (filters: ISearchInteractionsParams) => void;
-  hideEmployeeFilter?: boolean;
+  /** Является владкой моих взаимодействий */
+  isMyInteractions?: boolean;
 }
 export default function FilteredInteractions({
   setSearchParams,
-  hideEmployeeFilter,
+  isMyInteractions,
 }: FilteredInteractionsProps) {
   /** Состояние фильтров */
   const [filters, setFilters] = useState<ISearchInteractionsParams>({});
@@ -117,7 +118,7 @@ export default function FilteredInteractions({
   );
   //Получение групп
   const getGroups = useCallback(
-    () => hideEmployeeFilter 
+    () => isMyInteractions 
       // Для вкладки мих взаимодействий фильтровать по группам пользователя, 
       ? Scripts.getGroupsByUserGroups(filters.users) 
       // Иначе не фильтровать
@@ -173,7 +174,7 @@ export default function FilteredInteractions({
           placeholder="Введите название группы"
           getDataHandler={getGroups}
         />
-        {!hideEmployeeFilter && (
+        {!isMyInteractions && (
           <CustomMultiSelect
             value={filters.users}
             setValue={(val) => setFilters((prev) => ({ ...prev, users: val }))}
@@ -187,7 +188,7 @@ export default function FilteredInteractions({
           value={filters.statuses}
           setValue={(val) => setFilters((prev) => ({ ...prev, statuses: val }))}
           title="Статус обработки"
-          getDataHandler={Scripts.getStatuses}
+          getDataHandler={isMyInteractions ? Scripts.getStatusesMyInteractions : Scripts.getStatuses}
         />
       </div>
     </div>

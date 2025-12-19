@@ -10,13 +10,14 @@ import CustomInputDate from "../../FilteredInteractions/CustomInputDate/CustomIn
 
 type TasksFiltersProps = {
   setSearchParams: (filters: ISearchTasksParams) => void;
-  hideEmployeeFilter?: boolean
+  /** Является вкладкой моих задач */
+  isMyTasksTab?: boolean
 };
 
 /** Вкладка фильтров задач */
 export default function TasksFilters({
   setSearchParams,
-  hideEmployeeFilter
+  isMyTasksTab
 }: TasksFiltersProps) {
 
   enum SearchFieldCode {
@@ -192,7 +193,7 @@ export default function TasksFilters({
             getDataHandler={getGroups}
           />
           {
-            !hideEmployeeFilter &&
+            !isMyTasksTab &&
             <CustomMultiSelect
               value={filters.employeeIds}
               setValue={(val) => setFilter({employeeIds: val})}

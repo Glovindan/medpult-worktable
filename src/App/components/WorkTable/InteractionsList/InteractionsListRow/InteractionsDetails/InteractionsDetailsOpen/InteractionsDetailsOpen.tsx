@@ -6,6 +6,8 @@ import InteractionField from "./InteractionsField/InteractionField";
 import { IInteractionDetailsItem } from "../../../InteractionsListTypes";
 import Scripts from "../../../../../../shared/utils/clientScripts";
 
+import sanitizeHtml from "../../../../../../shared/utils/sanitizeHtml";
+
 interface InteractionsDetailsOpenProps {
   data: IInteractionDetailsItem;
   /** id Взаимодействия */
@@ -44,6 +46,7 @@ function InteractionsDetailsOpen({
 
     fetchDuplicateCount();
   }, []);
+
   return (
     <div className="interactions-open-panel">
       {/* Шапка */}
@@ -96,7 +99,8 @@ function InteractionsDetailsOpen({
         <span className="interactions-open-panel__value">{data.topic}</span>
       </InteractionField>
       <InteractionField label="Текст письма">
-        <span className="interactions-open-panel__value">{data.text}</span>
+        {/* <span className="interactions-open-panel__value">{data.text}</span> */}
+        <span className="interactions-open-panel__value" dangerouslySetInnerHTML={{__html: sanitizeHtml(data.text)}}></span>
       </InteractionField>
     </div>
   );

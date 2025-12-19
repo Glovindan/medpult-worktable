@@ -52,8 +52,14 @@ export default function useInteractionsUpdates(
       }
     };
 
+    const originalPath = window.location.pathname;
+
     checkUpdates();
-    const interval = setInterval(checkUpdates, intervalMs);
+    let interval = setInterval(() => {
+      const currentPath = window.location.pathname;
+      if(currentPath != originalPath) return clearInterval(interval);
+      checkUpdates()
+    }, intervalMs);
 
     return () => {
       mounted = false;

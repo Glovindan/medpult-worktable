@@ -199,7 +199,7 @@ export default function WorkTable() {
                 setFilteredElementsCount={setFilteredElementsCount}
                 getInteractions={Scripts.getInteractionsMy}
                 getInteractionsCount={Scripts.getInteractionsMyCount}
-                hideEmployeeFilter={true}
+                isMyInteractions={true}
                 handleResetList={handleResetList}
                 handleOpenReplyModal={handleOpenReplyModal}
                 handleOpenForwardModal={handleOpenForwardModal}
@@ -245,7 +245,7 @@ export default function WorkTable() {
                 getTasks={Scripts.getTasksMy}
                 getTasksCount={Scripts.getTasksMyCount}
                 handleResetList={handleResetList}
-                hideEmployeeFilter={true}
+                isMyTasksTab={true}
               />
             </TabItem>
           </TabsWrapper>

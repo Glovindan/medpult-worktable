@@ -16,8 +16,8 @@ export interface ITasksTabProps {
   getTasksCount: (searchParams: ISearchTasksParams) => Promise<number>;
   /** Обработчик получения задач */
   getTasks: (searchParams: SearchParams<ISearchTasksParams>) => Promise<ITaskItem[]>;
-  /** Скрытвать поле выбора сотрудника в фильтрах */
-  hideEmployeeFilter?: boolean;
+  /** Является вкладкой моих задач */
+  isMyTasksTab?: boolean;
   /** Обработчик сброса списка и его контролера */
   handleResetList: () => void;
 }
@@ -26,7 +26,7 @@ export interface ITasksTabProps {
 export default function TasksTab(props: ITasksTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchTasksParams>({});
 
-  const { handleResetList, hideEmployeeFilter, setFilteredElementsCount, getTasksCount } = props;
+  const { handleResetList, isMyTasksTab, setFilteredElementsCount, getTasksCount } = props;
   const { sortData, toggleSort } = useSort();     
   useEffect(() => {
     handleResetList();
@@ -45,7 +45,7 @@ export default function TasksTab(props: ITasksTabProps) {
   return (
     <>
       <TasksFilters
-        hideEmployeeFilter={hideEmployeeFilter}
+        isMyTasksTab={isMyTasksTab}
         setSearchParams={setSearchParams}
       />
       <TasksList {...props} sortData={sortData} toggleSort={toggleSort} searchParams={searchParams} />

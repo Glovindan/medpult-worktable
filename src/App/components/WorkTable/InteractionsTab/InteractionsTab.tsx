@@ -17,7 +17,7 @@ export interface IInteractionsTabProps {
   /** Обработчик получения взаимодействий */
   getInteractions: (searchParams: SearchParams<ISearchInteractionsParams>) => Promise<IInteractionItem[]>
   /** Скрытвать поле выбора сотрудника в фильтрах */
-  hideEmployeeFilter?: boolean
+  isMyInteractions?: boolean
   /** Обработчик сброса списка и его контролера */
   handleResetList: () => void
   /** Открыть Модальное окно ответа на сообщение */
@@ -34,7 +34,7 @@ export interface IInteractionsTabProps {
 export default function InteractionsTab(props: IInteractionsTabProps) {
   const [searchParams, setSearchParams] = useState<ISearchInteractionsParams>({})
 
-  const {handleResetList, hideEmployeeFilter, getInteractionsCount, setFilteredElementsCount, clearInitialInteractionId} = props;
+  const {handleResetList, isMyInteractions, getInteractionsCount, setFilteredElementsCount, clearInitialInteractionId} = props;
   const { sortData, toggleSort } = useSort();
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export default function InteractionsTab(props: IInteractionsTabProps) {
 
   return (
     <>
-      <FilteredInteractions hideEmployeeFilter={hideEmployeeFilter} setSearchParams={setSearchParams} />
+      <FilteredInteractions isMyInteractions={isMyInteractions} setSearchParams={setSearchParams} />
       <InteractionsList {...props} sortData={sortData} toggleSort={toggleSort} searchParams={searchParams} />
     </>
   );

@@ -88,7 +88,7 @@ function InteractionsContent({
           <span
             className="interactions-open-panel-content__value"
             title={data.email}
-          ></span>
+          >{data.email}</span>
           <div className="interactions-open-panel-content__buttons">
             {/* Кнопка Ответить*/}
             <div
