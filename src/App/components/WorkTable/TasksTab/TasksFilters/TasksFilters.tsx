@@ -10,14 +10,18 @@ import CustomInputDate from "../../FilteredInteractions/CustomInputDate/CustomIn
 
 type TasksFiltersProps = {
   setSearchParams: (filters: ISearchTasksParams) => void;
+  searchParams: ISearchTasksParams;
   /** Является вкладкой моих задач */
   isMyTasksTab?: boolean
+  isFilterLoading?: boolean
 };
 
 /** Вкладка фильтров задач */
 export default function TasksFilters({
   setSearchParams,
-  isMyTasksTab
+  searchParams,
+  isMyTasksTab,
+  isFilterLoading
 }: TasksFiltersProps) {
 
   enum SearchFieldCode {
@@ -53,7 +57,10 @@ export default function TasksFilters({
   }
 
   /** Состояние фильтров */
-  const [filters, setFilters] = useState<ISearchTasksParams>({});
+  const [filters, setFilters] = useState<ISearchTasksParams>(searchParams);
+  useEffect(() => {
+    setFilters(searchParams)
+  }, [isFilterLoading])
   const setFilter = (updateData: ISearchTasksParams) => {
     setFilters((prev) => ({ ...prev, ...updateData }))
   };
@@ -140,7 +147,6 @@ export default function TasksFilters({
   const handleClearDateFilters = () => {
     setClearedAt(new Date())
   }
-
   return (
     <>
       <div className="tasks-filters">
