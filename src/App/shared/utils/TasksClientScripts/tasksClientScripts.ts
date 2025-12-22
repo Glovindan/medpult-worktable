@@ -78,7 +78,7 @@ const sorts = [
 const typeSortMaps = [
   {type: "type", sorts: ["sort"],},
   {type: "type1", sorts: ["sort1", "sort2"]},
-  {type: "type2 ", sorts: ["sort3", "sort4"]},
+  {type: "type2", sorts: ["sort3", "sort4"]},
 ]
 
 /** Получение типов задач */

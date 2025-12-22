@@ -7,17 +7,24 @@ import Button from "../../../../../UIKit/Button/Button";
 import CustomInputSelect from "../../FilteredInteractions/CustomInputSelect/CustomInputSelect";
 import { InputDateType } from "../../../../../UIKit/CustomInputDate/CustomInputDateTypes";
 import CustomInputDate from "../../FilteredInteractions/CustomInputDate/CustomInputDate";
+import { useDebounce } from "../../../../shared/utils/utils";
+import TaskSortsFilter from "./TaskSortsFilter";
+import TaskTypesFilter from "./TaskTypesFilter";
 
 type TasksFiltersProps = {
   setSearchParams: (filters: ISearchTasksParams) => void;
+  searchParams: ISearchTasksParams;
   /** Является вкладкой моих задач */
   isMyTasksTab?: boolean
+  isFilterLoading?: boolean
 };
 
 /** Вкладка фильтров задач */
 export default function TasksFilters({
   setSearchParams,
-  isMyTasksTab
+  searchParams,
+  isMyTasksTab,
+  isFilterLoading
 }: TasksFiltersProps) {
 
   enum SearchFieldCode {
@@ -53,7 +60,10 @@ export default function TasksFilters({
   }
 
   /** Состояние фильтров */
-  const [filters, setFilters] = useState<ISearchTasksParams>({});
+  const [filters, setFilters] = useState<ISearchTasksParams>(searchParams);
+  useEffect(() => {
+    setFilters(searchParams)
+  }, [isFilterLoading])
   const setFilter = (updateData: ISearchTasksParams) => {
     setFilters((prev) => ({ ...prev, ...updateData }))
   };
@@ -74,34 +84,9 @@ export default function TasksFilters({
   // Обработчик нажатия на enter
   useEnterClickHandler(filters, applyFilters)
 
-  // Получение Типов задач
-  const getTypes = useCallback(
-    () => Scripts.getTaskTypes(filters.taskSortIds),
-    [filters.taskSortIds]
-  );
-
-  // Получение Видов задач
-  const getSorts = useCallback(
-    () => Scripts.getTaskSorts(filters.taskTypeIds),
-    [filters.taskTypeIds]
-  );
-
-  // Обработчик выбора Типа задач
-  const handleSelectTypeOption = async(selectedTypesCodes: string[]) => {
-    // // Фильтрация выбранных Видов задач
-    // const availableSorts = await Scripts.getTaskSorts(selectedTypesCodes)
-    // const selectedSortsFiltered = filters.taskSortIds?.filter(sortCode => availableSorts.find(availableSort => availableSort.code == sortCode));
-
-    setFilter({/* taskSortIds: selectedSortsFiltered, */ taskTypeIds: selectedTypesCodes})
-  }
-
-  // Обработчик выбора Вида задач
-  const handleSelectSortOption = async(selectedSortsCodes: string[]) => {
-    // // Фильтрация выбранных Типов задач
-    // const availableTypes = await Scripts.getTaskTypes(selectedSortsCodes)
-    // const selectedTypesFiltered = filters.taskTypeIds?.filter(typeCode => availableTypes.find(availableType => availableType.code == typeCode));
-
-    setFilter({taskSortIds: selectedSortsCodes/* , taskTypeIds: selectedTypesFiltered */})
+  const [filterUpdatedAt, setFilterUpdatedAt] = useState<Date>(new Date());
+  const handleUpdateGetCallbacks = () => {
+    setFilterUpdatedAt(new Date());
   }
 
   // Получение групп
@@ -140,7 +125,6 @@ export default function TasksFilters({
   const handleClearDateFilters = () => {
     setClearedAt(new Date())
   }
-
   return (
     <>
       <div className="tasks-filters">
@@ -171,18 +155,17 @@ export default function TasksFilters({
             title="Срочность"
             getDataHandler={Scripts.getUrgencyList}
           />
-          <CustomMultiSelect
-            value={filters.taskTypeIds}
-            setValue={handleSelectTypeOption}
-            title="Тип задачи"
-            getDataHandler={getTypes}
+          <TaskTypesFilter 
+            filters={filters} 
+            filterUpdatedAt={filterUpdatedAt} 
+            setFilter={setFilter} 
+            handleUpdateGetCallbacks={handleUpdateGetCallbacks} 
           />
-          <CustomMultiSelect
-            value={filters.taskSortIds}
-            // setValue={(val) => setFilter({taskSortIds: val})}
-            setValue={handleSelectSortOption}
-            title="Вид задачи"
-            getDataHandler={getSorts}
+          <TaskSortsFilter 
+            filters={filters} 
+            filterUpdatedAt={filterUpdatedAt} 
+            setFilter={setFilter} 
+            handleUpdateGetCallbacks={handleUpdateGetCallbacks} 
           />
           <CustomMultiSelect
             value={filters.groupIds}

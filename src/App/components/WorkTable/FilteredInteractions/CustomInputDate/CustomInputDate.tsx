@@ -77,7 +77,6 @@ function CustomInputDate(props: CustomInputDateProps) {
 		}
 
 		// Запись значения в состояние
-		// setValue(value);
 		setStringValue(value);
 	};
 
@@ -93,6 +92,9 @@ function CustomInputDate(props: CustomInputDateProps) {
 
 	useEffect(() => {
 		setStringValue("")
+
+		const picker = pickerRef.current;
+		if (picker) picker.value = ""
 	}, [clearedAt])
 
 	const handleContainerClick = () => {

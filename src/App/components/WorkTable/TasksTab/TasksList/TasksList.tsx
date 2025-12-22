@@ -19,6 +19,8 @@ export interface ITasksListProps extends ITasksTabProps {
   sortData: SortData | undefined;
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
+  /** Флаг подгрузки фильтров */
+  isFilterLoading?: boolean
 };
 
 /** Список взаимодействий */
@@ -29,6 +31,7 @@ export default function TasksList({
   sortData,
   toggleSort,
   getTasks,
+  isFilterLoading,
 }: ITasksListProps) {
   const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
 
@@ -39,13 +42,16 @@ export default function TasksList({
     console.log(tasks);
     return tasks;
   };
-
+  
   const { items, clearList, setItems, loadData, isLoading } = useList(
     sortData,
     searchParams,
     getTasksHandler
   );
 
+  const isLoadingCalculated = isFilterLoading || isLoading;
+
+  // TODO: Не загружать элементы, пока идет загрузка снаружи
   useEffect(() => {
     setLoadData(() => loadData);
     setClearList(() => clearList);
@@ -93,14 +99,14 @@ export default function TasksList({
         </ListHeaderColumn>
       </div>
       <div className="tasks-list__list">
-        {items.map((item) =>
+        {!isFilterLoading && items.map((item) =>
             <TasksListRow
               key={item.id}
               item={item}
               slaBuffer={getSlaBufferByTaskId(item.id)}
             />
         )}
-        {isLoading && <Loader />}
+        {isLoadingCalculated && <Loader />}
       </div>
     </div>
   );

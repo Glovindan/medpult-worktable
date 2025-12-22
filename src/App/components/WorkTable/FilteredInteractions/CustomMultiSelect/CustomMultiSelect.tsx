@@ -12,6 +12,8 @@ interface MultiSelectProps {
   placeholder?: string;
   /** Выбраны все по-умолчанию */
   isSelectedAllDefault?: boolean
+  /** При закрытии выпадающего списка */
+  onClose?: () => void;
 }
 
 export default function CustomMultiSelect({
@@ -22,6 +24,7 @@ export default function CustomMultiSelect({
   isSearch = false,
   placeholder,
   isSelectedAllDefault,
+  onClose = () => {},
 }: MultiSelectProps) {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -29,6 +32,12 @@ export default function CustomMultiSelect({
   const [isLoading, setIsLoading] = useState(true);
   const [isSelectAllLoading, setIsSelectAllLoading] = useState(true);
   const rootRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if(open) return;
+
+    onClose();
+  }, [open])
 
   const toggleDropdown = () => setOpen((prev) => !prev);
 
