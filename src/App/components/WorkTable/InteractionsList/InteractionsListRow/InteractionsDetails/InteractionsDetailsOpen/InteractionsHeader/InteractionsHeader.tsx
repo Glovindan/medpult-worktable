@@ -72,11 +72,7 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
           {duplicateCount && (
             <span
               className="interactions-open-panel-header__content_count"
-              title={
-                Array.isArray(data.fioWhom)
-                  ? data.fioWhom.join(", ")
-                  : data.fioWhom
-              }
+              title={data.duplicateEmails.join(", ")}
             >
               {duplicateCount}
             </span>

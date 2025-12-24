@@ -127,6 +127,8 @@ export interface IInteractionDetailsItem {
   topic: string;
   /** Текст письма */
   text: string;
+  /** Почты получателей дубликатов */
+  duplicateEmails: string[];
 }
 
 /** Параметры поиска Взаимодействий */
