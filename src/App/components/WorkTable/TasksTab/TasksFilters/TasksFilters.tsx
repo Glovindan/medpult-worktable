@@ -10,13 +10,13 @@ import CustomInputDate from "../../FilteredInteractions/CustomInputDate/CustomIn
 import { useDebounce } from "../../../../shared/utils/utils";
 import TaskSortsFilter from "./TaskSortsFilter";
 import TaskTypesFilter from "./TaskTypesFilter";
+import { useUserGroupsFilter } from "../../../../shared/utils/useUserGroupsFilter";
 
 type TasksFiltersProps = {
   setSearchParams: (filters: ISearchTasksParams) => void;
   searchParams: ISearchTasksParams;
   /** Является вкладкой моих задач */
   isMyTasksTab?: boolean
-  isFilterLoading?: boolean
 };
 
 /** Вкладка фильтров задач */
@@ -24,7 +24,6 @@ export default function TasksFilters({
   setSearchParams,
   searchParams,
   isMyTasksTab,
-  isFilterLoading
 }: TasksFiltersProps) {
 
   enum SearchFieldCode {
@@ -61,9 +60,7 @@ export default function TasksFilters({
 
   /** Состояние фильтров */
   const [filters, setFilters] = useState<ISearchTasksParams>(searchParams);
-  useEffect(() => {
-    setFilters(searchParams)
-  }, [isFilterLoading])
+  
   const setFilter = (updateData: ISearchTasksParams) => {
     setFilters((prev) => ({ ...prev, ...updateData }))
   };
@@ -74,6 +71,7 @@ export default function TasksFilters({
     setSearchParams({});
     setSelectedFieldCode(defaultSearchField.code)
     handleClearDateFilters()
+    handleResetUserGroupsFilters()
   };
 
   /** Применить все фильтры */
@@ -88,18 +86,6 @@ export default function TasksFilters({
   const handleUpdateGetCallbacks = () => {
     setFilterUpdatedAt(new Date());
   }
-
-  // Получение групп
-  const getGroups = useCallback(
-    () => Scripts.getGroupsByUserGroups(filters.employeeIds),
-    [filters.employeeIds]
-  );
-
-  // Получение сотрудников
-  const getUsers = useCallback(
-    () => Scripts.getUsersByUserGroups(filters.groupIds),
-    [filters.groupIds]
-  );
 
   /** Получение значения поискового запроса */
   const getSearchQuery = () => {
@@ -125,6 +111,11 @@ export default function TasksFilters({
   const handleClearDateFilters = () => {
     setClearedAt(new Date())
   }
+
+  
+  
+  const {handleSelectUsers, handleSelectGroups, getUsers, getGroups, handleResetUserGroupsFilters} = useUserGroupsFilter(setFilters, isMyTasksTab ?? false);
+
   return (
     <>
       <div className="tasks-filters">
@@ -169,7 +160,7 @@ export default function TasksFilters({
           />
           <CustomMultiSelect
             value={filters.groupIds}
-            setValue={(val) => setFilter({groupIds: val})}
+            setValue={handleSelectGroups}
             title="Группа"
             isSearch={true}
             placeholder="Введите название группы"
@@ -179,7 +170,7 @@ export default function TasksFilters({
             !isMyTasksTab &&
             <CustomMultiSelect
               value={filters.employeeIds}
-              setValue={(val) => setFilter({employeeIds: val})}
+              setValue={handleSelectUsers}
               title="Сотрудник"
               isSearch={true}
               placeholder="Введите ФИО сотрудника"

@@ -159,37 +159,70 @@ async function getStatusesMyInteractions(): Promise<ObjectItem[]> {
   return statuses;
 }
 
+
+const groups = [
+  new ObjectItem({ code: "test", value: "Группа записи" }),
+  new ObjectItem({ code: "test1", value: "Врачи кураторы МедКЦ (3 линия)" }),
+  new ObjectItem({ code: "test2", value: "Операторы (дев)" }),
+  new ObjectItem({ code: "test3", value: "Врачи кураторы МедКЦ (2 линия)" }),
+  new ObjectItem({ code: "test4", value: "Супервайзеры (дев)" }),
+  new ObjectItem({ code: "test5", value: "Экперты по претензиям (4 линия)" }),
+];
+
+const users = [
+  new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
+  new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
+  new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
+  new ObjectItem({
+    code: "test3",
+    value:
+      "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч",
+  }),
+  new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
+  new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
+]
+
+const groupsUsersMap = [
+  {type: "test", sorts: ["test"],},
+  {type: "test1", sorts: ["test1", "test2"]},
+  {type: "test2", sorts: ["test3", "test4"]},
+  {type: "test3", sorts: ["test5", "test4", "test3"]},
+  {type: "test4", sorts: []},
+  {type: "test5", sorts: ["test3", "test4"]},
+]
+
 /** Получение групп */
 async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
-  const authors: ObjectItem[] = [
-    new ObjectItem({ code: "test", value: "Группа записи" }),
-    new ObjectItem({ code: "test1", value: "Врачи кураторы МедКЦ (3 линия)" }),
-    new ObjectItem({ code: "test2", value: "Операторы (дев)" }),
-    new ObjectItem({ code: "test3", value: "Врачи кураторы МедКЦ (2 линия)" }),
-    new ObjectItem({ code: "test4", value: "Супервайзеры (дев)" }),
-    new ObjectItem({ code: "test5", value: "Экперты по претензиям (4 линия)" }),
-  ];
+  if(users?.length) {
+    const typesFiltered = groups.filter(type => {
+      const mapItem = groupsUsersMap.find(typeSortMap => typeSortMap.type == type.code);
+      if(!mapItem) return false;
 
-  return authors;
+      return mapItem.sorts.find(sortCode => users.find(id => sortCode == id));
+    })
+
+    return typesFiltered;
+  }
+
+  return groups;
 }
 /** Получение исполнителей */
 async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
-  const authors: ObjectItem[] = [
-    new ObjectItem({ code: "test", value: "Иванов Иван Иванович" }),
-    new ObjectItem({ code: "test1", value: "Петров Петр Петрович" }),
-    new ObjectItem({ code: "test2", value: "Сидоров Сидр Сидрович" }),
-    new ObjectItem({
-      code: "test3",
-      value:
-        "Назаров Антон Алексеевиччччччччччччччччччччччччччччччччччччччччччччччччч",
-    }),
-    new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
-    new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
-  ];
-  return authors;
+
+  if(groups?.length) {
+    const sortCodes = groupsUsersMap
+      .filter(typeSortMap => groups.find(id => id == typeSortMap.type))
+      .flatMap(typeSortMap => typeSortMap.sorts);
+
+    const sortsFiltered = users.filter(sort => sortCodes.find(sortCode => sortCode == sort.code))
+
+    return sortsFiltered;
+  }
+
+  return users;
 }
 
 /** Сохранить группу и пользователя */

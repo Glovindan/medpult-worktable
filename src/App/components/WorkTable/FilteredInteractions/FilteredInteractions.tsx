@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import CustomInputSelect from "./CustomInputSelect/CustomInputSelect";
 import CustomMultiSelect from "./CustomMultiSelect/CustomMultiSelect";
 import Button from "../../../../UIKit/Button/Button";
 import Scripts from "../../../shared/utils/clientScripts.ts";
 import { ISearchInteractionsParams } from "../InteractionsList/InteractionsListTypes.ts";
 import { useEnterClickHandler } from "../../../shared/hooks.ts";
+import { useUserGroupsFilter } from "../../../shared/utils/useUserGroupsFilter.ts";
 
 interface FilteredInteractionsProps {
   setSearchParams: (filters: ISearchInteractionsParams) => void;
   /** Является владкой моих взаимодействий */
   isMyInteractions?: boolean;
 }
+
 export default function FilteredInteractions({
   setSearchParams,
   isMyInteractions,
@@ -97,6 +99,7 @@ export default function FilteredInteractions({
     setFilters({});
     setSearchParams({});
     setSelectedFieldCode(defaultSearchField.code)
+    handleResetUserGroupsFilters()
   };
 
   /** Применить все фильтры */
@@ -116,20 +119,8 @@ export default function FilteredInteractions({
     () => Scripts.getLines(filters.channels),
     [filters.channels]
   );
-  //Получение групп
-  const getGroups = useCallback(
-    () => isMyInteractions 
-      // Для вкладки мих взаимодействий фильтровать по группам пользователя, 
-      ? Scripts.getGroupsByUserGroups(filters.users) 
-      // Иначе не фильтровать
-      : Scripts.getUserGroups(filters.users),
-    [filters.users]
-  );
-  //Получение сотрудников
-  const getUsers = useCallback(
-    () => Scripts.getUsersInteraction(filters.groups),
-    [filters.groups]
-  );
+
+  const {handleSelectUsers, handleSelectGroups, getUsers, getGroups, handleResetUserGroupsFilters} = useUserGroupsFilter(setFilters, isMyInteractions ?? false);
 
   return (
     <div className="filtered-interactions">
@@ -168,7 +159,7 @@ export default function FilteredInteractions({
         />
         <CustomMultiSelect
           value={filters.groups}
-          setValue={(val) => setFilters((prev) => ({ ...prev, groups: val }))}
+          setValue={handleSelectGroups}
           title="Группа"
           isSearch={true}
           placeholder="Введите название группы"
@@ -177,7 +168,7 @@ export default function FilteredInteractions({
         {!isMyInteractions && (
           <CustomMultiSelect
             value={filters.users}
-            setValue={(val) => setFilters((prev) => ({ ...prev, users: val }))}
+            setValue={handleSelectUsers}
             title="Сотрудник"
             isSearch={true}
             placeholder="Введите ФИО сотрудника"

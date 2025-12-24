@@ -67,6 +67,7 @@ export default function CustomMultiSelect({
   // Выбор всех при инициализации
   React.useLayoutEffect(() => {
     handleSelectAll();
+    handleLoadOptions();
   }, [])
 
   // Подгрузка данных при открытии дропдауна
@@ -88,13 +89,15 @@ export default function CustomMultiSelect({
     }
   };
 
+  const getSelectedLabels = () => {
+    if(value.length === 0) return "";
+    if(value.length === 1) return options.find((o) => o.code === value[0])?.value || `Выбрано: 1`;
+
+    return `Выбрано: ${value.length}`;
+  }
+
   // Отображение выбранных элементов
-  const selectedLabels =
-    value.length === 0
-      ? ""
-      : value.length === 1
-      ? options.find((o) => o.code === value[0])?.value || ""
-      : `Выбрано: ${value.length}`;
+  const selectedLabels = getSelectedLabels();
 
   // Фильтрация элементов по поисковой строке
   const filteredOptions = (
