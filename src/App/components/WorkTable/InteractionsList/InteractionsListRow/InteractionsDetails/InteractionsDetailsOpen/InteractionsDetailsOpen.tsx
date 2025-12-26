@@ -15,9 +15,20 @@ interface InteractionsDetailsOpenProps {
   onSave?: () => void;
   reloadData: (id: string) => void;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void;
+  handleOpenReplyModal: (
+    interactionId: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void;
+  handleOpenForwardModal: (
+    interactionId: string,
+    contractorId?: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 }
 
 /** Проект комментария */
@@ -28,6 +39,8 @@ function InteractionsDetailsOpen({
   reloadData,
   handleOpenReplyModal,
   handleOpenForwardModal,
+  handleResetList,
+  updateTabsItemsCounts,
 }: InteractionsDetailsOpenProps) {
   //Количетсво дублей
   const [countDuplicate, setCountDuplicate] = useState<number | null>(null);
@@ -52,6 +65,8 @@ function InteractionsDetailsOpen({
         onSave={onSave}
         reloadData={reloadData}
         duplicateCount={countDuplicate ? countDuplicate : undefined}
+        handleResetList={handleResetList}
+        updateTabsItemsCounts={updateTabsItemsCounts}
       />
 
       {/* Контент */}
@@ -69,6 +84,8 @@ function InteractionsDetailsOpen({
         onSave={onSave}
         duplicateCount={countDuplicate ? countDuplicate : undefined}
         reloadData={reloadData}
+        handleResetList={handleResetList}
+        updateTabsItemsCounts={updateTabsItemsCounts}
       />
       <span className="interactions-open-panel__line"></span>
 
@@ -96,7 +113,10 @@ function InteractionsDetailsOpen({
       </InteractionField>
       <InteractionField label="Текст письма">
         {/* <span className="interactions-open-panel__value">{data.text}</span> */}
-        <span className="interactions-open-panel__value" dangerouslySetInnerHTML={{__html: sanitizeHtml(data.text)}}></span>
+        <span
+          className="interactions-open-panel__value"
+          dangerouslySetInnerHTML={{ __html: sanitizeHtml(data.text) }}
+        ></span>
       </InteractionField>
     </div>
   );

@@ -16,6 +16,8 @@ interface InteractionsExecutorProps {
   onSave?: () => void;
   duplicateCount?: number;
   reloadData: (id: string) => void;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 }
 
 function InteractionsExecutor({
@@ -23,6 +25,8 @@ function InteractionsExecutor({
   onSave,
   duplicateCount,
   reloadData,
+  handleResetList,
+  updateTabsItemsCounts,
 }: InteractionsExecutorProps) {
   // Состояние для открытия модального окна
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -165,6 +169,8 @@ function InteractionsExecutor({
             onSave?.();
           }}
           reloadData={reloadData}
+          handleResetList={handleResetList}
+          updateTabsItemsCounts={updateTabsItemsCounts}
         />
       )}
     </div>

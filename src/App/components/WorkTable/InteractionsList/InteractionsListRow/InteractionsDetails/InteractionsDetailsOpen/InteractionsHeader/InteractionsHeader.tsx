@@ -13,10 +13,19 @@ interface InteractionsHeaderProps {
   onSave?: () => void;
   reloadData: (id: string) => void;
   duplicateCount?: number;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 }
 
 function InteractionsHeader(props: InteractionsHeaderProps) {
-  const { data, onSave, reloadData, duplicateCount } = props;
+  const {
+    data,
+    onSave,
+    reloadData,
+    duplicateCount,
+    handleResetList,
+    updateTabsItemsCounts,
+  } = props;
 
   /** Копирование номера в буфер обмена */
   const handleCopyClick = async () => {
@@ -58,8 +67,9 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
   /** Обработка нажатия на кнопку Закрыть */
   const onTakeCloseClick = async () => {
     await Scripts.setStatusProcessed(data.id);
-    onSave?.();
-    reloadData?.(data.id);
+    //onSave?.();
+    handleResetList();
+    if (updateTabsItemsCounts) await updateTabsItemsCounts();
   };
 
   return (

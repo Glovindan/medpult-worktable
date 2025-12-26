@@ -8,7 +8,11 @@ import { MiddleEllipsisString } from "../../ListComponents/MiddleEllipsisString/
 import icons from "../icons";
 import { IInteractionItem } from "../InteractionsListTypes";
 import InteractionsDetails from "./InteractionsDetails/InteractionsDetails";
-import { convertDateToTimezone, getRequestHref, getTaskHref } from "../../../../shared/utils/utils";
+import {
+  convertDateToTimezone,
+  getRequestHref,
+  getTaskHref,
+} from "../../../../shared/utils/utils";
 import Scripts from "../../../../shared/utils/clientScripts";
 
 type InteractionsListRowProps = {
@@ -20,9 +24,20 @@ type InteractionsListRowProps = {
   items: IInteractionItem[];
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
+  handleOpenReplyModal: (
+    interactionId: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
+  handleOpenForwardModal: (
+    interactionId: string,
+    contractorId?: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 };
 
 /** Строка взаимодействия */
@@ -35,6 +50,8 @@ export default function InteractionsListRow({
   setItems,
   handleOpenReplyModal,
   handleOpenForwardModal,
+  handleResetList,
+  updateTabsItemsCounts,
 }: InteractionsListRowProps) {
   const emptyColumn = <ListColumn>–</ListColumn>;
   const unknownColumn = <ListColumn>Не определен</ListColumn>;
@@ -71,7 +88,11 @@ export default function InteractionsListRow({
           />
         </ListColumn>
         <ListColumn>
-          {convertDateToTimezone(item.createdAt, 'Europe/Moscow', "DD.MM.YYYY HH:mm")}
+          {convertDateToTimezone(
+            item.createdAt,
+            "Europe/Moscow",
+            "DD.MM.YYYY HH:mm"
+          )}
         </ListColumn>
         {!!item.contractorName ? (
           <ListColumn>{item.contractorName}</ListColumn>
@@ -132,6 +153,8 @@ export default function InteractionsListRow({
           setItems={setItems}
           handleOpenReplyModal={handleOpenReplyModal}
           handleOpenForwardModal={handleOpenForwardModal}
+          handleResetList={handleResetList}
+          updateTabsItemsCounts={updateTabsItemsCounts}
         />
       )}
     </>
