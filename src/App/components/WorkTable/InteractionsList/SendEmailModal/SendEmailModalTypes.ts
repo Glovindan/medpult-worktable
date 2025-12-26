@@ -43,4 +43,17 @@ export interface SendEmailModalProps {
   /** Сохранение состояния вкладки */
   saveState: () => void;
   openTabCode?: string;
+  taskId?: string;
+  requestId?: string;
 }
+
+export type ForwardInteractionData = {
+  taskId?: string;
+  requestId?: string;
+}
+
+export type ForwardInteractionSessionBuffer = {
+  [key: string]: ForwardInteractionData | undefined
+}
+
+export const FORWARD_INTERACTION_SESSION_KEY = "forwardInteractionData";

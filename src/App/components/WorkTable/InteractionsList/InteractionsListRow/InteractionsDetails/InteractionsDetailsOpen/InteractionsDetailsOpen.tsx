@@ -12,21 +12,18 @@ interface InteractionsDetailsOpenProps {
   data: IInteractionDetailsItem;
   /** id Взаимодействия */
   interactionId: string;
-  /** Идентификатор задачи */
-  taskId?: string;
   onSave?: () => void;
   reloadData: (id: string) => void;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string) => void;
+  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string) => void;
+  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void;
 }
 
 /** Проект комментария */
 function InteractionsDetailsOpen({
   data,
   interactionId,
-  taskId,
   onSave,
   reloadData,
   handleOpenReplyModal,
@@ -61,7 +58,6 @@ function InteractionsDetailsOpen({
       <InteractionsContent
         data={data}
         interactionId={interactionId}
-        taskId={taskId}
         handleOpenReplyModal={handleOpenReplyModal}
         handleOpenForwardModal={handleOpenForwardModal}
       />

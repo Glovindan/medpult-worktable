@@ -23,9 +23,9 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string) => void
+  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string) => void
+  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
   /** Идентификатор взаимодействия открытого по умолчанию */
   initialInteractionId: string | undefined
 };

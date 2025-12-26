@@ -22,7 +22,9 @@ async function sendEmail(
   files: any,
   lineId?: string,
   sessionId?: string,
-  topic?: string
+  topic?: string,
+  taskId?: string,
+  requestId?: string,
 ): Promise<string | undefined> {
   return;
 }

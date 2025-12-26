@@ -6,7 +6,7 @@ import Button from "../../../../../UIKit/Button/Button";
 import TextEditor from "./TextEditor/TextEditor";
 import FileUploader from "./FileUploader/FileUploader";
 import { ObjectItem } from "../../../../../UIKit/Filters/FiltersTypes";
-import { SendEmailAction, SendEmailModalProps } from "./SendEmailModalTypes";
+import { FORWARD_INTERACTION_SESSION_KEY, ForwardInteractionSessionBuffer, SendEmailAction, SendEmailModalProps } from "./SendEmailModalTypes";
 import Scripts from "../../../../shared/utils/clientScripts";
 import ModalWrapper from "../InteractionsListRow/InteractionsDetails/InteractionsDetailsOpen/InteractionsExecutor/ModalExecutor/ModalWrapper/ModalWrapper";
 import icons from "../icons";
@@ -18,6 +18,8 @@ export default function SendEmailModal({
   initialData,
   saveState,
   openTabCode,
+  requestId,
+  taskId,
 }: SendEmailModalProps) {
   /** Локальное состояние формы */
   const [recipient, setRecipient] = useState("");
@@ -31,23 +33,24 @@ export default function SendEmailModal({
 
   const [emailOptions, setEmailOptions] = useState<ObjectItem[]>([]);
   const [sessionOptions, setSessionOptions] = useState<ObjectItem[]>([]);
-
+  
   /** Начальная загрузка*/
   useEffect(() => {
     if (!initialData) return;
 
     setText(initialData.text || "");
 
+    setRecipient(initialData.contractor?.fullname || "");
+    const emails = initialData.contractor?.emails || [];
+    setEmailOptions(emails.map((e) => ({ value: e, code: e })));
+    
+
     if (mode === "forward") {
-      setRecipient(initialData.contractor?.fullname || "");
       setFiles(initialData.filesData?.map((f) => new File([], f.name)) || []);
       setTopic(initialData.topic || "");
     }
 
     if (mode === "reply") {
-      setRecipient(initialData.contractor?.fullname || "");
-      const emails = initialData.contractor?.emails || [];
-      setEmailOptions(emails.map((e) => ({ value: e, code: e })));
       setEmail(
         initialData.contractor?.email
           ? { value: initialData.contractor.email, code: "" }
@@ -65,18 +68,18 @@ export default function SendEmailModal({
 
   /** Сохранение состояния формы */
   const saveStateHandler = () => {
-    const formState = {
-      recipient,
-      email,
-      copyEmails,
-      topic,
-      line,
-      session,
-      text,
-      files,
-    };
-    console.log("Сохранено состояние:", formState);
-  };
+    const strData = sessionStorage.getItem(FORWARD_INTERACTION_SESSION_KEY);
+    const data: ForwardInteractionSessionBuffer = strData 
+    ? JSON.parse(strData)
+    : {}
+
+    data[interactionId] = {
+      requestId: requestId,
+      taskId: taskId,
+    }
+
+    sessionStorage.setItem(FORWARD_INTERACTION_SESSION_KEY, JSON.stringify(data));
+  }
 
   const getSelectContractorHref = () => {
     const baseLink = Scripts.getSelectContractorLink();
@@ -153,7 +156,9 @@ export default function SendEmailModal({
         filesValue,
         lineId,
         sessionId,
-        topicValue
+        topicValue,
+        taskId,
+        requestId,
       );
       closeModal();
     } catch (error) {
@@ -183,7 +188,7 @@ export default function SendEmailModal({
                 value={recipient}
                 setValue={setRecipient}
                 href={selectContractorHref}
-                saveStateHandler={saveState}
+                saveStateHandler={saveStateHandler}
                 style={{ border: "2px solid #d9d9d9", height: "29px" }}
                 isInvalid={isRecipientInvalid}
                 removeValueHandler={() => setRecipient("")}

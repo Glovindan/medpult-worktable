@@ -17,18 +17,15 @@ interface InteractionsContentProps {
   data: IInteractionDetailsItem;
   /** id Взаимодействия */
   interactionId: string;
-  /** Идентификатор задачи */
-  taskId?: string;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string) => void
+  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string) => void
+  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
 }
 
 function InteractionsContent({
   data,
   interactionId,
-  taskId,
   handleOpenReplyModal, 
   handleOpenForwardModal,
 }: InteractionsContentProps) {
@@ -51,12 +48,12 @@ function InteractionsContent({
 
   /** Обработка нажатия на кнопку ответить */
   const handleReplyClick = async () => {
-    handleOpenReplyModal(data.id)
+    handleOpenReplyModal(data.id, data.task?.code, data.request?.code)
   };
   
   /** Обработка нажатия на кнопку переслать */
   const handleForwardClick = async () => {
-    handleOpenForwardModal(data.id)
+    handleOpenForwardModal(data.id, undefined, data.task?.code, data.request?.code)
   };
 
   /** Получение иконки по статусу взаимодействия */

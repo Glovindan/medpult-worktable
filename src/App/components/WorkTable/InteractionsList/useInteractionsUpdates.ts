@@ -49,6 +49,7 @@ export default function useInteractionsUpdates(
         );
       } catch (err) {
         console.error("useInteractionsUpdates error", err);
+        throw new Error()
       }
     };
 
@@ -56,9 +57,13 @@ export default function useInteractionsUpdates(
 
     checkUpdates();
     let interval = setInterval(() => {
-      const currentPath = window.location.pathname;
-      if(currentPath != originalPath) return clearInterval(interval);
-      checkUpdates()
+      try {
+        const currentPath = window.location.pathname;
+        if(currentPath != originalPath) return clearInterval(interval);
+        checkUpdates()
+      } catch(e) {
+        clearInterval(interval);
+      }
     }, intervalMs);
 
     return () => {
