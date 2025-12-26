@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CustomButton from "../../../../../../../../UIKit/Button/CustomButton/CustomButton";
 import InteractionField from "../InteractionsField/InteractionField";
 import icons from "../../../../icons";
@@ -18,19 +18,45 @@ interface InteractionsContentProps {
   /** id Взаимодействия */
   interactionId: string;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
+  handleOpenReplyModal: (
+    interactionId: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
+  handleOpenForwardModal: (
+    interactionId: string,
+    contractorId?: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
 }
 
 function InteractionsContent({
   data,
   interactionId,
-  handleOpenReplyModal, 
+  handleOpenReplyModal,
   handleOpenForwardModal,
 }: InteractionsContentProps) {
   /** Выпадающий список для файлов */
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!isDropdownOpen) return;
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isDropdownOpen]);
 
   /** Обработка нажатия на кнопку скачать файл */
   const handleSaveClick = async (file?: FilesData) => {
@@ -48,12 +74,17 @@ function InteractionsContent({
 
   /** Обработка нажатия на кнопку ответить */
   const handleReplyClick = async () => {
-    handleOpenReplyModal(data.id, data.task?.code, data.request?.code)
+    handleOpenReplyModal(data.id, data.task?.code, data.request?.code);
   };
-  
+
   /** Обработка нажатия на кнопку переслать */
   const handleForwardClick = async () => {
-    handleOpenForwardModal(data.id, undefined, data.task?.code, data.request?.code)
+    handleOpenForwardModal(
+      data.id,
+      undefined,
+      data.task?.code,
+      data.request?.code
+    );
   };
 
   /** Получение иконки по статусу взаимодействия */
@@ -85,7 +116,9 @@ function InteractionsContent({
           <span
             className="interactions-open-panel-content__value"
             title={data.email}
-          >{data.email}</span>
+          >
+            {data.email}
+          </span>
           <div className="interactions-open-panel-content__buttons">
             {/* Кнопка Ответить*/}
             <div
@@ -177,6 +210,7 @@ function InteractionsContent({
               </div>
               {/* Кнопка Показать Все*/}
               <div
+                ref={dropdownRef}
                 className="show-all-wrapper"
                 style={{ position: "relative", display: "inline-block" }}
               >

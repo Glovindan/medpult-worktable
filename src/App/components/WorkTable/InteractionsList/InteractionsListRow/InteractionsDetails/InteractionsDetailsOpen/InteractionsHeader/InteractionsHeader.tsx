@@ -80,7 +80,11 @@ function InteractionsHeader(props: InteractionsHeaderProps) {
         </div>
         <div className="interactions-open-panel-header__content_number">
           {data.number}
-          <span onClick={handleCopyClick} style={{ cursor: "pointer" }}>
+          <span
+            onClick={handleCopyClick}
+            style={{ cursor: "pointer" }}
+            title="Скопировать"
+          >
             {icons.copyIcon}
           </span>
         </div>
