@@ -181,6 +181,23 @@ export default function WorkTable() {
     setInitialInteractionId(undefined);
   }, [activeTabCode]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      // Обновляем счётчики
+      updateTabsItemsCounts();
+
+      // Обновляем список только если активна вкладка задач
+      if (
+        activeTabCode === TabCode.groupTasks ||
+        activeTabCode === TabCode.myTasks
+      ) {
+        handleResetList();
+      }
+    }, 60_000);
+
+    return () => clearInterval(intervalId);
+  }, [activeTabCode, updateTabsItemsCounts]);
+
   return (
     <>
       {isModalVisible && (
