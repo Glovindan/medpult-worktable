@@ -18,7 +18,11 @@
     height: 48px;
     display: grid;
     gap: 20px;
-    grid-template-columns: 8px 24px 255fr 61px 160fr 140fr 240fr 48px 255fr 130fr 130fr 240fr 24px;
+    grid-template-columns:
+      8px 24px minmax(0, 160px) 61px minmax(0, 160px) minmax(0, 140px)
+      minmax(0, 240px) 48px minmax(270px, 1fr)
+      minmax(0, 130px) minmax(0, 130px) minmax(0, 240px)
+      24px;
     border-bottom: 1px #0a0d120f solid;
 
     &:last-of-type {

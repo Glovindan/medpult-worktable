@@ -13,6 +13,8 @@ interface ModalExecutorProps {
   initialEmployee: ObjectItem | null;
   onSave?: () => void;
   reloadData: (id: string) => void;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 }
 
 /** Модальное окно исполнителя */
@@ -23,16 +25,27 @@ export default function ModalExecutor({
   initialEmployee,
   onSave,
   reloadData,
+  handleResetList,
+  updateTabsItemsCounts,
 }: ModalExecutorProps) {
   const [group, setGroup] = useState<ObjectItem | null>(null);
   const [employee, setEmployee] = useState<ObjectItem | null>(null);
 
   // сохранить группу и email
   const saveGroupExecutor = async () => {
-    await Scripts.saveGroupExecutor(interactionId, group, employee);
-    onSave?.();
-    reloadData?.(interactionId);
-    closeModal();
+    const isStatusQueue = await Scripts.saveGroupExecutor(
+      interactionId,
+      group,
+      employee
+    );
+    if (isStatusQueue) {
+      handleResetList();
+      if (updateTabsItemsCounts) await updateTabsItemsCounts();
+    } else {
+      onSave?.();
+      reloadData?.(interactionId);
+      closeModal();
+    }
   };
 
   // функция для проверки принадлежности сотрудника к группе

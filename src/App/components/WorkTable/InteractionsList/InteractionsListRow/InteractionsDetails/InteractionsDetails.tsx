@@ -20,14 +20,34 @@ interface InteractionsDetailsProps {
   /** Установить список взаимодействий */
   setItems: React.Dispatch<React.SetStateAction<IInteractionItem[]>>;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
+  handleOpenReplyModal: (
+    interactionId: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
+  handleOpenForwardModal: (
+    interactionId: string,
+    contractorId?: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
 }
 
 /** Детальная форма согласования */
 function InteractionsDetails(props: InteractionsDetailsProps) {
-  const { data, reloadData, items, setItems, handleOpenReplyModal, handleOpenForwardModal } = props;
+  const {
+    data,
+    reloadData,
+    items,
+    setItems,
+    handleOpenReplyModal,
+    handleOpenForwardModal,
+    handleResetList,
+    updateTabsItemsCounts,
+  } = props;
 
   // Детальные данные взаимодействия
   const [interactionsDetailsData, setInteractionsDetailsData] =
@@ -56,16 +76,18 @@ function InteractionsDetails(props: InteractionsDetailsProps) {
         </div>
       ) : (
         <div className="interactions-details">
-            <div className="interactions-details__content">
-              <InteractionsDetailsOpen
-                data={interactionsDetailsData}
-                interactionId={data.id}
-                onSave={fetchInteractionsDetails}
-                reloadData={reloadData}
-                handleOpenReplyModal={handleOpenReplyModal}
-                handleOpenForwardModal={handleOpenForwardModal}
-              />
-            </div>
+          <div className="interactions-details__content">
+            <InteractionsDetailsOpen
+              data={interactionsDetailsData}
+              interactionId={data.id}
+              onSave={fetchInteractionsDetails}
+              reloadData={reloadData}
+              handleOpenReplyModal={handleOpenReplyModal}
+              handleOpenForwardModal={handleOpenForwardModal}
+              handleResetList={handleResetList}
+              updateTabsItemsCounts={updateTabsItemsCounts}
+            />
+          </div>
         </div>
       )}
     </>

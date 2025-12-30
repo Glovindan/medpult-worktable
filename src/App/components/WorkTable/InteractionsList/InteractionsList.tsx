@@ -23,12 +23,23 @@ interface IInteractionsListProps extends IInteractionsTabProps {
   /** Переключить данные сортировки */
   toggleSort: (fieldCode: string) => void;
   /** Открыть Модальное окно ответа на сообщение */
-  handleOpenReplyModal: (interactionId: string, taskId?: string, requestId?: string) => void
+  handleOpenReplyModal: (
+    interactionId: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Открыть Модальное окно пересылки сообщения */
-  handleOpenForwardModal: (interactionId: string, contractorId?: string, taskId?: string, requestId?: string) => void
+  handleOpenForwardModal: (
+    interactionId: string,
+    contractorId?: string,
+    taskId?: string,
+    requestId?: string
+  ) => void;
   /** Идентификатор взаимодействия открытого по умолчанию */
-  initialInteractionId: string | undefined
-};
+  initialInteractionId: string | undefined;
+  handleResetList: () => void;
+  updateTabsItemsCounts?: () => Promise<void>;
+}
 
 /** Список взаимодействий */
 export default function InteractionsList({
@@ -41,14 +52,18 @@ export default function InteractionsList({
   handleOpenReplyModal,
   handleOpenForwardModal,
   initialInteractionId,
+  handleResetList,
+  updateTabsItemsCounts,
 }: IInteractionsListProps) {
   const [openRowIndex, setOpenRowIndex] = useState<string | undefined>(
     undefined
   );
-  
-  const {getListColumnProps} = useSortHandlers(sortData, toggleSort)
 
-  const getInteractionsHandler = async (searchParams: SearchParams<ISearchInteractionsParams>): Promise<IInteractionItem[]> => {
+  const { getListColumnProps } = useSortHandlers(sortData, toggleSort);
+
+  const getInteractionsHandler = async (
+    searchParams: SearchParams<ISearchInteractionsParams>
+  ): Promise<IInteractionItem[]> => {
     const interactions = await getInteractions(searchParams);
     return interactions;
   };
@@ -76,74 +91,87 @@ export default function InteractionsList({
   };
 
   const [initialItem, setInitialItem] = useState<IInteractionItem>();
-  const [isInitialItemLoading, setIsInitialItemLoading] = useState<boolean>(false);
+  const [isInitialItemLoading, setIsInitialItemLoading] =
+    useState<boolean>(false);
   const [isInitialItemOpen, setIsInitialItemOpen] = useState<boolean>(false);
 
   const handleInitialInteraction = async (initialInteractionId: string) => {
     setIsInitialItemLoading(true);
-    
-    const initialInteractionItem = await Scripts.getInitialInteractionItem(initialInteractionId);
+
+    const initialInteractionItem =
+      await Scripts.getInitialInteractionItem(initialInteractionId);
     setInitialItem(initialInteractionItem);
     setIsInitialItemOpen(true);
 
     setIsInitialItemLoading(false);
-  }
+  };
 
-  useEffect(() => { 
-    if(!initialInteractionId) {
+  useEffect(() => {
+    if (!initialInteractionId) {
       setInitialItem(undefined);
       setIsInitialItemOpen(false);
       return;
     }
 
     handleInitialInteraction(initialInteractionId);
-  }, [initialInteractionId])
+  }, [initialInteractionId]);
 
-  const getInitialOpenRowIndex = (openRowIndex: string | undefined, isInitialItemOpen: boolean) => {
+  const getInitialOpenRowIndex = (
+    openRowIndex: string | undefined,
+    isInitialItemOpen: boolean
+  ) => {
     // Если выбран элемент из основного списка, то изначальный закрыт
-    if(openRowIndex?.length) return;
+    if (openRowIndex?.length) return;
     // Если изначальный не открыт, то изначальный закрыт
-    if(!isInitialItemOpen) return;
+    if (!isInitialItemOpen) return;
 
-    console.log("getInitialOpenRowIndex", initialInteractionId)
-    return initialInteractionId
-  }
+    console.log("getInitialOpenRowIndex", initialInteractionId);
+    return initialInteractionId;
+  };
 
   const setInitialOpenRowIndex = (id?: string) => {
-    if(id) {
+    if (id) {
       setIsInitialItemOpen(true);
       setOpenRowIndex(undefined);
-      
+
       return;
     }
 
     setIsInitialItemOpen(false);
-  }
+  };
 
   // Обновление списка взаимодействий
   useInteractionsUpdates(items, setItems, 3000);
 
-  // При изменении открытого взаимодействия чистить список от выполненных 
+  // При изменении открытого взаимодействия чистить список от выполненных
   useEffect(() => {
-    setItems((prev) => prev.filter(prevItem => prevItem.status != InteractionStatus.processed));
-  }, [openRowIndex])
+    setItems((prev) =>
+      prev.filter((prevItem) => prevItem.status != InteractionStatus.processed)
+    );
+  }, [openRowIndex]);
 
   return (
     <div className="interactions-list">
       <div className="interactions-list__header">
         <ListHeaderColumn></ListHeaderColumn>
         <ListHeaderColumn></ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.entryPoint)}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.entryPoint)}
+        >
           Точка входа
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.slaStatus)}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.slaStatus)}
+        >
           SLA
         </ListHeaderColumn>
         <ListHeaderColumn tooltip="Телефон / Email">
           Телефон /<br />
           Email
         </ListHeaderColumn>
-        <ListHeaderColumn {...getListColumnProps(InteractionsSortableFieldCode.createdAt)}>
+        <ListHeaderColumn
+          {...getListColumnProps(InteractionsSortableFieldCode.createdAt)}
+        >
           Дата и время
         </ListHeaderColumn>
         <ListHeaderColumn>Контрагент</ListHeaderColumn>
@@ -155,33 +183,39 @@ export default function InteractionsList({
         <ListHeaderColumn></ListHeaderColumn>
       </div>
       <div className="interactions-list__list">
-        {
-          !isInitialItemLoading && initialItem && initialInteractionId &&
+        {!isInitialItemLoading && initialItem && initialInteractionId && (
           <InteractionsListRow
             key={initialItem.id}
             item={initialItem}
-            openRowIndex={getInitialOpenRowIndex(openRowIndex, isInitialItemOpen)}
+            openRowIndex={getInitialOpenRowIndex(
+              openRowIndex,
+              isInitialItemOpen
+            )}
             setOpenRowIndex={setInitialOpenRowIndex}
             items={[]}
             setItems={() => {}}
+            handleResetList={handleResetList}
             reloadData={reloadItem}
             handleOpenReplyModal={handleOpenReplyModal}
             handleOpenForwardModal={handleOpenForwardModal}
           />
-        }
-        {!isInitialItemLoading && items.map((item) => (
-          <InteractionsListRow
-            key={item.id}
-            item={item}
-            openRowIndex={openRowIndex}
-            setOpenRowIndex={setOpenRowIndex}
-            items={items}
-            setItems={setItems}
-            reloadData={reloadItem}
-            handleOpenReplyModal={handleOpenReplyModal}
-            handleOpenForwardModal={handleOpenForwardModal}
-          />
-        ))}
+        )}
+        {!isInitialItemLoading &&
+          items.map((item) => (
+            <InteractionsListRow
+              key={item.id}
+              item={item}
+              openRowIndex={openRowIndex}
+              setOpenRowIndex={setOpenRowIndex}
+              items={items}
+              setItems={setItems}
+              handleResetList={handleResetList}
+              reloadData={reloadItem}
+              handleOpenReplyModal={handleOpenReplyModal}
+              handleOpenForwardModal={handleOpenForwardModal}
+              updateTabsItemsCounts={updateTabsItemsCounts}
+            />
+          ))}
         {(isLoading || isInitialItemLoading) && <Loader />}
       </div>
     </div>

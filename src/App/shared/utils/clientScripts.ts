@@ -54,7 +54,7 @@ async function getInteractionsDetails(
     fioWhom: ["103@sberins.ru"],
     copy: [""],
     createdAt: " 02.08.2025 15:00",
-    status: { value: "Новое", code: InteractionStatus.new },
+    status: { value: "Новое", code: InteractionStatus.atWork },
     fileSrc: [
       {
         ...new FilesData(),
@@ -78,7 +78,7 @@ async function getInteractionsDetails(
       " Информация о состоянии здоровья предоставляется пациенту лично",
     topic: "Fw: Запрос согласования",
     text: "Это электронное сообщение и любые документы, приложенные к нему, содержат конфиденциальную информацию. Настоящим уведомляем Вас о том, что если это сообщение не предназначено Вам, использование, копирование, распространение информации, содержащейся в настоящем сообщении, а также осуществление любых действий на основе этой информации, строго запрещено.",
-    duplicateEmails: ["foo@mail.com", "bar@mail.com"]
+    duplicateEmails: ["foo@mail.com", "bar@mail.com"],
   };
 }
 
@@ -159,7 +159,6 @@ async function getStatusesMyInteractions(): Promise<ObjectItem[]> {
   return statuses;
 }
 
-
 const groups = [
   new ObjectItem({ code: "test", value: "Группа записи" }),
   new ObjectItem({ code: "test1", value: "Врачи кураторы МедКЦ (3 линия)" }),
@@ -180,28 +179,32 @@ const users = [
   }),
   new ObjectItem({ code: "test4", value: "Иванов Олег Михайлович" }),
   new ObjectItem({ code: "test5", value: "Петрова Ольга Ивановна" }),
-]
+];
 
 const groupsUsersMap = [
-  {type: "test", sorts: ["test"],},
-  {type: "test1", sorts: ["test1", "test2"]},
-  {type: "test2", sorts: ["test3", "test4"]},
-  {type: "test3", sorts: ["test5", "test4", "test3"]},
-  {type: "test4", sorts: []},
-  {type: "test5", sorts: ["test3", "test4"]},
-]
+  { type: "test", sorts: ["test"] },
+  { type: "test1", sorts: ["test1", "test2"] },
+  { type: "test2", sorts: ["test3", "test4"] },
+  { type: "test3", sorts: ["test5", "test4", "test3"] },
+  { type: "test4", sorts: [] },
+  { type: "test5", sorts: ["test3", "test4"] },
+];
 
 /** Получение групп */
 async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
-  if(users?.length) {
-    const typesFiltered = groups.filter(type => {
-      const mapItem = groupsUsersMap.find(typeSortMap => typeSortMap.type == type.code);
-      if(!mapItem) return false;
+  if (users?.length) {
+    const typesFiltered = groups.filter((type) => {
+      const mapItem = groupsUsersMap.find(
+        (typeSortMap) => typeSortMap.type == type.code
+      );
+      if (!mapItem) return false;
 
-      return mapItem.sorts.find(sortCode => users.find(id => sortCode == id));
-    })
+      return mapItem.sorts.find((sortCode) =>
+        users.find((id) => sortCode == id)
+      );
+    });
 
     return typesFiltered;
   }
@@ -212,12 +215,14 @@ async function getUserGroups(users?: string[]): Promise<ObjectItem[]> {
 async function getUsersInteraction(groups?: string[]): Promise<ObjectItem[]> {
   await randomDelay();
 
-  if(groups?.length) {
+  if (groups?.length) {
     const sortCodes = groupsUsersMap
-      .filter(typeSortMap => groups.find(id => id == typeSortMap.type))
-      .flatMap(typeSortMap => typeSortMap.sorts);
+      .filter((typeSortMap) => groups.find((id) => id == typeSortMap.type))
+      .flatMap((typeSortMap) => typeSortMap.sorts);
 
-    const sortsFiltered = users.filter(sort => sortCodes.find(sortCode => sortCode == sort.code))
+    const sortsFiltered = users.filter((sort) =>
+      sortCodes.find((sortCode) => sortCode == sort.code)
+    );
 
     return sortsFiltered;
   }
@@ -230,7 +235,7 @@ async function saveGroupExecutor(
   interactionId: string | undefined,
   group: ObjectItem | null,
   employee?: ObjectItem | null
-): Promise<void> {
+): Promise<boolean | void> {
   // TODO
   await randomDelay();
 }
